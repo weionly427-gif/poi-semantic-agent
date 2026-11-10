@@ -1,0 +1,13 @@
+{
+  "name": "poi-semantic-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node cli.mjs",
+    "test": "node --test agent.test.mjs"
+  }
+}
