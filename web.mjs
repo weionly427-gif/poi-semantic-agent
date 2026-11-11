@@ -1,6 +1,7 @@
 import http from 'node:http';
 import {readFileSync} from 'node:fs';
 import {parse,validate} from './agent.mjs';
+import {homeSearch} from './home-search.mjs';
 const page=readFileSync(new URL('index.html',import.meta.url));
 const onRender = process.env.RENDER === 'true';
 const cloud = onRender || Boolean(process.env.PORT);
@@ -14,7 +15,9 @@ http.createServer(async(req,res)=>{
   if(req.method!=='POST'||req.url!=='/parse')return reply(404,{error:'地址无效'});
   if((req.headers.origin && !['http://'+req.headers.host,'https://'+req.headers.host].includes(req.headers.origin))||req.headers['content-type']!=='application/json')return reply(403,{error:'请求来源或格式无效'});
   let data;
-  try{let body='',size=0;req.setEncoding('utf8');for await(const chunk of req){size+=Buffer.byteLength(chunk);if(size>65536)return reply(413,{error:'指令过长'});body+=chunk}data=JSON.parse(body);if(!data||typeof data.text!=='string'||!data.text.trim()||data.text.length>4000)throw Error();if(data.previous!=null)validate(data.previous)}
+  try{let body='',size=0;req.setEncoding('utf8');for await(const chunk of req){size+=Buffer.byteLength(chunk);if(size>65536)return reply(413,{error:'指令过长'});body+=chunk}data=JSON.parse(body);if(!data||typeof data.text!=='string'||!data.text.trim()||data.text.length>4000)throw Error();if(data.home && (typeof data.home.city!=='string'||typeof data.home.anchor!=='string'||data.home.city.length>80||data.home.anchor.length>120||!Array.isArray(data.home.candidates)||data.home.candidates.length>10))throw Error();if(data.previous!=null)validate(data.previous)}
   catch{return reply(400,{error:'请输入有效的指令和对话上下文'})}
-  try{reply(200,await parse(data.text,{previous:data.previous??null}))}catch(e){reply(502,{error:e.message==='fetch failed'?'无法连接硅基流动，请检查网络':e.message})}
+  try{const frame=await parse(data.text,{previous:data.previous??null,candidates:data.home?.candidates || []});
+    if(!data.home)return reply(200,frame);
+    reply(200,{frame,search:await homeSearch(frame,data.home)})}catch(e){reply(502,{error:e.message==='fetch failed'?'无法连接硅基流动，请检查网络':e.message})}
 }).listen(port,address,()=>console.log('Web service listening on '+address+':'+port));
