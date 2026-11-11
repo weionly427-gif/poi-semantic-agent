@@ -7,8 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "start": "node web.mjs",
-    "cli": "node cli.mjs",
+    "start": "node cli.mjs",
     "test": "node --test agent.test.mjs"
   }
 }
