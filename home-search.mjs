@@ -15,8 +15,8 @@ export async function homeSearch(frame, home, fetcher = fetch, key = process.env
   const anchor = frame.scope?.area || (frame.scope?.city && frame.scope.city !== home.city.trim() ? '' : home.anchor.trim());
   if (!anchor && frame.scope?.type === 'nearby') return empty('请在首页填写当前位置附近的地标，再提交指令。');
   async function query(path, params) {
-    const url = new URL('https://restapi.amap.com/v3/place/' + path);
-    url.search = new URLSearchParams({key, city, citylimit:'true', ...params});
+    const url = new URL('https://restapi.amap.com/v5/place/' + path);
+    url.search = new URLSearchParams({key, ...(path === 'text' ? {region:city, city_limit:'true'} : {}), ...params});
     const response = await fetcher(url, {signal:AbortSignal.timeout(7000)});
     if (!response.ok) throw Error();
     const body = await response.json();
@@ -26,18 +26,25 @@ export async function homeSearch(frame, home, fetcher = fetch, key = process.env
   try {
     let center;
     if (anchor) {
-      const landmark = await query('text', {keywords:anchor, offset:'1'});
+      const landmark = await query('text', {keywords:anchor, page_size:'1'});
       if (landmark.error) return empty(landmark.error);
       center = landmark.pois[0];
       if (!center?.location) return empty('在' + city + '未找到地标“' + anchor + '”。');
     }
     const limit = Math.min(10, frame.result_count?.value || 5);
-    const result = await query(center ? 'around' : 'text', {keywords, offset:String(limit), ...(center ? {location:center.location, radius:'3000', sortrule:'weight'} : {})});
+    const result = await query(center ? 'around' : 'text', {keywords, show_fields:"business,children", page_size:String(limit), ...(center ? {location:center.location, radius:'3000', sortrule:'weight'} : {})});
     if (result.error) return empty(result.error);
     const version = randomUUID();
     const places = result.pois.filter(p => p.id && p.name).slice(0,limit).map((p,i) => ({
       candidate_id:p.id, list_version:version, ordinal:i+1, name:p.name,
       address:[p.cityname,p.adname,p.address].filter(s=>typeof s==='string').join(''),
+      category:typeof p.type==='string' ? p.type.split(';').pop() : '',
+      rating:typeof p.business?.rating==='string' ? p.business.rating : '',
+      hours:p.business?.opentime_today,
+      cost:p.business?.cost,
+      phone:p.business?.tel,
+      parking:p.business?.parking_type,
+      facilities:(Array.isArray(p.children) ? p.children : []).filter(c=>typeof c.name==='string' && /停车|卫生间|洗手间|充电|无障碍/.test(c.name+' '+(c.subtype||''))).map(c=>c.name).slice(0,8),
       distance:p.distance && Number.isFinite(Number(p.distance)) ? Number(p.distance) : null
     }));
     const area = center ? city + ' · ' + center.name + '周边 3 公里' : city;
