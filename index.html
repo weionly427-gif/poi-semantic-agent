@@ -1,17 +1,85 @@
 <!doctype html>
-<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>导航语义测试台</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>导航助手</title>
 <style>
-*{box-sizing:border-box}body{margin:0;color:#1c3026;background:#f8faf8;font:16px/1.65 "Segoe UI","Microsoft YaHei",sans-serif}header{height:68px;background:white;border-bottom:1px solid #dce4dd;display:flex;align-items:center;padding:0 max(6vw,20px);gap:12px;font-weight:650}header b{background:#19583e;color:white;border-radius:9px;width:32px;height:32px;text-align:center;line-height:32px}main{max-width:1040px;margin:55px auto;padding:0 24px}h1{font-size:clamp(28px,4vw,40px);letter-spacing:-1px;margin:0}p{color:#58685f;margin:6px 0 30px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}section{border:1px solid #d9e2db;border-radius:16px;padding:25px;background:white;min-width:0}h2,label{font-size:17px;font-weight:650;margin:0}textarea,pre{display:block;width:100%;border-radius:10px;margin:18px 0;padding:15px;font-size:15px}textarea{resize:vertical;font-family:inherit;min-height:146px;border:1px solid #aab9af;line-height:1.7}textarea:focus,button:focus-visible{outline:2px solid #27724d;outline-offset:2px}pre{background:#f2f6f2;min-height:205px;white-space:pre-wrap;overflow-wrap:anywhere;color:#30523d;font:14px/1.65 Consolas,monospace}button{font:inherit;font-size:14px;border:1px solid #cad7cc;background:white;color:#23583d;border-radius:8px;padding:7px 12px;cursor:pointer}button:disabled{opacity:.55;cursor:default}.primary{background:#19583e;color:white;border-color:#19583e}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.actions{margin-top:22px}.top{display:flex;justify-content:space-between;align-items:center;min-height:36px}small{color:#57685d}#status{margin-top:15px;display:block}details{margin-top:20px}summary{cursor:pointer}li{margin:8px 0}@media(max-width:680px){.grid{grid-template-columns:1fr}main{margin:28px auto}section{padding:19px}}
-</style><header><b aria-hidden="true">↗</b>导航助手</header><main><h1>导航语义测试台</h1><p>输入一句导航需求，查看解析结果。继续输入可测试补充、改口和取消。</p>
-<div class="grid"><section><div class="top"><label for="cmd">输入指令</label><small id="turn">第 1 轮</small></div><textarea id="cmd" maxlength="4000" placeholder="例如：沿途找个充电站，最多绕十分钟，最好有洗手间"></textarea><div class="row" id="examples"><small>试一试</small><button data-text="沿途找个充电站，最多绕十分钟，最好有洗手间">沿途充电</button><button data-text="附近找家咖啡店，必须能停车">附近咖啡店</button></div><div class="row actions"><button class="primary" id="go">解析指令</button></div><small role="status" id="status">等待输入</small></section>
-<section><div class="top"><h2>语义 JSON</h2><button id="copy" disabled>复制</button></div><pre id="out">解析结果将在这里显示</pre></section></div><details id="log" hidden><summary>本次对话记录</summary><ol id="history"></ol></details></main>
+*{box-sizing:border-box}body{margin:0;color:#19372d;background:#f6f7f3;font:16px/1.55 "Microsoft YaHei",system-ui,sans-serif}header{height:70px;border-bottom:1px solid #d7dfd8;display:flex;align-items:center;padding:0 max(5vw,22px);gap:12px;background:#fff}header b{background:#16543e;color:white;padding:3px 10px;border-radius:9px;font-size:22px}header small{margin-left:auto;color:#64736b}main{max-width:820px;margin:clamp(34px,7vh,78px) auto;padding:0 20px 40px}h1{font-size:clamp(30px,5vw,49px);letter-spacing:-.055em;line-height:1.17;margin:18px 0 28px}h2{font-size:20px;margin:0}button,textarea{font:inherit}button{cursor:pointer;border:1px solid #c6d4c9;color:#20513c;background:white;border-radius:24px;padding:9px 17px}button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid #599776;outline-offset:3px}.primary{background:#18573f;color:white;border-color:#18573f}.panel,article{background:white;border:1px solid #d6e0d7;border-radius:18px;padding:24px}.panel{border-top:4px solid #256046}textarea{width:100%;resize:vertical;min-height:115px;background:#fafbf9;border:1px solid #c9d5cd;border-radius:9px;padding:14px;margin:12px 0;color:inherit}.actions,.item,.line{display:flex;align-items:center;gap:14px;justify-content:space-between}.muted,dt{color:#617168;font-size:14px}.sample{font-size:14px;border:0;padding:4px 0;border-radius:0;color:#246946;text-decoration:underline;text-underline-offset:4px}.back{padding:4px 0;border:0;background:transparent}.list{display:grid;gap:12px}article{display:flex;align-items:center;gap:18px}.index{color:#567960;font:20px Georgia,serif}.info{flex:1;min-width:0}.info p{margin:5px 0}a{color:#18573f;text-decoration:none}.link{white-space:nowrap;border:1px solid #c6d4c9;padding:7px 12px;border-radius:22px}dl{margin:0}.line{align-items:baseline;padding:14px 0;border-bottom:1px solid #e5eae5}.line:last-child{border:0}dd{margin:0;text-align:right;max-width:74%}footer{margin-top:26px;color:#67736a;font-size:13px}[hidden]{display:none!important}@media(max-width:540px){header{height:58px}article,.panel{padding:17px}article{gap:10px}.actions{align-items:flex-start;flex-direction:column}.link{font-size:14px}h2{font-size:17px}}
+.location{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}.location label{flex:1;min-width:150px;font-size:14px}.location input{display:block;width:100%;margin-top:4px;padding:9px;border:1px solid #c6d4c9;border-radius:8px;font:inherit}details{margin-top:22px}pre{white-space:pre-wrap;overflow-wrap:anywhere}button:disabled{opacity:.55}</style></head><body><header><b aria-hidden="true">↗</b><strong>导航助手</strong><small>2026-11-11-8 · 非导航态</small></header><main>
+<section id="home"><h1>想去哪里？</h1><form class="panel" id="form"><div class="location"><label>测试城市<input id="city" value="上海" maxlength="80"></label><label>当前位置附近的地标<input id="anchor" placeholder="例如：中山公园" maxlength="120"></label></div><label for="cmd"><strong>输入指令</strong></label><textarea id="cmd" required placeholder="帮我推荐中山公园附近的美食"></textarea><div class="actions"><button class="sample" type="button" id="fill">试试「中山公园附近的美食」</button><button class="primary">查找地点 →</button></div><p id="status" role="status"></p></form></section>
+<section id="results" hidden><a class="back" href="#home">← 返回输入</a><h1>附近地点</h1><p id="query"></p><p class="muted"><span id="summary" role="status"></span></p><div class="list" id="list"></div></section>
+<section id="detail" hidden><a class="back" href="#results">← 返回地点列表</a><p class="muted" id="category"></p><h1 id="name"></h1><div class="panel"><h2>地点详情</h2><dl id="fields"></dl></div></section>
+<details id="debug" hidden><summary>查看语义 JSON</summary><pre id="json"></pre><button id="copy">复制 JSON</button></details></main>
 <script>
-const el=id=>document.getElementById(id);let previous=null,count=0;
-const controls=[...document.querySelectorAll('button,textarea')];
-function busy(on){controls.forEach(x=>x.disabled=on);el('copy').disabled=on||!count}
-el('examples').onclick=e=>{if(e.target.dataset.text){el('cmd').value=e.target.dataset.text;el('cmd').focus()}};
-el('copy').onclick=async()=>{try{await navigator.clipboard.writeText(el('out').textContent);el('status').textContent='JSON 已复制'}catch{el('status').textContent='请选中结果后复制'}};
-el('go').onclick=async()=>{const text=el('cmd').value.trim();if(!text){el('cmd').focus();return}busy(true);el('status').textContent='正在解析…';try{const r=await fetch('/parse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,previous})});const data=await r.json();if(!r.ok)throw Error(data.error);if(data.intent==='reset_session'){el('history').replaceChildren();count=0}if(data.intent!=='clarify'||!previous)previous=data;count++;el('out').textContent=JSON.stringify(data,null,2);const item=document.createElement('li');item.textContent=text;el('history').append(item);el('log').hidden=false;el('turn').textContent='第 '+(count+1)+' 轮';el('status').textContent='第 '+count+' 轮解析完成';el('cmd').value=''}catch(e){el('status').textContent='解析失败：'+e.message+(previous?'。右侧保留上轮结果。':'')}finally{busy(false);el('cmd').focus()}};
-el('cmd').onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')el('go').click()};
-if(location.protocol==='file:'){busy(true);el('status').textContent='请运行同目录的“启动测试网页.cmd”，通过本地服务访问。'}
-</script></html>
+const el=id=>document.getElementById(id);
+let places=[],previous=null;
+function clean(value){
+  if(typeof value!=='number' && typeof value!=='string')return '';
+  const text=String(value).trim();
+  return /^(暂无(数据|信息)?|未提供|无数据|null|undefined|--|设施信息未提供)$/.test(text)?'':text;
+}
+function unit(value,suffix){return clean(value)?clean(value)+suffix:''}
+function node(tag,text,cls){const n=document.createElement(tag);n.textContent=text;if(cls)n.className=cls;return n}
+function drawList(){
+  el('list').replaceChildren(...places.map((p,i)=>{
+    const card=node('article',''), info=node('div','','info'), link=node('a','详情 ›','link');
+    info.append(node('h2',p.name));
+    const meta=[unit(p.rating,' 分'),clean(p.category),unit(p.cost,' 元/人')].filter(Boolean);
+    if(meta.length)info.append(node('p',meta.join(' · ')));
+    if(clean(p.distance))info.append(node('small','距搜索中心 '+p.distance+' 米','muted'));
+    link.href='#place-'+(i+1);
+    card.append(node('span',String(i+1).padStart(2,'0'),'index'),info,link);
+    return card;
+  }));
+}
+function render(){
+  const match=/^#place-([1-9]\d*)$/.exec(location.hash);
+  const p=match && places[Number(match[1])-1];
+  const view=p?'detail':location.hash==='#results' && previous?'results':'home';
+  for(const id of ['home','results','detail'])el(id).hidden=id!==view;
+  if(p){
+    el('name').textContent=p.name;el('category').textContent=clean(p.category);
+    el('fields').replaceChildren();
+    const fields=[['高德评分',unit(p.rating,' 分')],['人均消费',unit(p.cost,' 元')],['地址',p.address],['距搜索中心',unit(p.distance,' 米')],['营业时间',p.hours],['联系电话',p.phone],['停车场类型',p.parking],['关联设施',(p.facilities||[]).map(clean).filter(Boolean).join('、')]];
+    for(const [label,value] of fields){
+      if(!clean(value))continue;
+      const row=node('div','','line');row.append(node('dt',label),node('dd',value));el('fields').append(row);
+    }
+    el('fields').parentElement.hidden=!el('fields').children.length;
+  }
+  window.scrollTo(0,0);
+}
+async function post(route,body){
+  const res=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await res.json();if(!res.ok)throw Error(data.error || 'HTTP '+res.status);return data;
+}
+el('fill').onclick=()=>{el('cmd').value='帮我推荐中山公园附近的美食';el('cmd').focus()};
+el('copy').onclick=async()=>{try{await navigator.clipboard.writeText(el('json').textContent);el('copy').textContent='已复制'}catch{el('copy').textContent='请选中 JSON 后复制'}};
+el('form').onsubmit=async e=>{
+  e.preventDefault();
+  const text=el('cmd').value.trim();if(!text)return;
+  const home={city:el('city').value.trim(),anchor:el('anchor').value.trim()};
+  const candidates=places.map(({candidate_id,list_version,ordinal,name})=>({candidate_id,list_version,ordinal,name}));
+  const submit=el('form').querySelector('.primary');
+  if(submit.disabled)return;
+  submit.disabled=true;el('status').textContent='正在解析…';
+  try{
+    const frame=await post('/parse',{text,previous,parseOnly:true,home:{...home,candidates}});
+    previous=frame;el('debug').hidden=false;el('copy').textContent='复制 JSON';el('json').textContent=JSON.stringify(frame,null,2);
+    el('cmd').value='';
+    if(['select','details'].includes(frame.intent)){
+      const ref=frame.target?.reference;
+      const index=places.findIndex(p=>ref?.candidate_id?p.candidate_id===ref.candidate_id:p.ordinal===ref?.ordinal);
+      if(index>=0){el('status').textContent='';location.hash='place-'+(index+1);return}
+    }
+    if(!frame.ready || !['search','modify_search','list'].includes(frame.intent)){
+      if(['reset_session','cancel_search'].includes(frame.intent)||frame.dialogue?.relation==='new_task'){places=[];drawList()}
+      el('status').textContent=frame.follow_up || '本轮已处理。';return;
+    }
+    places=[];drawList();el('query').textContent=text;el('summary').textContent='正在查询高德…';el('status').textContent='';
+    location.hash='results';
+    try{
+      const result=await post('/search',{frame,home});places=result.places;drawList();el('summary').textContent=result.message;
+    }catch(error){el('summary').textContent='地点查询失败：'+error.message}
+  }catch(error){el('status').textContent='解析失败：'+error.message}finally{submit.disabled=false}
+};
+el('cmd').onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')el('form').requestSubmit()};
+window.addEventListener('hashchange',render);render();
+</script></body></html>
