@@ -55,6 +55,7 @@
 | 距离偏好 | 原有 | 近一点 | 距离近优先，不编具体半径 |
 | 绕行偏好 | 原有 | 尽量少绕路 | 绕行少优先 |
 | 价格偏好 | 原有 | 便宜点 | 价格低优先，不编价格上限 |
+| 高档餐厅 | 新增 | 静安寺高档餐厅 | 餐厅且满足“米其林餐厅 OR 人均≥200元”；200元本身允许，不反问评分或人气 |
 | 评分偏好 | 原有 | 评分高一点 | 评分高优先，不编评分门槛 |
 | 优先顺序 | 原有 | 先看距离，再看价格 | 距离优先于价格 |
 | 条件关系 | 原有 | 有停车场，而且营业中 | 两项同时满足 |
@@ -65,6 +66,12 @@
 | 外部状态条件 | 新增 | 现在还开门的 | 记录条件＝营业中、参照＝现在；二阶段核实 |
 | 跨轮参照调整 | 新增 | 比第一个近一点的 | 参照＝上轮结果集成员，输出相对约束 |
 | 询问式表达 | 新增 | 有没有近点的 | 有前轮搜索时表达修改距离偏好；首次提出时表达搜索，目标缺失则标记 |
+
+### 高档餐厅的固定业务定义
+
+“高档餐厅”直接解释为：目标是餐厅，且满足“米其林餐厅”或“人均200元以上”任意一项。两项是 OR 关系，不要求同时满足；200元以上包含200元，使用 `gte`。这是本项目明确约定的业务定义，不是模型自行推测的价格阈值。
+
+语义输出使用 `target.category=restaurant`，并在 `constraints` 中使用一个 `any_of` 条件组：`michelin eq true` 或 `price_per_person gte 200 CNY`。`michelin` 表示是否为米其林餐厅，由检索阶段核实；一期不编造具体餐厅的米其林身份。不再仅输出 `price_level higher`，不把“高档”改写成评分高或人气高，也不因“高档”询问“你更看重评分，还是人气？”。用户明确给出其他条件时继续保留，并与该 OR 条件组同时满足。
 
 ## ④ 补充与修正（原 7 + 新 7）
 
@@ -116,6 +123,7 @@ P0 / P1 / P2 只表示开发顺序。解析时允许同一句话命中多行。�
 
 | 输入 | 期望 JSON 片段 |
 |---|---|
+| 静安寺高档餐厅 | `{"intent":"search","target":{"category":"restaurant"},"scope":{"type":"area","area":"静安寺"},"constraints":[{"any_of":[{"field":"michelin","op":"eq","value":true},{"field":"price_per_person","op":"gte","value":200,"unit":"CNY"}]}]}`；独立首轮，不反问评分或人气 |
 | 最多绕10分钟，最好5分钟以内 | `{"constraints":[{"field":"detour_time","op":"lte","value":10,"unit":"min"}],"preferences":[{"field":"detour_time","op":"lte","value":5,"unit":"min"}]}` |
 | 最多绕10分钟，不，最多5分钟 | `{"constraints":[{"field":"detour_time","op":"lte","value":5,"unit":"min"}]}` |
 | 找现在营业的咖啡店或便利店，两种都得开着 | `{"target":{"any_of":[{"category":"coffee_shop"},{"category":"convenience_store"}]},"constraints":[{"field":"open_now","value":true}]}` |
