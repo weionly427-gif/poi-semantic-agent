@@ -1,0 +1,316 @@
+{
+  "tested_at": "2026-11-17T09:09:55.812Z",
+  "type": "本地修复回放：历史应用候选重建地图响应，未调用模型或高德，地标坐标为测试值",
+  "source": "/C:/Users/19528/Documents/Codex/2026-11-10/agent-json-http-sdk-sdk-agent-2/outputs/poi-semantic-agent/tests/codex/results/eval-a-radius-online-result.json",
+  "results": [
+    {
+      "radius": 200,
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "nearby",
+          "area": "静安寺",
+          "relation": "nearby"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 200,
+            "unit": "m",
+            "raw": "200米以内"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "咖啡店",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "200",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "search": {
+        "places": [
+          {
+            "candidate_id": "B0JK3HBADP",
+            "list_version": "456e7603-ea72-4fca-a15f-d4925aa9ff6f",
+            "ordinal": 1,
+            "name": "蜜雪冰城(静安寺店)",
+            "address": "",
+            "category": "冷饮店",
+            "rating": "",
+            "facilities": [],
+            "distance": 30
+          },
+          {
+            "candidate_id": "B0FFLAYZI2",
+            "list_version": "456e7603-ea72-4fca-a15f-d4925aa9ff6f",
+            "ordinal": 2,
+            "name": "Peet's皮爷咖啡(愚园路店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 147
+          },
+          {
+            "candidate_id": "B0FFHG0FTN",
+            "list_version": "456e7603-ea72-4fca-a15f-d4925aa9ff6f",
+            "ordinal": 3,
+            "name": "星巴克(1788广场店)",
+            "address": "",
+            "category": "星巴克咖啡",
+            "rating": "",
+            "facilities": [],
+            "distance": 175
+          },
+          {
+            "candidate_id": "B0FFGFYYZ0",
+            "list_version": "456e7603-ea72-4fca-a15f-d4925aa9ff6f",
+            "ordinal": 4,
+            "name": "看得到风景的咖啡馆(静安店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 104
+          }
+        ],
+        "message": "上海 · 静安寺周边 200 米 · 高德综合排序"
+      },
+      "pass": true
+    },
+    {
+      "radius": 300,
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "nearby",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 300,
+            "unit": "m",
+            "raw": "300米以内"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "咖啡店",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "300",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "search": {
+        "places": [
+          {
+            "candidate_id": "B0JK3HBADP",
+            "list_version": "098ff606-2e33-46c3-80bc-325324fa9768",
+            "ordinal": 1,
+            "name": "蜜雪冰城(静安寺店)",
+            "address": "",
+            "category": "冷饮店",
+            "rating": "",
+            "facilities": [],
+            "distance": 30
+          },
+          {
+            "candidate_id": "B0FFLAYZI2",
+            "list_version": "098ff606-2e33-46c3-80bc-325324fa9768",
+            "ordinal": 2,
+            "name": "Peet's皮爷咖啡(愚园路店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 147
+          },
+          {
+            "candidate_id": "B0FFHG0FTN",
+            "list_version": "098ff606-2e33-46c3-80bc-325324fa9768",
+            "ordinal": 3,
+            "name": "星巴克(1788广场店)",
+            "address": "",
+            "category": "星巴克咖啡",
+            "rating": "",
+            "facilities": [],
+            "distance": 175
+          },
+          {
+            "candidate_id": "B0FFGFYYZ0",
+            "list_version": "098ff606-2e33-46c3-80bc-325324fa9768",
+            "ordinal": 4,
+            "name": "看得到风景的咖啡馆(静安店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 104
+          }
+        ],
+        "message": "上海 · 静安寺周边 300 米 · 高德综合排序"
+      },
+      "pass": true
+    },
+    {
+      "radius": 500,
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "nearby",
+          "area": "静安寺",
+          "relation": "within"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 500,
+            "unit": "m"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "咖啡店",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "500",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "search": {
+        "places": [
+          {
+            "candidate_id": "B0JK3HBADP",
+            "list_version": "4250ddb0-dfec-424f-9208-318033d2c5ce",
+            "ordinal": 1,
+            "name": "蜜雪冰城(静安寺店)",
+            "address": "",
+            "category": "冷饮店",
+            "rating": "",
+            "facilities": [],
+            "distance": 30
+          },
+          {
+            "candidate_id": "B0FFLAYZI2",
+            "list_version": "4250ddb0-dfec-424f-9208-318033d2c5ce",
+            "ordinal": 2,
+            "name": "Peet's皮爷咖啡(愚园路店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 147
+          },
+          {
+            "candidate_id": "B0FFHG0FTN",
+            "list_version": "4250ddb0-dfec-424f-9208-318033d2c5ce",
+            "ordinal": 3,
+            "name": "星巴克(1788广场店)",
+            "address": "",
+            "category": "星巴克咖啡",
+            "rating": "",
+            "facilities": [],
+            "distance": 175
+          },
+          {
+            "candidate_id": "B0IGNCA2RB",
+            "list_version": "4250ddb0-dfec-424f-9208-318033d2c5ce",
+            "ordinal": 4,
+            "name": "Blue Bottle Coffee蓝瓶咖啡(静安嘉里中心店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 439
+          },
+          {
+            "candidate_id": "B0FFGFYYZ0",
+            "list_version": "4250ddb0-dfec-424f-9208-318033d2c5ce",
+            "ordinal": 5,
+            "name": "看得到风景的咖啡馆(静安店)",
+            "address": "",
+            "category": "咖啡厅",
+            "rating": "",
+            "facilities": [],
+            "distance": 104
+          }
+        ],
+        "message": "上海 · 静安寺周边 500 米 · 高德综合排序"
+      },
+      "pass": true
+    }
+  ]
+}

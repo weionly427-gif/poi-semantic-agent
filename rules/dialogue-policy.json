@@ -1,0 +1,175 @@
+{
+  "version": "1.0.0",
+  "priority_order": "数字越小越先判断；先判断任务关系，再判断是否需要反问。规则冲突时按优先级处理。",
+  "task_rules": [
+    {
+      "id": "T10",
+      "priority": 10,
+      "name": "显式重置",
+      "instruction": "用户明确要求重新开始或清空对话时，清除历史条件、候选和待回答问题。同句带新需求时独立解析。",
+      "phrases": [
+        "重新开始对话",
+        "开始新对话",
+        "清空对话",
+        "重开对话"
+      ],
+      "relation": "reset"
+    },
+    {
+      "id": "T20",
+      "priority": 20,
+      "name": "明确取消",
+      "instruction": "不找了、取消搜索只取消搜索。结束导航只取消导航。单说算了且取消对象不明时保留歧义。",
+      "relation": "cancel"
+    },
+    {
+      "id": "T30",
+      "priority": 30,
+      "name": "更换搜索地点并给出目标",
+      "instruction": "用户改为不同搜索地点并给出类别/目标，建立新任务，清除旧附加条件和排序。即使含还是、改成，也按本条处理。例如中山公园美食后说还是南京东路附近的美食吧。若明确说其他条件照旧，则按修改继续。",
+      "relation": "new_task"
+    },
+    {
+      "id": "T40",
+      "priority": 40,
+      "name": "明确独立任务",
+      "instruction": "完整独立请求且无承接表达时，建立新任务，如找餐厅后说导航回家。首次请求也属新任务。不要仅凭找、帮我、还是等单个词做决定。",
+      "relation": "new_task"
+    },
+    {
+      "id": "T50",
+      "priority": 50,
+      "name": "回答待澄清问题",
+      "instruction": "存在待回答问题且本句话回答它时，补全待澄清任务。后者、按评分等应结合待答问题解释。若本句符合更高优先级新任务，结束旧问题。",
+      "relation": "continue_task"
+    },
+    {
+      "id": "T60",
+      "priority": 60,
+      "name": "补充修改或引用",
+      "instruction": "仅补充排名、数量、预算、距离、设施，或修改删除特定条件，或引用原候选时继续。排名靠前的几家继承中山公园及美食。换成餐厅保留适用的停车和范围。去掉仅属于旧目标的属性。",
+      "relation": "continue_task"
+    },
+    {
+      "id": "T70",
+      "priority": 70,
+      "name": "任务关系不明",
+      "instruction": "新任务与继续两种理解都合理且影响结果时，询问一次，保留当前任务。",
+      "relation": "continue_task"
+    }
+  ],
+  "clarification_rules": [
+    {
+      "id": "Q10",
+      "priority": 10,
+      "name": "硬条件冲突",
+      "instruction": "同一目标的硬条件无法同时成立时，保留冲突条件，问用户保留哪个。比如人均至少100元又最多80元。",
+      "question": "人均预算是100元以上，还是80元以内？"
+    },
+    {
+      "id": "Q20",
+      "priority": 20,
+      "name": "缺少必要目标",
+      "instruction": "从本句话和有效历史都无法得到搜索目标时反问。价格、几家等偏好不齐全不等于目标缺失。",
+      "question": "你想找什么地方？",
+      "standalone_inputs": [
+        "帮我找一个",
+        "帮我找个",
+        "找一个",
+        "找个"
+      ]
+    },
+    {
+      "id": "Q30",
+      "priority": 30,
+      "name": "候选引用不可用",
+      "instruction": "需要具体候选但当前没有有效列表时反问；不要编造ID或把新列表同序号当旧候选。",
+      "question": "你指的是哪一家？请告诉我店名。"
+    },
+    {
+      "id": "Q40",
+      "priority": 40,
+      "name": "任务关系不明",
+      "instruction": "继续与新任务会导致不同执行结果且无法判断时询问。",
+      "question": "继续找刚才的，还是重新搜索？"
+    },
+    {
+      "id": "Q50",
+      "priority": 50,
+      "name": "必要排序依据不明",
+      "instruction": "仅用户明确要求“排名靠前、按榜单”等排序但未给依据且历史无约定时询问。“推荐美食”“好吃的”“近一点”“便宜点”均可直接输出，不因没说排序而反问。历史已经指定评分或人气时直接沿用，禁止重复询问。",
+      "question": "你更看重评分，还是人气？",
+      "trigger_terms": [
+        "排名",
+        "榜单",
+        "排行"
+      ],
+      "ambiguity_fields": [
+        "ranking_basis",
+        "sort_criteria",
+        "sort",
+        "ranking",
+        "sort_preference",
+        "ranking_criteria",
+        "ranking_metric"
+      ]
+    },
+    {
+      "id": "Q60",
+      "priority": 60,
+      "name": "默认城市和明确地标",
+      "instruction": "未指定城市默认本城市，只输出城市参照current_city，不推测具体城市、不反问城市。显式城市优先。著名地标保留名称交二阶段映射，不在一期确认真实位置。"
+    },
+    {
+      "id": "Q70",
+      "priority": 70,
+      "name": "可执行偏好",
+      "instruction": "近一点、便宜点、几家保留偏好/模糊数量，不强制询问、不编阈值。多个未排序偏好并列。 普通推荐请求不需要指定排名依据。不得将“推荐”自身当作必须澄清的排序。"
+    }
+  ],
+  "clarification_protocol": {
+    "max_questions_per_turn": 1,
+    "instruction": "只问最阻碍执行的一项。输出intent=clarify、follow_up具体问题，保留未解决语义和ambiguity。回答后返回完整补全任务。"
+  },
+  "examples": [
+    {
+      "previous": "帮我推荐中山公园附近的美食",
+      "text": "排名靠前的几家",
+      "relation": "continue_task",
+      "rule": "T60",
+      "clarify": "Q50",
+      "retain": [
+        "中山公园",
+        "美食"
+      ],
+      "question": "你更看重评分，还是人气？"
+    },
+    {
+      "previous": "帮我推荐中山公园附近的美食，必须能停车",
+      "text": "还是南京东路附近的美食吧",
+      "relation": "new_task",
+      "rule": "T30",
+      "retain": [],
+      "result": [
+        "南京东路",
+        "美食"
+      ],
+      "discard": [
+        "中山公园",
+        "停车"
+      ]
+    },
+    {
+      "previous": "帮我推荐中山公园附近的美食",
+      "question": "你更看重评分，还是人气？",
+      "text": "按评分",
+      "relation": "continue_task",
+      "rule": "T50",
+      "retain": [
+        "中山公园",
+        "美食"
+      ],
+      "follow_up": null
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 import { createInterface } from 'node:readline/promises';
-import { parse } from './agent.mjs';
+import { parse } from './src/agent.mjs';
 let previous=null;
 async function run(text){
-  try { const result=await parse(text,{previous}); console.log(JSON.stringify(result,null,2)); if(result.intent!=='clarify'||!previous)previous=result; return true; }
+  try { const result=await parse(text,{previous}); console.log(JSON.stringify(result,null,2)); previous=result; if(result.follow_up)console.log(result.follow_up); return true; }
   catch(e){console.error(e.message);return false;}
 }
 if(process.argv.length>2){if(!await run(process.argv.slice(2).join(' ')))process.exitCode=1;}

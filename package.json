@@ -9,6 +9,6 @@
   "scripts": {
     "start": "node web.mjs",
     "cli": "node cli.mjs",
-    "test": "node --test agent.test.mjs"
+    "test": "node --test tests/unit/*.test.mjs"
   }
 }

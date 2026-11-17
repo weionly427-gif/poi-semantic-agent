@@ -1,8 +1,8 @@
 import http from 'node:http';
 import {readFileSync} from 'node:fs';
-import {parse,validate} from './agent.mjs';
-import {homeSearch} from './home-search.mjs';
-const page=readFileSync(new URL('index.html',import.meta.url));
+import {parse,validate} from './src/agent.mjs';
+import {homeSearch} from './src/home-search.mjs';
+const page=readFileSync(new URL('frontend/index.html',import.meta.url));
 const onRender = process.env.RENDER === 'true';
 const cloud = onRender || Boolean(process.env.PORT);
 const port = Number(process.env.PORT || (onRender ? 10000 : 8789));

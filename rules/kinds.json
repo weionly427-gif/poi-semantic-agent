@@ -1,0 +1,2297 @@
+{
+  "version": "v1",
+  "source": "data/source_kind.txt",
+  "total": 156,
+  "recommendable_count": 91,
+  "high_freq_count": 37,
+  "merged_count": 59,
+  "prompt_kinds": [
+    "airport",
+    "amusement_park",
+    "animal_park",
+    "atm",
+    "auto_service_maintenance",
+    "bank",
+    "bar_or_pub",
+    "bus_station",
+    "car_4s",
+    "charger",
+    "cinema",
+    "clinic",
+    "coffee_shop",
+    "convenience_store",
+    "gas",
+    "grocery_store",
+    "hospital",
+    "hotel",
+    "ktv",
+    "mall",
+    "museum",
+    "other_accommodation",
+    "park_recreation_area",
+    "parking",
+    "parking_garage_house",
+    "pharmacy",
+    "police_station",
+    "public_restroom",
+    "repair_service",
+    "rest_area",
+    "restaurant",
+    "scenic",
+    "subway",
+    "supermarket",
+    "taxi_stand",
+    "tourist_attraction",
+    "train_station"
+  ],
+  "canonical_map": {
+    "tourist": "scenic",
+    "tourist_attraction": "scenic",
+    "land_mark": "scenic",
+    "historical_monument": "scenic",
+    "tourist_information": "scenic",
+    "temple": "scenic",
+    "place_of_worship": "scenic",
+    "parking_garage_house": "parking",
+    "park_ride": "parking",
+    "truck_parking": "parking",
+    "bicycle_parking": "parking",
+    "grocery_store": "convenience_store",
+    "store": "mall",
+    "shopping": "mall",
+    "specialty_store": "mall",
+    "specialty_food_store": "supermarket",
+    "clothing_store": "mall",
+    "consumer_electronics_store": "mall",
+    "home_specialty_store": "mall",
+    "home_improvement_hardware_store": "mall",
+    "bookstore": "mall",
+    "sporting_good_store": "mall",
+    "office_supply_and_service_store": "mall",
+    "other_accommodation": "hotel",
+    "campground": "hotel",
+    "specialized_hospital": "hospital",
+    "community_hospital": "hospital",
+    "dental": "clinic",
+    "medical_service": "clinic",
+    "health_agency": "clinic",
+    "auto_dealerships": "car_4s",
+    "auto_dealership_used_cars": "car_4s",
+    "repair_service": "auto_service_maintenance",
+    "rental_car_agency": "car_4s",
+    "automobile_club": "car_4s",
+    "truck_stop_plaza": "rest_area",
+    "nightlife": "bar_or_pub",
+    "entertainment": "cinema",
+    "winery": "bar_or_pub",
+    "city_county_park": "park_recreation_area",
+    "pocket_park": "park_recreation_area",
+    "national_park": "park_recreation_area",
+    "state_park": "park_recreation_area",
+    "ski_resort": "park_recreation_area",
+    "golf_course": "park_recreation_area",
+    "golf_practice_range": "park_recreation_area",
+    "sport": "park_recreation_area",
+    "sports_centre": "park_recreation_area",
+    "sports_complex": "park_recreation_area",
+    "ice_skating_rink": "park_recreation_area",
+    "race_track": "park_recreation_area",
+    "commuter_rail_station": "train_station",
+    "transportation_service": "bus_station",
+    "ferry_terminal": "bus_station",
+    "harbor": "bus_station",
+    "marina": "bus_station",
+    "dock": "bus_station",
+    "special": "other",
+    "specialty": "other"
+  },
+  "other_fallback": {
+    "by_category": {
+      "dining": "restaurant",
+      "shopping": "mall",
+      "auto": "gas",
+      "parking": "parking",
+      "lodging": "hotel",
+      "medical": "hospital",
+      "finance": "bank",
+      "transport": "bus_station",
+      "entertainment": "cinema",
+      "culture": "scenic",
+      "sport": "park_recreation_area",
+      "park": "park_recreation_area",
+      "service": "convenience_store",
+      "education": "mall",
+      "public": "rest_area",
+      "geo": "scenic",
+      "other": "restaurant"
+    },
+    "default": "restaurant",
+    "x-note": "LLM 输出 other 或低频 key 时，先用全量 aliases 二次匹配，再走 canonical，最后按大类兜底；原始说法留在 poi.raw_text 与 ambiguities.raw，可追溯。"
+  },
+  "data_issues": [],
+  "items": [
+    {
+      "key": "mall",
+      "label": "购物中心/商场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "购物中心",
+        "商场",
+        "逛商场",
+        "买东西"
+      ]
+    },
+    {
+      "key": "nightlife",
+      "label": "夜生活场所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "dining",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "bar_or_pub",
+      "aliases": [
+        "夜生活场所"
+      ]
+    },
+    {
+      "key": "restaurant",
+      "label": "餐厅/餐馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "dining",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "餐厅",
+        "餐馆",
+        "吃饭",
+        "吃饭的地方",
+        "吃点东西",
+        "饭店",
+        "饭馆",
+        "填饱肚子",
+        "吃口热的",
+        "餐听",
+        "饭点"
+      ]
+    },
+    {
+      "key": "dental",
+      "label": "牙科诊所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "clinic",
+      "aliases": [
+        "牙科诊所"
+      ]
+    },
+    {
+      "key": "provincial",
+      "label": "省/州会",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "省",
+        "州会"
+      ]
+    },
+    {
+      "key": "provincial_admin",
+      "label": "省级行政机构/省政府",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "省级行政机构",
+        "省政府"
+      ]
+    },
+    {
+      "key": "grocery_store",
+      "label": "食品杂货店/便利店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": "convenience_store",
+      "aliases": [
+        "食品杂货店",
+        "便利店"
+      ]
+    },
+    {
+      "key": "ktv",
+      "label": "KTV/卡拉OK",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "KTV",
+        "卡拉OK",
+        "唱歌",
+        "唱K"
+      ]
+    },
+    {
+      "key": "hotel",
+      "label": "酒店/旅馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "lodging",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "酒店",
+        "旅馆",
+        "宾馆",
+        "住宿",
+        "住一晚",
+        "开房"
+      ]
+    },
+    {
+      "key": "school",
+      "label": "学校",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "education",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "学校"
+      ]
+    },
+    {
+      "key": "sporting_good_store",
+      "label": "体育用品商店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "体育用品商店"
+      ]
+    },
+    {
+      "key": "civic_community_centre",
+      "label": "公民社区中心/社区活动中心",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "公民社区中心",
+        "社区活动中心"
+      ]
+    },
+    {
+      "key": "ski_resort",
+      "label": "滑雪度假村",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "滑雪度假村"
+      ]
+    },
+    {
+      "key": "specialized_hospital",
+      "label": "专科医院",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "hospital",
+      "aliases": [
+        "专科医院"
+      ]
+    },
+    {
+      "key": "subway",
+      "label": "地铁站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "地铁站"
+      ]
+    },
+    {
+      "key": "rental_car_agency",
+      "label": "租车公司/租车点",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "car_4s",
+      "aliases": [
+        "租车公司",
+        "租车点"
+      ]
+    },
+    {
+      "key": "entertainment",
+      "label": "娱乐场所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "cinema",
+      "aliases": [
+        "娱乐场所"
+      ]
+    },
+    {
+      "key": "bicycling",
+      "label": "自行车道/骑行路线",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "自行车道",
+        "骑行路线"
+      ]
+    },
+    {
+      "key": "library",
+      "label": "图书馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "图书馆"
+      ]
+    },
+    {
+      "key": "scenic",
+      "label": "景点/风景区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "景点",
+        "风景区",
+        "景区",
+        "玩的地方",
+        "逛逛"
+      ]
+    },
+    {
+      "key": "hamlet",
+      "label": "小村庄",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "小村庄"
+      ]
+    },
+    {
+      "key": "specialty_store",
+      "label": "专卖店/特色商店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "专卖店",
+        "特色商店"
+      ]
+    },
+    {
+      "key": "cybercafe",
+      "label": "网吧",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "网吧"
+      ]
+    },
+    {
+      "key": "court_house",
+      "label": "法院",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "法院"
+      ]
+    },
+    {
+      "key": "performing_arts",
+      "label": "表演艺术场所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "表演艺术场所"
+      ]
+    },
+    {
+      "key": "store",
+      "label": "商店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "商店"
+      ]
+    },
+    {
+      "key": "gas",
+      "label": "加油站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "加油站",
+        "加油",
+        "油站",
+        "加满油",
+        "没油了",
+        "加油战",
+        "加油占"
+      ]
+    },
+    {
+      "key": "police_station",
+      "label": "警察局/派出所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "警察局",
+        "派出所"
+      ]
+    },
+    {
+      "key": "clinic",
+      "label": "诊所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "诊所"
+      ]
+    },
+    {
+      "key": "home_specialty_store",
+      "label": "家居专卖店/家装用品店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "家居专卖店",
+        "家装用品店"
+      ]
+    },
+    {
+      "key": "national_road",
+      "label": "国道",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "国道"
+      ]
+    },
+    {
+      "key": "bicycle_service",
+      "label": "自行车修理店/自行车服务点",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "自行车修理店",
+        "自行车服务点"
+      ]
+    },
+    {
+      "key": "harbor",
+      "label": "港口/码头",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "bus_station",
+      "aliases": [
+        "港口",
+        "码头"
+      ]
+    },
+    {
+      "key": "bus_station",
+      "label": "公交车站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "公交车站"
+      ]
+    },
+    {
+      "key": "other_accommodation",
+      "label": "其他住宿",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "lodging",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": "hotel",
+      "aliases": [
+        "其他住宿"
+      ]
+    },
+    {
+      "key": "car_4s",
+      "label": "汽车4S店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "汽车4S店"
+      ]
+    },
+    {
+      "key": "training_centre_institute",
+      "label": "培训中心/学院",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "education",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "培训中心",
+        "学院"
+      ]
+    },
+    {
+      "key": "barber",
+      "label": "理发店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "理发店"
+      ]
+    },
+    {
+      "key": "emergency",
+      "label": "紧急服务",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "紧急服务"
+      ]
+    },
+    {
+      "key": "ferry_terminal",
+      "label": "渡轮码头",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "bus_station",
+      "aliases": [
+        "渡轮码头"
+      ]
+    },
+    {
+      "key": "park_recreation_area",
+      "label": "公园/游乐区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "公园",
+        "游乐区"
+      ]
+    },
+    {
+      "key": "community_hospital",
+      "label": "社区医院",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "hospital",
+      "aliases": [
+        "社区医院"
+      ]
+    },
+    {
+      "key": "home_improvement_hardware_store",
+      "label": "家居建材五金店/五金商店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "家居建材五金店",
+        "五金商店"
+      ]
+    },
+    {
+      "key": "sport",
+      "label": "运动场馆/体育馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "运动场馆",
+        "体育馆"
+      ]
+    },
+    {
+      "key": "historical_monument",
+      "label": "历史古迹/纪念碑",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "scenic",
+      "aliases": [
+        "历史古迹",
+        "纪念碑"
+      ]
+    },
+    {
+      "key": "rest_area",
+      "label": "休息区/服务区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "休息区",
+        "服务区",
+        "高速服务区",
+        "歇会儿",
+        "歇一下",
+        "休息一下",
+        "服物区",
+        "服务去"
+      ]
+    },
+    {
+      "key": "capital",
+      "label": "首都",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "首都"
+      ]
+    },
+    {
+      "key": "named_intersection",
+      "label": "命名交叉路口/路口",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "命名交叉路口",
+        "路口"
+      ]
+    },
+    {
+      "key": "bathing_massage",
+      "label": "沐浴按摩场所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "沐浴按摩场所"
+      ]
+    },
+    {
+      "key": "county",
+      "label": "县",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "县"
+      ]
+    },
+    {
+      "key": "office_supply_and_service_store",
+      "label": "办公用品及服务商店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "办公用品及服务商店"
+      ]
+    },
+    {
+      "key": "coffee_shop",
+      "label": "咖啡店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "dining",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "咖啡店",
+        "咖啡",
+        "咖啡厅",
+        "星巴克",
+        "星爸爸",
+        "喝咖啡",
+        "买杯咖啡",
+        "咖啡管"
+      ]
+    },
+    {
+      "key": "neighbourhood",
+      "label": "街区/邻里区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "街区",
+        "邻里区"
+      ]
+    },
+    {
+      "key": "parking_garage_house",
+      "label": "停车库/停车场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "parking",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": "parking",
+      "aliases": [
+        "停车库",
+        "停车场",
+        "室内停车",
+        "地下车库"
+      ]
+    },
+    {
+      "key": "ski_lift",
+      "label": "滑雪缆车",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "滑雪缆车"
+      ]
+    },
+    {
+      "key": "truck_dealership",
+      "label": "卡车经销商",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "卡车经销商"
+      ]
+    },
+    {
+      "key": "weigh_station",
+      "label": "称重站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "称重站"
+      ]
+    },
+    {
+      "key": "country",
+      "label": "国家",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "国家"
+      ]
+    },
+    {
+      "key": "tourist_information",
+      "label": "旅游咨询处",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "scenic",
+      "aliases": [
+        "旅游咨询处"
+      ]
+    },
+    {
+      "key": "winery",
+      "label": "酿酒厂/酒庄",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "dining",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "bar_or_pub",
+      "aliases": [
+        "酿酒厂",
+        "酒庄"
+      ]
+    },
+    {
+      "key": "truck_service",
+      "label": "卡车维修服务",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "卡车维修服务"
+      ]
+    },
+    {
+      "key": "taxi_stand",
+      "label": "出租车停靠点/打车点",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "出租车停靠点",
+        "打车点",
+        "打车",
+        "叫车"
+      ]
+    },
+    {
+      "key": "animal_park",
+      "label": "动物园",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "动物园"
+      ]
+    },
+    {
+      "key": "sports_centre",
+      "label": "体育中心",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "体育中心"
+      ]
+    },
+    {
+      "key": "town",
+      "label": "城镇",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "城镇"
+      ]
+    },
+    {
+      "key": "public_restroom",
+      "label": "公共厕所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "公共厕所",
+        "厕所",
+        "卫生间",
+        "洗手间",
+        "公厕",
+        "方便一下",
+        "洗车间"
+      ]
+    },
+    {
+      "key": "public_sports_airport",
+      "label": "公共体育机场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "公共体育机场"
+      ]
+    },
+    {
+      "key": "embassy",
+      "label": "大使馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "大使馆"
+      ]
+    },
+    {
+      "key": "highway_exit",
+      "label": "高速公路出口",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "高速公路出口"
+      ]
+    },
+    {
+      "key": "truck_stop_plaza",
+      "label": "卡车服务区/卡车停靠站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "rest_area",
+      "aliases": [
+        "卡车服务区",
+        "卡车停靠站"
+      ]
+    },
+    {
+      "key": "marina",
+      "label": "游艇码头/船坞",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "bus_station",
+      "aliases": [
+        "游艇码头",
+        "船坞"
+      ]
+    },
+    {
+      "key": "auto_service_maintenance",
+      "label": "汽车维修保养",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "汽车维修保养",
+        "修车",
+        "保养",
+        "车坏了",
+        "补胎",
+        "洗车"
+      ]
+    },
+    {
+      "key": "golf_course",
+      "label": "高尔夫球场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "高尔夫球场"
+      ]
+    },
+    {
+      "key": "train_station",
+      "label": "火车站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "火车站"
+      ]
+    },
+    {
+      "key": "clothing_store",
+      "label": "服装店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "服装店"
+      ]
+    },
+    {
+      "key": "transportation_service",
+      "label": "交通服务",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "bus_station",
+      "aliases": [
+        "交通服务"
+      ]
+    },
+    {
+      "key": "pocket_park",
+      "label": "口袋公园",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "口袋公园"
+      ]
+    },
+    {
+      "key": "hospital",
+      "label": "医院",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "医院",
+        "看病",
+        "急诊",
+        "就医"
+      ]
+    },
+    {
+      "key": "business_agency",
+      "label": "商业机构/商务代理",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "商业机构",
+        "商务代理"
+      ]
+    },
+    {
+      "key": "campground",
+      "label": "露营地",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "lodging",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "hotel",
+      "aliases": [
+        "露营地"
+      ]
+    },
+    {
+      "key": "bank",
+      "label": "银行",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "finance",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "银行",
+        "银航",
+        "取钱",
+        "办业务"
+      ]
+    },
+    {
+      "key": "convenience_store",
+      "label": "便利店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "便利店",
+        "小卖部",
+        "便力店",
+        "买瓶水"
+      ]
+    },
+    {
+      "key": "supermarket",
+      "label": "超市",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "超市",
+        "大卖场",
+        "逛超市"
+      ]
+    },
+    {
+      "key": "province",
+      "label": "省/州",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "省",
+        "州"
+      ]
+    },
+    {
+      "key": "telecom",
+      "label": "电信局/电信营业厅",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "电信局",
+        "电信营业厅"
+      ]
+    },
+    {
+      "key": "auto_dealership_used_cars",
+      "label": "二手车经销商",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "car_4s",
+      "aliases": [
+        "二手车经销商"
+      ]
+    },
+    {
+      "key": "fire_department",
+      "label": "消防局/消防队",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "消防局",
+        "消防队"
+      ]
+    },
+    {
+      "key": "charger",
+      "label": "充电站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "充电站",
+        "充电",
+        "充电桩",
+        "快充",
+        "补电",
+        "没电了",
+        "冲电",
+        "充点桩",
+        "加电"
+      ]
+    },
+    {
+      "key": "golf_practice_range",
+      "label": "高尔夫练习场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "高尔夫练习场"
+      ]
+    },
+    {
+      "key": "shopping",
+      "label": "购物区/商业区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "购物区",
+        "商业区"
+      ]
+    },
+    {
+      "key": "municipal_capital",
+      "label": "市级行政中心/市政府",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "市级行政中心",
+        "市政府"
+      ]
+    },
+    {
+      "key": "ocean",
+      "label": "海洋",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "海洋"
+      ]
+    },
+    {
+      "key": "bookstore",
+      "label": "书店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "书店"
+      ]
+    },
+    {
+      "key": "bowling_centre",
+      "label": "保龄球馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "保龄球馆"
+      ]
+    },
+    {
+      "key": "company",
+      "label": "公司",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "公司"
+      ]
+    },
+    {
+      "key": "square",
+      "label": "广场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "广场"
+      ]
+    },
+    {
+      "key": "condo",
+      "label": "公寓",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "公寓"
+      ]
+    },
+    {
+      "key": "toll_station",
+      "label": "收费站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "收费站"
+      ]
+    },
+    {
+      "key": "river",
+      "label": "河流",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "河流"
+      ]
+    },
+    {
+      "key": "region_admin",
+      "label": "地区行政机构",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "地区行政机构"
+      ]
+    },
+    {
+      "key": "consumer_electronics_store",
+      "label": "消费电子产品商店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "shopping",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "mall",
+      "aliases": [
+        "消费电子产品商店"
+      ]
+    },
+    {
+      "key": "medical_service",
+      "label": "医疗服务机构",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "clinic",
+      "aliases": [
+        "医疗服务机构"
+      ]
+    },
+    {
+      "key": "land_mark",
+      "label": "地标",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "scenic",
+      "aliases": [
+        "地标"
+      ]
+    },
+    {
+      "key": "atm",
+      "label": "自动取款机(ATM)",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "finance",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "自动取款机",
+        "取款机",
+        "ATM",
+        "取现金"
+      ]
+    },
+    {
+      "key": "residential_area",
+      "label": "住宅区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "住宅区"
+      ]
+    },
+    {
+      "key": "cinema",
+      "label": "电影院",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "电影院",
+        "看电影",
+        "影城"
+      ]
+    },
+    {
+      "key": "amusement_park",
+      "label": "游乐园",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "游乐园"
+      ]
+    },
+    {
+      "key": "commuter_rail_station",
+      "label": "通勤铁路车站",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "train_station",
+      "aliases": [
+        "通勤铁路车站"
+      ]
+    },
+    {
+      "key": "motorway",
+      "label": "高速公路",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "高速公路"
+      ]
+    },
+    {
+      "key": "post_office",
+      "label": "邮局",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "service",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "邮局"
+      ]
+    },
+    {
+      "key": "pharmacy",
+      "label": "药店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "药店",
+        "药房",
+        "买药",
+        "药点"
+      ]
+    },
+    {
+      "key": "sports_complex",
+      "label": "体育综合体",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "体育综合体"
+      ]
+    },
+    {
+      "key": "museum",
+      "label": "博物馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "博物馆"
+      ]
+    },
+    {
+      "key": "specialty_food_store",
+      "label": "特色食品店",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "dining",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "supermarket",
+      "aliases": [
+        "特色食品店"
+      ]
+    },
+    {
+      "key": "temple",
+      "label": "寺庙/宗教场所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "scenic",
+      "aliases": [
+        "寺庙",
+        "宗教场所"
+      ]
+    },
+    {
+      "key": "tourist",
+      "label": "旅游景点",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "scenic",
+      "aliases": [
+        "旅游景点"
+      ]
+    },
+    {
+      "key": "village",
+      "label": "村庄",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "村庄"
+      ]
+    },
+    {
+      "key": "ice_skating_rink",
+      "label": "溜冰场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "溜冰场"
+      ]
+    },
+    {
+      "key": "municipal",
+      "label": "市",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "市"
+      ]
+    },
+    {
+      "key": "health_agency",
+      "label": "卫生机构",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "medical",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "clinic",
+      "aliases": [
+        "卫生机构"
+      ]
+    },
+    {
+      "key": "race_track",
+      "label": "赛车场/跑马场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "sport",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "赛车场",
+        "跑马场"
+      ]
+    },
+    {
+      "key": "motorcycle_dealership",
+      "label": "摩托车经销商",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "摩托车经销商"
+      ]
+    },
+    {
+      "key": "tollbooth",
+      "label": "收费亭",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "收费亭"
+      ]
+    },
+    {
+      "key": "place_of_worship",
+      "label": "宗教场所",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "scenic",
+      "aliases": [
+        "宗教场所"
+      ]
+    },
+    {
+      "key": "convention_exhibition_centre",
+      "label": "会展中心",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "会展中心"
+      ]
+    },
+    {
+      "key": "cbd",
+      "label": "中央商业区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "中央商业区"
+      ]
+    },
+    {
+      "key": "auto_dealerships",
+      "label": "汽车经销商",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "car_4s",
+      "aliases": [
+        "汽车经销商"
+      ]
+    },
+    {
+      "key": "tourist_attraction",
+      "label": "旅游景点",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "culture",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": "scenic",
+      "aliases": [
+        "旅游景点"
+      ]
+    },
+    {
+      "key": "cemetery",
+      "label": "公墓/墓地",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "公墓",
+        "墓地"
+      ]
+    },
+    {
+      "key": "cargo_centre",
+      "label": "货运中心",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "货运中心"
+      ]
+    },
+    {
+      "key": "zone",
+      "label": "区域/地带",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "区域",
+        "地带"
+      ]
+    },
+    {
+      "key": "bicycle_parking",
+      "label": "自行车停放处",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "parking",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "parking",
+      "aliases": [
+        "自行车停放处"
+      ]
+    },
+    {
+      "key": "park_ride",
+      "label": "停车换乘（停车场）",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "parking",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "parking",
+      "aliases": [
+        "停车换乘"
+      ]
+    },
+    {
+      "key": "parking",
+      "label": "停车场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "parking",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "停车场",
+        "停车",
+        "能停车",
+        "有车位",
+        "停车库",
+        "停车厂",
+        "好停车"
+      ]
+    },
+    {
+      "key": "military_base",
+      "label": "军事基地",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "军事基地"
+      ]
+    },
+    {
+      "key": "industrial_zone",
+      "label": "工业区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "工业区"
+      ]
+    },
+    {
+      "key": "airport",
+      "label": "机场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "机场"
+      ]
+    },
+    {
+      "key": "truck_parking",
+      "label": "卡车停车场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "parking",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "parking",
+      "aliases": [
+        "卡车停车场"
+      ]
+    },
+    {
+      "key": "specialty",
+      "label": "特殊/特色",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "other",
+      "aliases": [
+        "特殊",
+        "特色"
+      ]
+    },
+    {
+      "key": "repair_service",
+      "label": "维修服务",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": "auto_service_maintenance",
+      "aliases": [
+        "维修服务"
+      ]
+    },
+    {
+      "key": "dock",
+      "label": "码头/泊位",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "transport",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "bus_station",
+      "aliases": [
+        "码头",
+        "泊位"
+      ]
+    },
+    {
+      "key": "university",
+      "label": "大学",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "education",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "大学"
+      ]
+    },
+    {
+      "key": "municipal_admin",
+      "label": "市政管理/市政府",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "public",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "市政管理",
+        "市政府"
+      ]
+    },
+    {
+      "key": "road_region_mark",
+      "label": "道路区域标记",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "道路区域标记"
+      ]
+    },
+    {
+      "key": "automobile_club",
+      "label": "汽车俱乐部",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "auto",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "car_4s",
+      "aliases": [
+        "汽车俱乐部"
+      ]
+    },
+    {
+      "key": "bar_or_pub",
+      "label": "酒吧/酒馆",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "dining",
+      "recommendable": true,
+      "high_freq": true,
+      "canonical": null,
+      "aliases": [
+        "酒吧",
+        "酒馆",
+        "喝一杯",
+        "小酌"
+      ]
+    },
+    {
+      "key": "casino",
+      "label": "赌场",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "entertainment",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "赌场"
+      ]
+    },
+    {
+      "key": "annotation",
+      "label": "标注/注记",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "标注",
+        "注记"
+      ]
+    },
+    {
+      "key": "city_county_park",
+      "label": "市县级公园",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "市县级公园"
+      ]
+    },
+    {
+      "key": "lake",
+      "label": "湖",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "湖"
+      ]
+    },
+    {
+      "key": "national_forest",
+      "label": "国家森林",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "国家森林"
+      ]
+    },
+    {
+      "key": "national_park",
+      "label": "国家公园",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "国家公园"
+      ]
+    },
+    {
+      "key": "region",
+      "label": "行政区/地区",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "行政区",
+        "地区"
+      ]
+    },
+    {
+      "key": "special",
+      "label": "特殊/定制",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "geo",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": "other",
+      "aliases": [
+        "特殊",
+        "定制"
+      ]
+    },
+    {
+      "key": "state_park",
+      "label": "省级公园",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": true,
+      "high_freq": false,
+      "canonical": "park_recreation_area",
+      "aliases": [
+        "省级公园"
+      ]
+    },
+    {
+      "key": "woods",
+      "label": "林地",
+      "raw_key": null,
+      "raw_label": null,
+      "category": "park",
+      "recommendable": false,
+      "high_freq": false,
+      "canonical": null,
+      "aliases": [
+        "林地"
+      ]
+    }
+  ]
+}

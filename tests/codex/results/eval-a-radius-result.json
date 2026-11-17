@@ -1,0 +1,80 @@
+{
+  "tested_at": "2026-11-17T08:22:32.026Z",
+  "results": [
+    {
+      "text": "找上海静安寺附近200米以内的咖啡厅。",
+      "expected_radius_m": 200,
+      "requests": [],
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "area",
+          "area": "上海静安寺",
+          "relation": "nearby"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 200,
+            "unit": "m"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "search": {
+        "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+        "places": []
+      },
+      "outside_requested_radius": []
+    },
+    {
+      "text": "找上海静安寺附近300米以内的咖啡厅。",
+      "expected_radius_m": 300,
+      "requests": [],
+      "frame": {
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "area",
+          "area": "上海静安寺",
+          "city_ref": "current_city"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 300,
+            "unit": "m"
+          }
+        ],
+        "ready": true
+      },
+      "search": {
+        "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+        "places": []
+      },
+      "outside_requested_radius": []
+    },
+    {
+      "text": "找上海静安寺附近500米以内的咖啡厅。",
+      "expected_radius_m": 500,
+      "requests": [],
+      "error": "The operation was aborted due to timeout",
+      "retry_error": "The operation was aborted due to timeout"
+    }
+  ]
+}

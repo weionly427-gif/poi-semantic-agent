@@ -1,0 +1,1259 @@
+{
+  "summary": {
+    "total": 38,
+    "mainTotal": 30,
+    "pass": 35,
+    "mainPass": 28,
+    "passRate": "92.1%",
+    "clarifyOrAmbiguity": 10,
+    "avgMs": 3736,
+    "maxMs": 30003,
+    "failed": [
+      {
+        "id": 12,
+        "text": "打电话给那家店",
+        "fails": [
+          "既非 call 也未形成候选引用：{\"intent\":\"clarify\",\"ambiguity\":{\"type\":\"missing_reference\",\"field\":\"candidate\",\"raw\":\"那家店\",\"alternatives\":[]},\"dialogue\":{\"relation\":\"new_task\",\"rule_id\":\"T40\",\"active_task\":{\"intent\":\"clarify\",\"ambiguity\":{\"type\":\"missing_reference\",\"field\":\"candidate\",\"raw\":\"那家店\",\"alternatives\":[]}}},\"follow_up\":\"请问您想给哪家店打电话？请提供店名或从列表中确认。\",\"ready\":false}"
+        ],
+        "status": 200,
+        "rawAnswer": "{\n  \"intent\": \"call\",\n  \"ambiguity\": {\n    \"type\": \"missing_reference\",\n    \"field\": \"candidate\",\n    \"raw\": \"那家店\",\n    \"alternatives\": []\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"请问您想给哪家店打电话？请提供店名或从列表中确认。\"\n}"
+      },
+      {
+        "id": 17,
+        "text": "找个评分至少4分的餐厅",
+        "fails": [
+          "解析异常：The operation was aborted due to timeout"
+        ],
+        "status": 429
+      },
+      {
+        "id": "M3",
+        "text": "帮我找个加油站",
+        "fails": [
+          "scope.area 应清除，实际 中山公园"
+        ],
+        "status": 200,
+        "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"gas\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"中山公园\"\n  },\n  \"ambiguity\": {\n    \"type\": \"missing\",\n    \"field\": \"ranking_basis\",\n    \"raw\": \"帮我找个加油站\"\n  },\n  \"follow_up\": \"你更看重评分，还是人气？\",\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T30\"\n  }\n}"
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": 1,
+      "group": "P0 意图",
+      "text": "找个充电站",
+      "pass": true,
+      "ms": 1945,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "charger"
+        },
+        "scope": {
+          "type": "nearby"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"charger\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 2,
+      "group": "P0 意图",
+      "text": "找星巴克",
+      "pass": true,
+      "ms": 1753,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "brand": "星巴克"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"brand\": \"星巴克\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 3,
+      "group": "P0 范围",
+      "text": "附近找个餐厅",
+      "pass": true,
+      "ms": 1776,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "nearby"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 4,
+      "group": "P0 范围",
+      "text": "顺路找个加油站",
+      "pass": true,
+      "ms": 2872,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "gas"
+        },
+        "scope": {
+          "type": "along_route"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"gas\"\n  },\n  \"scope\": {\n    \"type\": \"along_route\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 5,
+      "group": "P0 范围",
+      "text": "终点附近找停车场",
+      "pass": true,
+      "ms": 2688,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "parking"
+        },
+        "scope": {
+          "type": "destination"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"parking\"\n  },\n  \"scope\": {\n    \"type\": \"destination\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 6,
+      "group": "P0 范围",
+      "text": "朝阳区找个酒店",
+      "pass": true,
+      "ms": 1960,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "hotel"
+        },
+        "scope": {
+          "type": "area",
+          "area": "朝阳区"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"hotel\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"朝阳区\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 7,
+      "group": "P1 口语类别",
+      "text": "吃饭的地方",
+      "pass": true,
+      "ms": 4406,
+      "fails": [],
+      "result": {
+        "intent": "clarify",
+        "target": {
+          "category": "restaurant",
+          "raw": "吃饭的地方"
+        },
+        "ambiguity": {
+          "type": "category_ambiguity",
+          "raw": "吃饭的地方",
+          "alternatives": [
+            "餐厅",
+            "快餐店",
+            "小吃店"
+          ]
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40",
+          "active_task": {
+            "intent": "clarify",
+            "target": {
+              "category": "restaurant",
+              "raw": "吃饭的地方"
+            },
+            "ambiguity": {
+              "type": "category_ambiguity",
+              "raw": "吃饭的地方",
+              "alternatives": [
+                "餐厅",
+                "快餐店",
+                "小吃店"
+              ]
+            }
+          }
+        },
+        "follow_up": "您具体想找哪种类型的餐饮？例如餐厅、快餐店还是小吃店？",
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\",\n    \"raw\": \"吃饭的地方\"\n  },\n  \"ambiguity\": {\n    \"type\": \"category_ambiguity\",\n    \"raw\": \"吃饭的地方\",\n    \"alternatives\": [\n      \"餐厅\",\n      \"快餐店\",\n      \"小吃店\"\n    ]\n  },\n  \"missing\": [\n    \"target\"\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"您具体想找哪种类型的餐饮？例如餐厅、快餐店还是小吃店？\"\n}",
+      "status": 200
+    },
+    {
+      "id": 8,
+      "group": "P1 排除类别",
+      "text": "不要咖啡店，来点别的",
+      "pass": true,
+      "ms": 4106,
+      "fails": [],
+      "result": {
+        "intent": "clarify",
+        "target": {
+          "any_of": [
+            {
+              "category": "restaurant"
+            },
+            {
+              "category": "coffee_shop"
+            }
+          ]
+        },
+        "constraints": [
+          {
+            "field": "category",
+            "op": "ne",
+            "value": "coffee_shop",
+            "raw": "不要咖啡店"
+          }
+        ],
+        "ambiguity": {
+          "type": "category_exclusion",
+          "field": "category",
+          "raw": "不要咖啡店，来点别的",
+          "alternatives": [
+            "排除咖啡店，其他餐饮或购物场所均可"
+          ]
+        },
+        "missing": [
+          "target"
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40",
+          "active_task": {
+            "intent": "clarify",
+            "target": {
+              "any_of": [
+                {
+                  "category": "restaurant"
+                },
+                {
+                  "category": "coffee_shop"
+                }
+              ]
+            },
+            "constraints": [
+              {
+                "field": "category",
+                "op": "ne",
+                "value": "coffee_shop",
+                "raw": "不要咖啡店"
+              }
+            ],
+            "ambiguity": {
+              "type": "category_exclusion",
+              "field": "category",
+              "raw": "不要咖啡店，来点别的",
+              "alternatives": [
+                "排除咖啡店，其他餐饮或购物场所均可"
+              ]
+            },
+            "missing": [
+              "target"
+            ]
+          }
+        },
+        "follow_up": "你想找什么类型的地方？",
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"any_of\": [\n      {\n        \"category\": \"restaurant\"\n      },\n      {\n        \"category\": \"coffee_shop\"\n      }\n    ]\n  },\n  \"constraints\": [\n    {\n      \"field\": \"category\",\n      \"op\": \"ne\",\n      \"value\": \"coffee_shop\",\n      \"raw\": \"不要咖啡店\"\n    }\n  ],\n  \"ambiguity\": {\n    \"type\": \"category_exclusion\",\n    \"field\": \"category\",\n    \"raw\": \"不要咖啡店，来点别的\",\n    \"alternatives\": [\n      \"排除咖啡店，其他餐饮或购物场所均可\"\n    ]\n  },\n  \"missing\": [\n    \"target\"\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"你想找什么类型的地方？\"\n}",
+      "status": 200
+    },
+    {
+      "id": 9,
+      "group": "P0 取消",
+      "text": "算了，不找了",
+      "pass": true,
+      "ms": 1401,
+      "fails": [],
+      "result": {
+        "intent": "cancel_search",
+        "dialogue": {
+          "relation": "cancel",
+          "rule_id": "T20"
+        },
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"cancel_search\",\n  \"dialogue\": {\n    \"relation\": \"cancel\",\n    \"rule_id\": \"T20\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 10,
+      "group": "P0 缺失目标",
+      "text": "帮我找一个",
+      "pass": true,
+      "ms": 1,
+      "fails": [],
+      "result": {
+        "intent": "clarify",
+        "ready": false,
+        "missing": [
+          "target"
+        ],
+        "ambiguity": {
+          "type": "missing_target",
+          "field": "target",
+          "raw": "帮我找一个"
+        },
+        "follow_up": "你想找什么地方？",
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40",
+          "active_task": {
+            "intent": "search",
+            "missing": [
+              "target"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "group": "P2 域外",
+      "text": "播放音乐",
+      "pass": true,
+      "ms": 3350,
+      "fails": [],
+      "result": {
+        "intent": "out_of_domain",
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"out_of_domain\",\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 12,
+      "group": "P2 操作类",
+      "text": "打电话给那家店",
+      "pass": false,
+      "ms": 3214,
+      "fails": [
+        "既非 call 也未形成候选引用：{\"intent\":\"clarify\",\"ambiguity\":{\"type\":\"missing_reference\",\"field\":\"candidate\",\"raw\":\"那家店\",\"alternatives\":[]},\"dialogue\":{\"relation\":\"new_task\",\"rule_id\":\"T40\",\"active_task\":{\"intent\":\"clarify\",\"ambiguity\":{\"type\":\"missing_reference\",\"field\":\"candidate\",\"raw\":\"那家店\",\"alternatives\":[]}}},\"follow_up\":\"请问您想给哪家店打电话？请提供店名或从列表中确认。\",\"ready\":false}"
+      ],
+      "result": {
+        "intent": "clarify",
+        "ambiguity": {
+          "type": "missing_reference",
+          "field": "candidate",
+          "raw": "那家店",
+          "alternatives": []
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40",
+          "active_task": {
+            "intent": "clarify",
+            "ambiguity": {
+              "type": "missing_reference",
+              "field": "candidate",
+              "raw": "那家店",
+              "alternatives": []
+            }
+          }
+        },
+        "follow_up": "请问您想给哪家店打电话？请提供店名或从列表中确认。",
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"call\",\n  \"ambiguity\": {\n    \"type\": \"missing_reference\",\n    \"field\": \"candidate\",\n    \"raw\": \"那家店\",\n    \"alternatives\": []\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"请问您想给哪家店打电话？请提供店名或从列表中确认。\"\n}",
+      "status": 200
+    },
+    {
+      "id": 13,
+      "group": "P0 数值归属",
+      "text": "找个充电站，最多绕十分钟",
+      "pass": true,
+      "ms": 2439,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "charger"
+        },
+        "scope": {
+          "type": "nearby"
+        },
+        "constraints": [
+          {
+            "field": "detour_time",
+            "op": "lte",
+            "value": 10,
+            "unit": "min"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"charger\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"detour_time\",\n      \"op\": \"lte\",\n      \"value\": 10,\n      \"unit\": \"min\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 14,
+      "group": "P0 数值归属反例",
+      "text": "找个加油站，最多等十分钟",
+      "pass": true,
+      "ms": 3004,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "gas"
+        },
+        "constraints": [
+          {
+            "field": "wait_time",
+            "op": "lte",
+            "value": 10,
+            "unit": "min"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"gas\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"wait_time\",\n      \"op\": \"lte\",\n      \"value\": 10,\n      \"unit\": \"min\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 15,
+      "group": "P1 数值单位",
+      "text": "找个餐厅，半小时以内能到",
+      "pass": true,
+      "ms": 3453,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "constraints": [
+          {
+            "field": "arrival_time",
+            "op": "lte",
+            "value": 30,
+            "unit": "min"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"arrival_time\",\n      \"op\": \"lte\",\n      \"value\": 30,\n      \"unit\": \"min\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 16,
+      "group": "P1 距离上限",
+      "text": "找个不超过3公里的咖啡店",
+      "pass": true,
+      "ms": 2531,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "nearby"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 3,
+            "unit": "km"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"distance\",\n      \"op\": \"lte\",\n      \"value\": 3,\n      \"unit\": \"km\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 17,
+      "group": "P0 数值下限",
+      "text": "找个评分至少4分的餐厅",
+      "pass": false,
+      "ms": 30003,
+      "fails": [
+        "解析异常：The operation was aborted due to timeout"
+      ],
+      "result": null,
+      "status": 429,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "id": 18,
+      "group": "P1 区间",
+      "text": "找个人均50到100元的火锅",
+      "pass": true,
+      "ms": 2564,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant",
+          "raw": "火锅"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "range",
+            "value": [
+              50,
+              100
+            ],
+            "unit": "CNY",
+            "raw": "50到100元"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\",\n    \"raw\": \"火锅\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"range\",\n      \"value\": [50, 100],\n      \"unit\": \"CNY\",\n      \"raw\": \"50到100元\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 19,
+      "group": "P1 近似数",
+      "text": "找个充电站，绕十来分钟也行",
+      "pass": true,
+      "ms": 3004,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "charger"
+        },
+        "constraints": [
+          {
+            "field": "detour_time",
+            "op": "approx",
+            "value": 10,
+            "unit": "min",
+            "raw": "十来分钟"
+          }
+        ],
+        "ambiguity": {
+          "type": "approximate_value",
+          "field": "detour_time",
+          "raw": "十来分钟"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "result_count": {
+          "type": "approx",
+          "raw": "十来分钟"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"charger\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"detour_time\",\n      \"op\": \"approx\",\n      \"value\": 10,\n      \"unit\": \"min\",\n      \"raw\": \"十来分钟\"\n    }\n  ],\n  \"ambiguity\": {\n    \"type\": \"approximate_value\",\n    \"field\": \"detour_time\",\n    \"raw\": \"十来分钟\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"result_count\": {\n    \"type\": \"approx\",\n    \"raw\": \"十来分钟\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 20,
+      "group": "P1 模糊数量",
+      "text": "找个三五公里左右的咖啡店",
+      "pass": true,
+      "ms": 6083,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "nearby"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "approx_range",
+            "value": [
+              3,
+              5
+            ],
+            "unit": "km",
+            "raw": "三五公里左右"
+          }
+        ],
+        "result_count": {
+          "type": "approx",
+          "raw": "三五公里左右"
+        },
+        "ambiguity": {
+          "type": "ambiguous_quantity",
+          "field": "result_count",
+          "raw": "三五公里左右",
+          "alternatives": [
+            "3-5公里范围内的咖啡店",
+            "3-5家咖啡店"
+          ]
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"distance\",\n      \"op\": \"approx_range\",\n      \"value\": [3, 5],\n      \"unit\": \"km\",\n      \"raw\": \"三五公里左右\"\n    }\n  ],\n  \"result_count\": {\n    \"type\": \"approx\",\n    \"raw\": \"三五公里左右\"\n  },\n  \"ambiguity\": {\n    \"type\": \"ambiguous_quantity\",\n    \"field\": \"result_count\",\n    \"raw\": \"三五公里左右\",\n    \"alternatives\": [\n      \"3-5公里范围内的咖啡店\",\n      \"3-5家咖啡店\"\n    ]\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 21,
+      "group": "P1 否定数值",
+      "text": "找个充电站，不要绕超过5分钟",
+      "pass": true,
+      "ms": 4766,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "charger"
+        },
+        "constraints": [
+          {
+            "field": "detour_time",
+            "op": "lte",
+            "value": 5,
+            "unit": "min",
+            "raw": "不要绕超过5分钟"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"charger\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"detour_time\",\n      \"op\": \"lte\",\n      \"value\": 5,\n      \"unit\": \"min\",\n      \"raw\": \"不要绕超过5分钟\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 22,
+      "group": "P1 时间参照",
+      "text": "找个晚上九点还开着的咖啡店",
+      "pass": true,
+      "ms": 2569,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "constraints": [
+          {
+            "field": "open_at",
+            "op": "gte",
+            "value": 21,
+            "unit": "hour",
+            "raw": "晚上九点"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"open_at\",\n      \"op\": \"gte\",\n      \"value\": 21,\n      \"unit\": \"hour\",\n      \"raw\": \"晚上九点\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 23,
+      "group": "P0 硬条件",
+      "text": "找个必须有洗手间的餐厅",
+      "pass": true,
+      "ms": 3349,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "constraints": [
+          {
+            "field": "restroom",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"restroom\",\n      \"op\": \"eq\",\n      \"value\": true\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 24,
+      "group": "P0 软偏好",
+      "text": "找个最好有洗手间的餐厅",
+      "pass": true,
+      "ms": 1916,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "preferences": [
+          {
+            "field": "restroom",
+            "value": true
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"restroom\",\n      \"value\": true\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 25,
+      "group": "P0 模糊偏好",
+      "text": "找个近一点的餐厅",
+      "pass": true,
+      "ms": 3160,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "nearby"
+        },
+        "preferences": [
+          {
+            "field": "distance",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"distance\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 26,
+      "group": "P0 价格偏好",
+      "text": "找个便宜点的餐厅",
+      "pass": true,
+      "ms": 1957,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "preferences": [
+          {
+            "field": "price",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"price\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 27,
+      "group": "P1 多偏好",
+      "text": "找个又近又便宜最好的餐厅",
+      "pass": true,
+      "ms": 5956,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "preferences": [
+          {
+            "field": "distance",
+            "direction": "lower"
+          },
+          {
+            "field": "price",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"distance\",\n      \"direction\": \"lower\"\n    },\n    {\n      \"field\": \"price\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 28,
+      "group": "P1 任选类别",
+      "text": "咖啡店或便利店都行",
+      "pass": true,
+      "ms": 2709,
+      "fails": [],
+      "result": {
+        "intent": "clarify",
+        "target": {
+          "any_of": [
+            {
+              "category": "coffee_shop"
+            },
+            {
+              "category": "convenience_store"
+            }
+          ]
+        },
+        "ambiguity": {
+          "type": "missing",
+          "field": "scope",
+          "raw": "未指定范围"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40",
+          "active_task": {
+            "intent": "clarify",
+            "target": {
+              "any_of": [
+                {
+                  "category": "coffee_shop"
+                },
+                {
+                  "category": "convenience_store"
+                }
+              ]
+            },
+            "ambiguity": {
+              "type": "missing",
+              "field": "scope",
+              "raw": "未指定范围"
+            }
+          }
+        },
+        "follow_up": "您想在哪个区域或附近寻找？",
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"any_of\": [\n      {\n        \"category\": \"coffee_shop\"\n      },\n      {\n        \"category\": \"convenience_store\"\n      }\n    ]\n  },\n  \"ambiguity\": {\n    \"type\": \"missing\",\n    \"field\": \"scope\",\n    \"raw\": \"未指定范围\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"您想在哪个区域或附近寻找？\"\n}",
+      "status": 200
+    },
+    {
+      "id": 29,
+      "group": "P1 复合条件",
+      "text": "找个必须有停车场、还要现在营业的酒店",
+      "pass": true,
+      "ms": 3815,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "hotel"
+        },
+        "constraints": [
+          {
+            "field": "parking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "field": "open_now",
+            "value": true
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"hotel\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"parking\",\n      \"op\": \"eq\",\n      \"value\": true\n    },\n    {\n      \"field\": \"open_now\",\n      \"value\": true\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": 30,
+      "group": "P1 条件冲突",
+      "text": "找个人均至少100元、最多80元的餐厅",
+      "pass": true,
+      "ms": 5937,
+      "fails": [],
+      "result": {
+        "intent": "clarify",
+        "target": {
+          "category": "restaurant"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "gte",
+            "value": 100,
+            "unit": "CNY",
+            "raw": "至少100元"
+          },
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 80,
+            "unit": "CNY",
+            "raw": "最多80元"
+          }
+        ],
+        "ambiguity": {
+          "type": "conflict",
+          "field": "price_per_person"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40",
+          "active_task": {
+            "intent": "clarify",
+            "target": {
+              "category": "restaurant"
+            },
+            "constraints": [
+              {
+                "field": "price_per_person",
+                "op": "gte",
+                "value": 100,
+                "unit": "CNY",
+                "raw": "至少100元"
+              },
+              {
+                "field": "price_per_person",
+                "op": "lte",
+                "value": 80,
+                "unit": "CNY",
+                "raw": "最多80元"
+              }
+            ],
+            "ambiguity": {
+              "type": "conflict",
+              "field": "price_per_person"
+            }
+          }
+        },
+        "follow_up": "人均预算是100元以上，还是80元以内？",
+        "ready": false
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"gte\",\n      \"value\": 100,\n      \"unit\": \"CNY\",\n      \"raw\": \"至少100元\"\n    },\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"lte\",\n      \"value\": 80,\n      \"unit\": \"CNY\",\n      \"raw\": \"最多80元\"\n    }\n  ],\n  \"ambiguity\": {\n    \"type\": \"conflict\",\n    \"field\": \"price_per_person\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"人均预算是100元以上，还是80元以内？\"\n}",
+      "status": 200
+    },
+    {
+      "id": "M1",
+      "group": "多轮 补充",
+      "text": "再近一点",
+      "pass": true,
+      "ms": 4076,
+      "fails": [],
+      "result": {
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "中山公园"
+        },
+        "preferences": [
+          {
+            "field": "distance",
+            "direction": "lower"
+          }
+        ],
+        "ambiguity": {
+          "type": "relative_adjustment",
+          "field": "distance",
+          "raw": "再近一点"
+        },
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"modify_search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"中山公园\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"distance\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"ambiguity\": {\n    \"type\": \"relative_adjustment\",\n    \"field\": \"distance\",\n    \"raw\": \"再近一点\"\n  },\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": "M2",
+      "group": "多轮 补充",
+      "text": "换成咖啡店",
+      "pass": true,
+      "ms": 2810,
+      "fails": [],
+      "result": {
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "intent": "modify_search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "scope": {
+          "type": "area",
+          "area": "中山公园"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  },\n  \"intent\": \"modify_search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"中山公园\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": "M3",
+      "group": "多轮 补充",
+      "text": "帮我找个加油站",
+      "pass": false,
+      "ms": 2750,
+      "fails": [
+        "scope.area 应清除，实际 中山公园"
+      ],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "gas"
+        },
+        "scope": {
+          "type": "area",
+          "area": "中山公园"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T30"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"gas\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"中山公园\"\n  },\n  \"ambiguity\": {\n    \"type\": \"missing\",\n    \"field\": \"ranking_basis\",\n    \"raw\": \"帮我找个加油站\"\n  },\n  \"follow_up\": \"你更看重评分，还是人气？\",\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T30\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": "M4",
+      "group": "多轮 澄清应答",
+      "text": "按评分",
+      "pass": true,
+      "ms": 2523,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "中山公园"
+        },
+        "preferences": [
+          {
+            "field": "rating",
+            "direction": "higher"
+          }
+        ],
+        "preference_order": [
+          "rating"
+        ],
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T50"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"中山公园\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"rating\",\n      \"direction\": \"higher\"\n    }\n  ],\n  \"preference_order\": [\n    \"rating\"\n  ],\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T50\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": "M5",
+      "group": "多轮 候选选择",
+      "text": "就第二家",
+      "pass": true,
+      "ms": 2398,
+      "fails": [],
+      "result": {
+        "intent": "select",
+        "target": {
+          "reference": {
+            "ordinal": 2,
+            "candidate_id": "a2",
+            "list_version": "v1"
+          }
+        },
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"select\",\n  \"target\": {\n    \"reference\": {\n      \"ordinal\": 2,\n      \"candidate_id\": \"a2\",\n      \"list_version\": \"v1\"\n    }\n  },\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": "M6",
+      "group": "多轮 同句改口",
+      "text": "找餐厅，不，找咖啡店",
+      "pass": true,
+      "ms": 2047,
+      "fails": [],
+      "result": {
+        "intent": "search",
+        "target": {
+          "category": "coffee_shop"
+        },
+        "ambiguity": {
+          "type": "correction",
+          "raw": "找餐厅，不，找咖啡店"
+        },
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"ambiguity\": {\n    \"type\": \"correction\",\n    \"raw\": \"找餐厅，不，找咖啡店\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "status": 200
+    },
+    {
+      "id": "M7",
+      "group": "多轮 删除条件",
+      "text": "不用管价格了",
+      "pass": true,
+      "ms": 3726,
+      "fails": [],
+      "result": {
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "constraints": [],
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  },\n  \"intent\": \"modify_search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"constraints\": []\n}",
+      "status": 200
+    },
+    {
+      "id": "M8",
+      "group": "P2 多目标",
+      "text": "先去加油站，再去咖啡店",
+      "pass": true,
+      "ms": 2964,
+      "fails": [],
+      "result": {
+        "intent": "multi_task",
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "tasks": [
+          {
+            "intent": "search",
+            "target": {
+              "category": "gas"
+            },
+            "scope": {
+              "type": "nearby"
+            }
+          },
+          {
+            "intent": "search",
+            "target": {
+              "category": "coffee_shop"
+            },
+            "scope": {
+              "type": "nearby"
+            }
+          }
+        ],
+        "ready": true
+      },
+      "rawAnswer": "{\n  \"intent\": \"multi_task\",\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"tasks\": [\n    {\n      \"intent\": \"search\",\n      \"target\": {\n        \"category\": \"gas\"\n      },\n      \"scope\": {\n        \"type\": \"nearby\"\n      }\n    },\n    {\n      \"intent\": \"search\",\n      \"target\": {\n        \"category\": \"coffee_shop\"\n      },\n      \"scope\": {\n        \"type\": \"nearby\"\n      }\n    }\n  ]\n}",
+      "status": 200
+    }
+  ]
+}
