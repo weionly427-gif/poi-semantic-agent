@@ -3,6 +3,21 @@ import {randomUUID} from 'node:crypto';
 
 const labels = new Map(JSON.parse(readFileSync(new URL('../rules/kinds.json', import.meta.url))).items.map(item => [item.key, item.label.split('/')[0]]));
 const distanceValue = value => (typeof value === 'number' || (typeof value === 'string' && value.trim())) && Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : null;
+const priceTests = {
+  gte: (cost, bound) => cost >= bound,
+  gt: (cost, bound) => cost > bound,
+  lte: (cost, bound) => cost <= bound,
+  lt: (cost, bound) => cost < bound,
+  eq: (cost, bound) => cost === bound
+};
+function priceFilter(condition) {
+  if (condition.field !== 'price_per_person' || !Object.hasOwn(priceTests, condition.op) ||
+      !Number.isFinite(condition.value) || (condition.unit && condition.unit !== 'CNY')) return null;
+  return poi => {
+    const cost = distanceValue(poi.business?.cost);
+    return cost !== null && priceTests[condition.op](cost, condition.value);
+  };
+}
 export async function homeSearch(frame, home, fetcher = fetch, key = process.env.AMAP_WEB_KEY) {
   const empty = message => ({message, places: []});
   if (!frame.ready || !['search', 'modify_search','list'].includes(frame.intent)) return empty('');
@@ -21,7 +36,22 @@ export async function homeSearch(frame, home, fetcher = fetch, key = process.env
   if (maxDistance !== null && !anchor) return empty('请指定搜索中心地标，才能按距离范围查找。');
   if (maxDistance > 50000) return empty('周边查询暂支持50公里以内的距离上限，请缩小范围。');
   const radius = maxDistance === null ? 3000 : Math.ceil(maxDistance);
-  const remainingConstraints = (frame.constraints || []).filter(c => !distanceLimits.includes(c));
+  const filters = [];
+  const remainingConstraints = [];
+  let requiresMichelinEvidence = false;
+  for (const condition of frame.constraints || []) {
+    if (distanceLimits.includes(condition)) continue;
+    let filter = priceFilter(condition);
+    const alternatives = condition.any_of;
+    if (alternatives?.length === 2 && alternatives.some(c => c.field === 'michelin' && c.op === 'eq' && c.value === true)) {
+      const price = alternatives.find(c => c.field === 'price_per_person');
+      if (price) filter = priceFilter(price);
+      // The current map response supplies no verified Michelin membership.
+      if (filter) requiresMichelinEvidence = true;
+    }
+    if (filter) filters.push(filter);
+    else remainingConstraints.push(condition);
+  }
   async function query(path, params) {
     const url = new URL('https://restapi.amap.com/v5/place/' + path);
     url.search = new URLSearchParams({key, ...(path === 'text' ? {region:city, city_limit:'true'} : {}), ...params});
@@ -40,8 +70,6 @@ export async function homeSearch(frame, home, fetcher = fetch, key = process.env
       if (!center?.location) return empty('在' + city + '未找到地标“' + anchor + '”。');
     }
     const limit = Math.min(10, frame.result_count?.value || 5);
-    const result = await query(center ? 'around' : 'text', {keywords, show_fields:"business,children", page_size:String(limit), ...(center ? {location:center.location, radius:String(radius), sortrule:'weight'} : {})});
-    if (result.error) return empty(result.error);
     const version = randomUUID();
     const inRange = p => {
       if (!center) return true;
@@ -49,7 +77,20 @@ export async function homeSearch(frame, home, fetcher = fetch, key = process.env
       if (distance === null) return maxDistance === null;
       return distance <= radius && distanceLimits.every(c => c.op === 'lt' ? distance < c.value * (c.unit === 'km' ? 1000 : 1) : distance <= c.value * (c.unit === 'km' ? 1000 : 1));
     };
-    const places = result.pois.filter(p => p.id && p.name && inRange(p)).slice(0,limit).map((p,i) => ({
+    const candidates = new Map();
+    const pageSize = filters.length ? 25 : limit;
+    for (let page = 1; page <= (filters.length ? 3 : 1); page++) {
+      const result = await query(center ? 'around' : 'text', {
+        keywords, show_fields:'business,children', page_size:String(pageSize), page_num:String(page),
+        ...(center ? {location:center.location, radius:String(radius), sortrule:'weight'} : {})
+      });
+      if (result.error) return empty(result.error);
+      for (const poi of result.pois) {
+        if (poi.id && poi.name && inRange(poi) && filters.every(filter => filter(poi))) candidates.set(poi.id, poi);
+      }
+      if (candidates.size >= limit || result.pois.length < pageSize) break;
+    }
+    const places = [...candidates.values()].slice(0,limit).map((p,i) => ({
       candidate_id:p.id, list_version:version, ordinal:i+1, name:p.name,
       address:[p.cityname,p.adname,p.address].filter(s=>typeof s==='string').join(''),
       category:typeof p.type==='string' ? p.type.split(';').pop() : '',
@@ -63,6 +104,6 @@ export async function homeSearch(frame, home, fetcher = fetch, key = process.env
     }));
     const rangeLabel = radius >= 1000 ? radius / 1000 + ' 公里' : radius + ' 米';
     const area = center ? city + ' · ' + center.name + '周边 ' + rangeLabel : city;
-    return {places, message:area + (places.length ? ' · 高德综合排序' : ' · 未找到匹配地点') + (places.length && (remainingConstraints.length || frame.preferences?.length) ? '；附加条件尚未核验' : '')};
+    return {places, message:area + (places.length ? ' · 高德综合排序' : (filters.length ? ' · 本次候选中没有可确认符合价格条件的地点' : ' · 未找到匹配地点')) + (requiresMichelinEvidence ? '；无米其林身份数据，仅按人均价格核验' : '') + (places.length && (remainingConstraints.length || frame.preferences?.length) ? '；附加条件尚未核验' : '')};
   } catch { return empty('暂时无法连接高德，请稍后重试。'); }
 }

@@ -25,6 +25,7 @@ scope 额外支持 city_ref="current_city" 或 city=显式城市。默认本城�
 target 支持 category,brand,name,raw,any_of,reference。reference 可含 ordinal(从1开始),label,candidate_id,list_version。只在用户输入上下文提供的候选列表中绑定真实ID，缺列表仅保留引用。
 scope 支持 type (nearby,along_route,destination,area,route_event),area,event,relation。只记录用户表达，不补车况或默认范围。
 距离数值只能放在 constraints 或 preferences 的条件中，不能放在 scope。scope 禁止 distance、radius、unit 等额外字段。例如“找静安寺附近500米以内的咖啡厅”应包含 target={"category":"coffee_shop"},scope={"type":"area","area":"静安寺"},constraints=[{"field":"distance","op":"lte","value":500,"unit":"m"}]。200米、300米及其他距离使用同一字段结构；“以内”使用 lte。
+人均价格的“以上”和“以下”均含本数，分别用 gte 和 lte；“超过”和“低于”分别用 gt 和 lt。例如“人均100元以下”用 price_per_person lte 100 CNY。
 constraints 与 preferences 为条件数组。每项有 field，可有 op,value,unit,raw,direction,reference；op 枚举 ${operators.join(', ')}。组合条件用 {"any_of":[条件,...]} 或 {"all_of":[条件,...]}。range 用二元素数组，模糊词保留raw。prefer方向用lower或higher。用户排序才给 preference_order 字段名数组。
 ambiguity 是 {type,field?,raw?,alternatives?}。tasks 是明确多个目标时的有序语义对象数组。
 类型、品牌和意图分别识别。未明确顺序的两个偏好均保留。仅输出语义，不输出解释、路线或搜索结果。
