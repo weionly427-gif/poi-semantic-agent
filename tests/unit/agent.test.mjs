@@ -6,6 +6,21 @@ const result = value => ({dialogue:{relation:'new_task',rule_id:'T40'},...value}
 const previous={intent:'search',target:{category:'restaurant'},scope:{type:'area',area:'中山公园'}};
 
 test('兼容旧版历史 JSON',()=>validate(previous));
+test('距离写入scope时指出具体非法字段，重试保留距离条件',async()=>{
+  const invalid=result({intent:'search',target:{category:'coffee_shop'},scope:{type:'nearby',area:'静安寺',distance:500,unit:'m'}});
+  assert.throws(()=>validate(invalid),/scope\.distance、scope\.unit/);
+  let calls=0;
+  const frame=await parse('找静安寺附近500米以内的咖啡厅。',{key:'test',fetcher:async(url,options)=>{
+    const messages=JSON.parse(options.body).messages;
+    if(calls++===0)return wrap(invalid);
+    assert.ok(messages.at(-1).content.includes('scope.distance'));
+    assert.ok(messages.at(-1).content.includes('不可丢失距离要求'));
+    return wrap(result({intent:'search',target:{category:'coffee_shop'},scope:{type:'area',area:'静安寺'},constraints:[{field:'distance',op:'lte',value:500,unit:'m'}]}));
+  }});
+  assert.equal(calls,2);
+  assert.deepEqual(frame.constraints,[{field:'distance',op:'lte',value:500,unit:'m'}]);
+  assert.equal(frame.ready,true);
+});
 test('拒绝非法条件运算符',()=>assert.throws(()=>validate({intent:'search',constraints:[{field:'price',op:'invalid',value:1}]})));
 test('缺少任务关系时修复一次',async()=>{
   let calls=0;

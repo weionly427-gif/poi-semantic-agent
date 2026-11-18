@@ -1,0 +1,231 @@
+{
+  "results": [
+    {
+      "text": "找静安寺附近200米以内的咖啡厅。",
+      "expected_radius_m": 200,
+      "tested_at": "2026-11-17T09:23:31.486Z",
+      "status": 502,
+      "content_type": "application/json; charset=utf-8",
+      "result": {
+        "error": "模型输出无效：语义 JSON 未通过字段校验"
+      }
+    },
+    {
+      "text": "找静安寺附近500米以内的咖啡厅。",
+      "expected_radius_m": 500,
+      "tested_at": "2026-11-17T09:23:39.670Z",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "result": {
+        "frame": {
+          "intent": "search",
+          "target": {
+            "category": "coffee_shop"
+          },
+          "scope": {
+            "type": "nearby",
+            "area": "静安寺",
+            "relation": "within"
+          },
+          "constraints": [
+            {
+              "field": "distance",
+              "op": "lte",
+              "value": 500,
+              "unit": "m"
+            }
+          ],
+          "dialogue": {
+            "relation": "new_task",
+            "rule_id": "T40"
+          },
+          "ready": true
+        },
+        "search": {
+          "places": [
+            {
+              "candidate_id": "B0JK3HBADP",
+              "list_version": "86dadc9a-da22-4da5-a41a-9b609a680e9c",
+              "ordinal": 1,
+              "name": "蜜雪冰城(静安寺店)",
+              "address": "上海市静安区静安寺街道南京西路1678弄27号",
+              "category": "冷饮店",
+              "rating": "4.2",
+              "hours": "09:00-24:00",
+              "cost": "13.00",
+              "phone": "13335606781;18521075450",
+              "facilities": [],
+              "distance": 30
+            },
+            {
+              "candidate_id": "B0FFLAYZI2",
+              "list_version": "86dadc9a-da22-4da5-a41a-9b609a680e9c",
+              "ordinal": 2,
+              "name": "Peet's皮爷咖啡(愚园路店)",
+              "address": "上海市静安区愚园路108号",
+              "category": "咖啡厅",
+              "rating": "4.6",
+              "hours": "07:30-22:00",
+              "cost": "39.00",
+              "phone": "13524620080",
+              "facilities": [],
+              "distance": 147
+            },
+            {
+              "candidate_id": "B0FFHG0FTN",
+              "list_version": "86dadc9a-da22-4da5-a41a-9b609a680e9c",
+              "ordinal": 3,
+              "name": "星巴克(1788广场店)",
+              "address": "上海市静安区南京西路1818号1788广场L1层F1-9(东北门附近)",
+              "category": "星巴克咖啡",
+              "rating": "4.4",
+              "hours": "06:30-22:00",
+              "cost": "30.00",
+              "phone": "021-54352313",
+              "facilities": [],
+              "distance": 175
+            },
+            {
+              "candidate_id": "B0IGNCA2RB",
+              "list_version": "86dadc9a-da22-4da5-a41a-9b609a680e9c",
+              "ordinal": 4,
+              "name": "Blue Bottle Coffee蓝瓶咖啡(静安嘉里中心店)",
+              "address": "上海市静安区南京西路1515号静安嘉里中心北区商场L1层N1-12",
+              "category": "咖啡厅",
+              "rating": "4.7",
+              "hours": "08:00-22:00",
+              "cost": "53.00",
+              "phone": "021-60718617",
+              "facilities": [],
+              "distance": 439
+            },
+            {
+              "candidate_id": "B0FFGFYYZ0",
+              "list_version": "86dadc9a-da22-4da5-a41a-9b609a680e9c",
+              "ordinal": 5,
+              "name": "看得到风景的咖啡馆(静安店)",
+              "address": "上海市静安区华山路2号高和大厦7楼初创空间",
+              "category": "咖啡厅",
+              "rating": "4.6",
+              "hours": "11:00-02:00",
+              "cost": "78.00",
+              "phone": "13636305977",
+              "facilities": [],
+              "distance": 104
+            }
+          ],
+          "message": "上海 · 静安寺周边 500 米 · 高德综合排序"
+        }
+      }
+    },
+    {
+      "text": "找静安寺附近500米以内的咖啡厅。",
+      "expected_radius_m": 500,
+      "tested_at": "2026-11-17T09:23:46.903Z",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "result": {
+        "frame": {
+          "intent": "search",
+          "target": {
+            "category": "coffee_shop"
+          },
+          "scope": {
+            "type": "nearby",
+            "area": "静安寺",
+            "relation": "within"
+          },
+          "constraints": [
+            {
+              "field": "distance",
+              "op": "lte",
+              "value": 500,
+              "unit": "m",
+              "raw": "500米以内"
+            }
+          ],
+          "dialogue": {
+            "relation": "new_task",
+            "rule_id": "T40"
+          },
+          "ready": true
+        },
+        "search": {
+          "places": [
+            {
+              "candidate_id": "B0JK3HBADP",
+              "list_version": "e5daa151-6c60-4227-bcd2-6f90c7e0816a",
+              "ordinal": 1,
+              "name": "蜜雪冰城(静安寺店)",
+              "address": "上海市静安区静安寺街道南京西路1678弄27号",
+              "category": "冷饮店",
+              "rating": "4.2",
+              "hours": "09:00-24:00",
+              "cost": "13.00",
+              "phone": "13335606781;18521075450",
+              "facilities": [],
+              "distance": 30
+            },
+            {
+              "candidate_id": "B0FFLAYZI2",
+              "list_version": "e5daa151-6c60-4227-bcd2-6f90c7e0816a",
+              "ordinal": 2,
+              "name": "Peet's皮爷咖啡(愚园路店)",
+              "address": "上海市静安区愚园路108号",
+              "category": "咖啡厅",
+              "rating": "4.6",
+              "hours": "07:30-22:00",
+              "cost": "39.00",
+              "phone": "13524620080",
+              "facilities": [],
+              "distance": 147
+            },
+            {
+              "candidate_id": "B0FFHG0FTN",
+              "list_version": "e5daa151-6c60-4227-bcd2-6f90c7e0816a",
+              "ordinal": 3,
+              "name": "星巴克(1788广场店)",
+              "address": "上海市静安区南京西路1818号1788广场L1层F1-9(东北门附近)",
+              "category": "星巴克咖啡",
+              "rating": "4.4",
+              "hours": "06:30-22:00",
+              "cost": "30.00",
+              "phone": "021-54352313",
+              "facilities": [],
+              "distance": 175
+            },
+            {
+              "candidate_id": "B0IGNCA2RB",
+              "list_version": "e5daa151-6c60-4227-bcd2-6f90c7e0816a",
+              "ordinal": 4,
+              "name": "Blue Bottle Coffee蓝瓶咖啡(静安嘉里中心店)",
+              "address": "上海市静安区南京西路1515号静安嘉里中心北区商场L1层N1-12",
+              "category": "咖啡厅",
+              "rating": "4.7",
+              "hours": "08:00-22:00",
+              "cost": "53.00",
+              "phone": "021-60718617",
+              "facilities": [],
+              "distance": 439
+            },
+            {
+              "candidate_id": "B0FFGFYYZ0",
+              "list_version": "e5daa151-6c60-4227-bcd2-6f90c7e0816a",
+              "ordinal": 5,
+              "name": "看得到风景的咖啡馆(静安店)",
+              "address": "上海市静安区华山路2号高和大厦7楼初创空间",
+              "category": "咖啡厅",
+              "rating": "4.6",
+              "hours": "11:00-02:00",
+              "cost": "78.00",
+              "phone": "13636305977",
+              "facilities": [],
+              "distance": 104
+            }
+          ],
+          "message": "上海 · 静安寺周边 500 米 · 高德综合排序"
+        }
+      }
+    }
+  ]
+}

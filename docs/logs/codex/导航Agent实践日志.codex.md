@@ -186,169 +186,350 @@
 
 **最后复测 A4**　换到徐家汇时，中心应改变，同时保留上一轮的 2000 米上限。
 
-### B 组｜价格和距离
+### B 组｜价格下限、价格上限与高档语义
 
-检查预算上限、低价偏好，以及取消预算后能否改按距离排序。
+当前验收采用用户指定的三个独立首轮 case；每条 previous=null、candidates=[]，不构成追问。复测时间：2026-11-17（北京时间）。模型原始输出由本地规则直接调用模型采集，校验后frame发给Render /search，使用服务器高德配置。原始模型与Render检索均HTTP 200。完整证据：`tests/codex/results/eval-b-independent-2026-11-17T10-18-10-492Z.json`。未修改业务代码或规则。旧连续追问记录移至文末历史区。
 
-#### B1　找静安寺附近的餐厅，人均不超过80元。
-
-**① 用户要什么（验收标准）**
-
-- 指令原话　找静安寺附近的餐厅，人均不超过80元。
-- 首轮上下文　新对话，无历史或候选
-- 复测上下文　新对话，无历史或候选
-- 本轮验收　硬条件人均≤80元；静安寺附近。静安寺附近餐厅，人均不超过80元，含80元。
-
-**② 系统听懂了吗（中间结果）**
-
-- 理解判断　识别出人均上限 80 元，包含 80 元。
-- 模型原始 JSON　未采集。
-- 首轮校验后 frame　原样见下方测试证据。关键字段：`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}]}`
-- 首轮检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
-- 复测校验后 frame　原样见下方测试证据。关键字段：`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}]}`
-- 复测检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
-
-**③ 实际返回了什么、做到了吗（事实与差距）**
-
-- 高德原始响应　未单独采集；以下数量为应用返回数量。
-- 首轮应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
-- 复测应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
-- 关键事实　五家分别为 **85、123、110、93、65 元**，只有最后一家符合。价格筛选未做到。
-- **逐项验收**　上限识别通过；价格筛选未通过
-- **定位与编号**　检索结果过滤 B4
-
-<details>
-<summary>查看本条测试证据（首轮及已有复测）</summary>
-
-80 元上限识别正确，5 条中 4 条超限（85、123、110、93 元）。
-
-- 首轮语义　`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`
-- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
-
-- 整组复测语义　`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`
-- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
-
-</details>
-
-#### B2　最好便宜点。
+#### B1　静安寺人均200元以上餐厅
 
 **① 用户要什么（验收标准）**
 
-- 指令原话　最好便宜点。
-- 首轮上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
-- 复测上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
-- 本轮验收　硬条件沿用80元；偏好低价。保留80元上限，同等条件下便宜的优先。
+- 指令原话　静安寺人均200元以上餐厅
+- 上下文　独立首轮，无历史、无候选。
+- 本轮验收　静安寺的餐厅，人均至少200元，即 ≥200元，包含200元。这是价格下限，不是预算上限；低于200元的候选不符合要求。
 
 **② 系统听懂了吗（中间结果）**
 
-- 理解判断　首轮连接中断，复测返回 502，两次均未取得解析结果。
-- 模型原始 JSON　未采集。
-- 首轮校验后 frame　未返回，无法判断模型原意。
-- 首轮检索请求　未进入检索
-- 复测校验后 frame　未返回，无法判断模型原意。
-- 复测检索请求　未进入检索
+原始 JSON 正确提取 price_per_person / gte / 200 / CNY；gte 表示大于或等于。校验后仅增加 ready:true。模型正确识别了价格下限，没有把200元以上理解成200元以下。
 
-**③ 实际返回了什么、做到了吗（事实与差距）**
+模型原始 JSON（校验前 message.content 原文）：
 
-- 高德原始响应　不适用，本轮未执行检索。
-- 首轮应用返回　The SSL connection could not be established, see inner exception.
-- 复测应用返回　Response status code does not indicate success: 502 (Bad Gateway).
-- 关键事实　没有取得按价格排序的候选，无法验证。
-- **逐项验收**　解析未通过；低价排序证据不足
-- **定位与编号**　首轮传输中断，复测解析失败；待定位
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "gte",
+      "value": 200,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  }
+}
+```
 
 <details>
-<summary>查看本条测试证据（首轮及已有复测）</summary>
+<summary>校验后 frame 与本地检索请求映射</summary>
 
-首轮连接中断，未取得低价排序的首轮证据。复测返回 502，低价排序仍未验证。
+```json
+{
+  "frame": {
+    "intent": "search",
+    "target": {
+      "category": "restaurant"
+    },
+    "scope": {
+      "type": "area",
+      "area": "静安寺"
+    },
+    "constraints": [
+      {
+        "field": "price_per_person",
+        "op": "gte",
+        "value": 200,
+        "unit": "CNY"
+      }
+    ],
+    "dialogue": {
+      "relation": "new_task",
+      "rule_id": "T40"
+    },
+    "ready": true
+  },
+  "fixture_requests": [
+    {
+      "path": "/v5/place/text",
+      "params": {
+        "region": "上海",
+        "city_limit": "true",
+        "keywords": "静安寺",
+        "page_size": "1"
+      }
+    },
+    {
+      "path": "/v5/place/around",
+      "params": {
+        "keywords": "餐厅",
+        "show_fields": "business,children",
+        "page_size": "5",
+        "location": "121.445,31.223",
+        "radius": "3000",
+        "sortrule": "weight"
+      }
+    }
+  ]
+}
+```
 
-- 首轮语义　未返回
-- 请求错误　The SSL connection could not be established, see inner exception. Received an unexpected EOF or 0 bytes from the transport stream.
-
-- 整组复测语义　未返回
-- 请求错误　Response status code does not indicate success: 502 (Bad Gateway).  { "error": "The operation was aborted due to timeout" }
+这里的请求来自本地固定响应回放；Render到高德的原始请求未采集。
 
 </details>
 
-#### B3　预算放宽到120元。
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+返回5家，人均依次85、123、110、93、65元，全部低于200元，0/5满足价格下限。这表示系统没有执行≥200元筛选，不表示静安寺没有200元以上的餐厅。定位：src/home-search.mjs 价格下限未核验；本地固定响应回放同样保留低价候选。语义通过，检索不通过。
+
+实际应用返回：
+
+| 餐厅 | 人均（元） |
+|---|---:|
+| 龙记香港茶餐厅(久光百货店) | 85.00 |
+| 浩海火烧云傣家菜(静安芮欧店) | 123.00 |
+| 毛头老爹饭店(静安寺店) | 110.00 |
+| COMMUNEMAISON幻师(芮欧百货店) | 93.00 |
+| 新白鹿餐厅(静安CP店) | 65.00 |
+
+#### B2　静安寺人均100元以下餐厅
 
 **① 用户要什么（验收标准）**
 
-- 指令原话　预算放宽到120元。
-- 首轮上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
-- 复测上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
-- 本轮验收　硬条件改为≤120元。把原价格上限改成120元。
+- 指令原话　静安寺人均100元以下餐厅
+- 上下文　独立首轮，无历史、无候选。
+- 本轮验收　静安寺的餐厅，人均≤100元；本轮按“以下含本数”验收，不含糊改为严格小于。
 
 **② 系统听懂了吗（中间结果）**
 
-- 理解判断　首轮连接中断；复测把上限正确改为 120 元。
-- 模型原始 JSON　未采集。
-- 首轮校验后 frame　未返回，无法判断模型原意。
-- 首轮检索请求　未进入检索
-- 复测校验后 frame　原样见下方测试证据。关键字段：`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":120,"unit":"CNY","raw":"预算放宽到120元"}]}`
-- 复测检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+原始 JSON 为 price_per_person / lt / 100 / CNY，实际是严格小于100元；按本轮≤100元验收，边界有偏差。校验后仅增加 ready:true，src没有把lte改为lt。现有rules未明确统一以上/以下边界，需补规则和含等值样例。
 
-**③ 实际返回了什么、做到了吗（事实与差距）**
+模型原始 JSON（校验前 message.content 原文）：
 
-- 高德原始响应　未单独采集；以下数量为应用返回数量。
-- 首轮应用返回　The SSL connection could not be established, see inner exception.
-- 复测应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
-- 关键事实　复测仍返回一家 123 元的餐厅。新上限未落实。
-- **逐项验收**　复测上限替换通过；过滤未通过
-- **定位与编号**　检索结果过滤 B4
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lt",
+      "value": 100,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  }
+}
+```
 
 <details>
-<summary>查看本条测试证据（首轮及已有复测）</summary>
+<summary>校验后 frame 与本地检索请求映射</summary>
 
-首轮连接中断，未取得放宽价格的首轮证据。复测正确改成 120 元，但返回了 123 元的店。
+```json
+{
+  "frame": {
+    "intent": "search",
+    "target": {
+      "category": "restaurant"
+    },
+    "scope": {
+      "type": "area",
+      "area": "静安寺"
+    },
+    "constraints": [
+      {
+        "field": "price_per_person",
+        "op": "lt",
+        "value": 100,
+        "unit": "CNY"
+      }
+    ],
+    "dialogue": {
+      "relation": "new_task",
+      "rule_id": "T40"
+    },
+    "ready": true
+  },
+  "fixture_requests": [
+    {
+      "path": "/v5/place/text",
+      "params": {
+        "region": "上海",
+        "city_limit": "true",
+        "keywords": "静安寺",
+        "page_size": "1"
+      }
+    },
+    {
+      "path": "/v5/place/around",
+      "params": {
+        "keywords": "餐厅",
+        "show_fields": "business,children",
+        "page_size": "5",
+        "location": "121.445,31.223",
+        "radius": "3000",
+        "sortrule": "weight"
+      }
+    }
+  ]
+}
+```
 
-- 首轮语义　未返回
-- 请求错误　The SSL connection could not be established, see inner exception. Received an unexpected EOF or 0 bytes from the transport stream.
-
-- 整组复测语义　`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":120,"unit":"CNY","raw":"预算放宽到120元"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`
-- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
+这里的请求来自本地固定响应回放；Render到高德的原始请求未采集。
 
 </details>
 
-#### B4　不用管价格了，找近一点的。
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+返回5家，人均85、123、110、93、65元，其中123、110元超出100元，3/5满足本轮预算。线上没有恰好100元候选，不能用线上列表证明等值边界正确。定位：规则/模型的lt与lte边界偏差，以及src/home-search.mjs价格上限未过滤，是两个独立问题。
+
+实际应用返回：
+
+| 餐厅 | 人均（元） |
+|---|---:|
+| 龙记香港茶餐厅(久光百货店) | 85.00 |
+| 浩海火烧云傣家菜(静安芮欧店) | 123.00 |
+| 毛头老爹饭店(静安寺店) | 110.00 |
+| COMMUNEMAISON幻师(芮欧百货店) | 93.00 |
+| 新白鹿餐厅(静安CP店) | 65.00 |
+
+#### B3　静安寺高档餐厅
 
 **① 用户要什么（验收标准）**
 
-- 指令原话　不用管价格了，找近一点的。
-- 首轮上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
-- 复测上下文　沿用 B3 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
-- 本轮验收　取消价格硬条件；偏好距离近；本次验收按距离升序。继续找静安寺附近的餐厅，取消价格限制，按距离从近到远排列。
+- 指令原话　静安寺高档餐厅
+- 上下文　独立首轮，无历史、无候选。
+- 本轮验收　静安寺的高档餐厅。保留档次要求，不擅自编造人均金额；不能把“高档”直接等同于“评分高”或“人气高”。
 
 **② 系统听懂了吗（中间结果）**
 
-- 理解判断　删除价格条件，改为距离近优先。
-- 模型原始 JSON　未采集。
-- 首轮校验后 frame　原样见下方测试证据。关键字段：`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}]}`
-- 首轮检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
-- 复测校验后 frame　原样见下方测试证据。关键字段：`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}]}`
-- 复测检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+原始 JSON 保留 target.raw=高档餐厅、price_level higher，并未编造金额；但同时输出 ranking_basis 歧义和“你更看重评分，还是人气？”反问。src/agent.mjs 清除无排名触发词情况下的该反问与歧义，最终ready=true。原始模型理解只能判部分通过，不能因为最终frame可执行就判全通过。
+
+模型原始 JSON（校验前 message.content 原文）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant",
+    "raw": "高档餐厅"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "preferences": [
+    {
+      "field": "price_level",
+      "direction": "higher",
+      "raw": "高档"
+    }
+  ],
+  "ambiguity": {
+    "type": "ranking_basis",
+    "field": "ranking_basis",
+    "raw": "高档",
+    "alternatives": [
+      "价格",
+      "评分",
+      "人气"
+    ]
+  },
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "follow_up": "你更看重评分，还是人气？"
+}
+```
+
+<details>
+<summary>校验后 frame 与本地检索请求映射</summary>
+
+```json
+{
+  "frame": {
+    "intent": "search",
+    "target": {
+      "category": "restaurant",
+      "raw": "高档餐厅"
+    },
+    "scope": {
+      "type": "area",
+      "area": "静安寺"
+    },
+    "preferences": [
+      {
+        "field": "price_level",
+        "direction": "higher",
+        "raw": "高档"
+      }
+    ],
+    "dialogue": {
+      "relation": "new_task",
+      "rule_id": "T40"
+    },
+    "ready": true
+  },
+  "fixture_requests": [
+    {
+      "path": "/v5/place/text",
+      "params": {
+        "region": "上海",
+        "city_limit": "true",
+        "keywords": "静安寺",
+        "page_size": "1"
+      }
+    },
+    {
+      "path": "/v5/place/around",
+      "params": {
+        "keywords": "餐厅",
+        "show_fields": "business,children",
+        "page_size": "5",
+        "location": "121.445,31.223",
+        "radius": "3000",
+        "sortrule": "weight"
+      }
+    }
+  ]
+}
+```
+
+这里的请求来自本地固定响应回放；Render到高德的原始请求未采集。
+
+</details>
 
 **③ 实际返回了什么、做到了吗（事实与差距）**
 
-- 高德原始响应　未单独采集；以下数量为应用返回数量。
-- 首轮应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
-- 复测应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
-- 关键事实　返回顺序为 78、206、148、212、245 米，近店没有优先。B2 中断，整段连续修改未完整验证。
-- **逐项验收**　取消预算通过；距离排序未通过
-- **定位与编号**　检索结果排序 B7
+返回与前两条相同的5家。不能仅根据这些价格断言各店不高档；可确认的是本地请求仅使用“餐厅”，未使用“高档餐厅”，也未执行price_level偏好。定位：模型原始输出多余反问属于语义规则执行问题；src检索没有落实高档要求，尚不能声称筛出了高档餐厅。
 
-<details>
-<summary>查看本条测试证据（首轮及已有复测）</summary>
+实际应用返回：
 
-首轮清除价格并识别距离偏好；返回距离 78、206、148、212、245 米，没有按近到远排列。前两轮中断影响连续性。
-
-- 首轮语义　`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`
-- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
-
-- 整组复测语义　`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`
-- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
-
-</details>
+| 餐厅 | 人均（元） |
+|---|---:|
+| 龙记香港茶餐厅(久光百货店) | 85.00 |
+| 浩海火烧云傣家菜(静安芮欧店) | 123.00 |
+| 毛头老爹饭店(静安寺店) | 110.00 |
+| COMMUNEMAISON幻师(芮欧百货店) | 93.00 |
+| 新白鹿餐厅(静安CP店) | 65.00 |
 
 ### C 组｜评分和停车
 
@@ -1529,3 +1710,1074 @@
 - 下一步：部署本地修复后再进行真实高德检索验收；本次未部署。
 
 证据：tests/codex/results/eval-a-radius-online-2026-11-17T09-10-00-972Z.json；tests/codex/results/eval-a-radius-replay-result.json。
+
+
+## 第二轮测试｜第三次复测｜2026-11-17｜用户更新部署后线上验收
+
+入口：https://poi-semantic-agent.onrender.com。三个case分别独立请求，不传历史。
+
+### R2-01｜200米
+
+**① 用户要什么（验收标准）**
+
+- 原话：找静安寺附近200米以内的咖啡厅。；城市上海、地标静安寺。
+- 类别咖啡厅，距离硬上限≤200米，摘要显示对应范围，结果不得越界；未指定排序。
+
+**② 系统听懂了吗（中间结果）**
+
+- /parse HTTP 200。距离、类别、地标识别正确。
+- 本次接口未返回模型原始JSON；已保存校验后frame：`{"intent":"search","target":{"category":"coffee_shop"},"scope":{"type":"nearby","area":"静安寺","relation":"within"},"constraints":[{"field":"distance","op":"lte","value":200,"unit":"m","raw":"200米以内"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`。
+- 线上发给高德的内部请求参数未采集。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 完整流程返回（原顺序）：蜜雪冰城(静安寺店) 30米；Peet's皮爷咖啡(愚园路店) 147米；星巴克(1788广场店) 175米；看得到风景的咖啡馆(静安店) 104米；M Stand(上海静安久光百货店) 97米。
+- 摘要：上海 · 静安寺周边 200 米 · 高德综合排序。
+- 验收：本次样本距离与摘要通过，439米蓝瓶不再返回，补入97米M Stand。
+- 类别仍含蜜雪冰城（冷饮店），咖啡厅类别精度未完全通过。本次未采集高德原始响应，以上为应用返回。
+
+### R2-02｜300米
+
+**① 用户要什么（验收标准）**
+
+- 原话：找静安寺附近300米以内的咖啡厅。；城市上海、地标静安寺。
+- 类别咖啡厅，距离硬上限≤300米，摘要显示对应范围，结果不得越界；未指定排序。
+
+**② 系统听懂了吗（中间结果）**
+
+- /parse HTTP 200。距离、类别、地标识别正确。
+- 本次接口未返回模型原始JSON；已保存校验后frame：`{"intent":"search","target":{"category":"coffee_shop"},"scope":{"type":"nearby","area":"静安寺","relation":"nearby"},"constraints":[{"field":"distance","op":"lte","value":300,"unit":"m"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`。
+- 线上发给高德的内部请求参数未采集。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 完整流程返回（原顺序）：蜜雪冰城(静安寺店) 30米；Peet's皮爷咖啡(愚园路店) 147米；星巴克(1788广场店) 175米；看得到风景的咖啡馆(静安店) 104米；M Stand(上海静安久光百货店) 97米。
+- 摘要：上海 · 静安寺周边 300 米 · 高德综合排序。
+- 验收：本次样本距离与摘要通过，439米蓝瓶不再返回，补入97米M Stand。
+- 类别仍含蜜雪冰城（冷饮店），咖啡厅类别精度未完全通过。本次未采集高德原始响应，以上为应用返回。
+
+### R2-03｜500米
+
+**① 用户要什么（验收标准）**
+
+- 原话：找静安寺附近500米以内的咖啡厅。；城市上海、地标静安寺。
+- 类别咖啡厅，距离硬上限≤500米，摘要显示对应范围，结果不得越界；未指定排序。
+
+**② 系统听懂了吗（中间结果）**
+
+- /parse HTTP 502。首次与单独重试均502，错误为“模型输出无效：语义 JSON 未通过字段校验”，未取得frame。
+- 本次接口未返回模型原始JSON；无法判断模型具体输出了哪个非法字段；不能用手工frame冒充模型原始结果。
+- 另外手动构造distance lte 500 m的frame调用/search，单独验证检索，HTTP 200。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 单独检索补测返回（原顺序）：蜜雪冰城(静安寺店) 30米；Peet's皮爷咖啡(愚园路店) 147米；星巴克(1788广场店) 175米；Blue Bottle Coffee蓝瓶咖啡(静安嘉里中心店) 439米；看得到风景的咖啡馆(静安店) 104米。
+- 摘要：上海 · 静安寺周边 500 米 · 高德综合排序。
+- 验收：500米检索样本距离与摘要通过，但完整语义流程未通过，连续两次校验错误需另查。
+- 类别仍含蜜雪冰城（冷饮店），咖啡厅类别精度未完全通过。本次未采集高德原始响应，以上为应用返回。
+
+证据：tests/codex/results/eval-a-radius-online-2026-11-17T09-15-31-260Z.json；tests/codex/results/eval-a-radius-online-500-retry-2026-11-17T09-16-18-112Z.json；tests/codex/results/eval-a-radius-search-500-deployed-2026-11-17T09-16-45-699Z.json。
+
+## 第二轮测试｜500米校验失败排查与本地修复｜2026-11-17
+
+**① 用户要什么（验收标准）**
+
+- 找静安寺附近500米以内的咖啡厅。定位连续502的原因；距离要求应保留，模型原始输出与校验后结果分别留存。
+- 本次诊断只调用模型，不调用高德，不作为新一次真实查店验收。
+
+**② 系统听懂了吗（中间结果）**
+
+- 本地直接调用已配置的 Qwen/Qwen3.5-35B-A3B，保留每次原始回答、重试回答、最终frame或错误。修前4次调用中3次通过，1次复现与线上同文案的字段校验失败；该失败调用的两次模型生成均错误。
+- 失败原始输出包含：`"scope":{"type":"nearby","area":"静安寺","distance":500,"unit":"m"}`，没有constraints。咖啡厅、地标、500米数值都识别到了，但距离写入不允许的字段。
+- 原校验只回复“语义 JSON 未通过字段校验”，重试没有指出具体字段；模型第二次仍输出相同非法scope。证据：tests/codex/results/diagnose-500-2026-11-17T09-19-01-586Z.json，包含两次rawAnswer。
+- 修复 src/agent.mjs：提示词明确禁止scope.distance／scope.radius／scope.unit，距离使用constraints条件；校验指出非法字段及允许字段，并要求改写距离且不可丢失要求。保持严格拒绝未知字段，不删除距离以求通过。
+- 新增回归测试：复现错误scope，验证重试提示准确指出scope.distance／scope.unit，修正后500米条件仍完整保留。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 本地18项离线测试全部通过。
+- 修后真实模型连续3次成功，均将distance lte 500 m放入constraints，生成合法frame；每次原始JSON已保存：tests/codex/results/diagnose-500-2026-11-17T09-20-04-613Z.json、diagnose-500-2026-11-17T09-20-08-513Z.json、diagnose-500-2026-11-17T09-20-12-195Z.json。
+- 线上先前失败调用没有返回原始JSON，因此不能断言线上那两次必然是相同非法字段。本次确认的是本地可复现的同类原因，修后小样本通过，不保证模型永不出错。
+- 当前修改尚未部署。本次运行代码变化仅为src/agent.mjs；上传后需要Render更新，再测线上500米。
+
+
+## 第二轮测试｜第四次复测｜2026-11-17｜解析修复更新部署后
+
+用户表示已更新，实测线上接口；未读取部署记录，不能仅凭本次成功结果证明具体提交版本。
+
+### R2-01｜200米
+
+**① 用户要什么（验收标准）**
+
+- 指令：找静安寺附近200米以内的咖啡厅。新对话，城市上海，无历史及候选。
+- 距离≤200米，摘要对应范围；完整解析与检索成功。
+
+**② 系统听懂了吗（中间结果）**
+
+- 本次接口未返回模型原始JSON，成功请求的校验后frame保存在证据文件中。
+- 第1次：HTTP 502；Unexpected token '<', "<!DOCTYPE "... is not valid JSON；未取得frame。
+- 第2次：HTTP 502；模型输出无效：语义 JSON 未通过字段校验；未取得frame。
+- 线上内部模型原始响应、高德请求参数与高德原始响应未采集。200米首次非JSON响应的HTML正文未保存，无法判断生成它的是服务还是上游网关。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 两次均未得到店铺结果，200米本次完整流程未通过；第一次为502非JSON响应，第二次为模型字段校验错误，原因不可混同。下一步需捕获200米非法模型字段，排查剩余结构不稳定问题。
+- 类别精度仍未修复，成功结果包含蜜雪冰城（冷饮店）；不算类别完全通过。
+
+### R2-02｜300米
+
+**① 用户要什么（验收标准）**
+
+- 指令：找静安寺附近300米以内的咖啡厅。新对话，城市上海，无历史及候选。
+- 距离≤300米，摘要对应范围；完整解析与检索成功。
+
+**② 系统听懂了吗（中间结果）**
+
+- 本次接口未返回模型原始JSON，成功请求的校验后frame保存在证据文件中。
+- 第1次：HTTP 200；正确识别distance lte 300 m。
+- 线上内部模型原始响应、高德请求参数与高德原始响应未采集。200米首次非JSON响应的HTML正文未保存，无法判断生成它的是服务还是上游网关。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 成功样本返回（原顺序）：蜜雪冰城(静安寺店) 30米；Peet's皮爷咖啡(愚园路店) 147米；星巴克(1788广场店) 175米；看得到风景的咖啡馆(静安店) 104米；M Stand(上海静安久光百货店) 97米。
+- 摘要：上海 · 静安寺周边 300 米 · 高德综合排序。
+- 距离和摘要：本次成功样本通过；500米共3次成功，300米1次成功。样本量有限，不代表永不失败。
+- 类别精度仍未修复，成功结果包含蜜雪冰城（冷饮店）；不算类别完全通过。
+
+### R2-03｜500米
+
+**① 用户要什么（验收标准）**
+
+- 指令：找静安寺附近500米以内的咖啡厅。新对话，城市上海，无历史及候选。
+- 距离≤500米，摘要对应范围；完整解析与检索成功。
+
+**② 系统听懂了吗（中间结果）**
+
+- 本次接口未返回模型原始JSON，成功请求的校验后frame保存在证据文件中。
+- 第1次：HTTP 200；正确识别distance lte 500 m。
+- 第2次：HTTP 200；正确识别distance lte 500 m。
+- 第3次：HTTP 200；正确识别distance lte 500 m。
+- 线上内部模型原始响应、高德请求参数与高德原始响应未采集。200米首次非JSON响应的HTML正文未保存，无法判断生成它的是服务还是上游网关。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 成功样本返回（原顺序）：蜜雪冰城(静安寺店) 30米；Peet's皮爷咖啡(愚园路店) 147米；星巴克(1788广场店) 175米；Blue Bottle Coffee蓝瓶咖啡(静安嘉里中心店) 439米；看得到风景的咖啡馆(静安店) 104米。
+- 摘要：上海 · 静安寺周边 500 米 · 高德综合排序。
+- 距离和摘要：本次成功样本通过；500米共3次成功，300米1次成功。样本量有限，不代表永不失败。
+- 类别精度仍未修复，成功结果包含蜜雪冰城（冷饮店）；不算类别完全通过。
+
+本次完整证据：tests/codex/results/eval-a-radius-online-2026-11-17T09-22-53-588Z.json；tests/codex/results/eval-a-radius-online-followup-2026-11-17T09-23-31-486Z.json。
+
+
+## 第三轮测试｜2026-11-17｜上海南京西路加油站1／2／5公里
+
+三个case分别独立输入，不传历史或候选；测试城市上海。高德实际选择的地标是“南京西路(地铁站)”，不是整条南京西路或用户当前位置。未改动业务代码。
+
+### R3-01｜1公里
+
+**① 用户要什么（验收标准）**
+
+- 原话：找南京西路附近1公里以内的加油站。
+- 地点南京西路，类别加油站，硬距离≤1公里；未指定排序。结果不越界，摘要显示对应范围。
+
+**② 系统听懂了吗（中间结果）**
+
+- 首次HTTP 200：类别gas、地点和距离条件正确。。
+- 成功请求校验后frame：`{"intent":"search","target":{"category":"gas"},"scope":{"type":"area","area":"南京西路","relation":"nearby"},"constraints":[{"field":"distance","op":"lte","value":1,"unit":"km"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`。
+- 本次接口未返回模型原始JSON；线上提交高德的内部请求参数、高德原始响应未采集，无法定位失败调用的具体非法字段。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+| 顺序 | 地点 | 距离 | 是否在1公里内 |
+|---|---|---:|---|
+| 1 | 中国石化大田路加油站 | 594米 | 是 |
+| 2 | 中国石化延安中路加油站 | 757米 | 是 |
+| 3 | 中国石化成都路加油站 | 880米 | 是 |
+| 4 | 中国石化长乐加油站 | 986米 | 是 |
+
+- 应用摘要：上海 · 南京西路(地铁站)周边 1 公里 · 高德综合排序。
+- 验收：成功样本类别、距离和摘要通过；首次完整流程成功。范围以南京西路地铁站为中心，地标选择是否符合用户预期需注意。
+- 返回4家，不为凑数量放入1公里外候选。
+
+### R3-02｜2公里
+
+**① 用户要什么（验收标准）**
+
+- 原话：找南京西路附近2公里以内的加油站。
+- 地点南京西路，类别加油站，硬距离≤2公里；未指定排序。结果不越界，摘要显示对应范围。
+
+**② 系统听懂了吗（中间结果）**
+
+- 首次HTTP 502：模型输出无效：语义 JSON 未通过字段校验。
+- 复测HTTP 200，解析成功；首次失败记录保留，不以复测覆盖。
+- 成功请求校验后frame：`{"dialogue":{"relation":"new_task","rule_id":"T40"},"intent":"search","target":{"category":"gas"},"scope":{"type":"area","area":"南京西路","city_ref":"current_city"},"constraints":[{"field":"distance","op":"lte","value":2,"unit":"km"}],"ready":true}`。
+- 本次接口未返回模型原始JSON；线上提交高德的内部请求参数、高德原始响应未采集，无法定位失败调用的具体非法字段。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+| 顺序 | 地点 | 距离 | 是否在2公里内 |
+|---|---|---:|---|
+| 1 | 中国石化大田路加油站 | 594米 | 是 |
+| 2 | 中国石化延安中路加油站 | 757米 | 是 |
+| 3 | 中国石化成都路加油站 | 880米 | 是 |
+| 4 | 中国石化长乐加油站 | 986米 | 是 |
+| 5 | 中国石化第三加油站 | 1140米 | 是 |
+
+- 应用摘要：上海 · 南京西路(地铁站)周边 2 公里 · 高德综合排序。
+- 验收：成功样本类别、距离和摘要通过；首次解析失败、复测成功，稳定性未通过。范围以南京西路地铁站为中心，地标选择是否符合用户预期需注意。
+- 接口默认只展示前5家；2公里和5公里列表相同不能证明半径没生效，更远候选未展示。
+
+### R3-03｜5公里
+
+**① 用户要什么（验收标准）**
+
+- 原话：找南京西路附近5公里以内的加油站。
+- 地点南京西路，类别加油站，硬距离≤5公里；未指定排序。结果不越界，摘要显示对应范围。
+
+**② 系统听懂了吗（中间结果）**
+
+- 首次HTTP 502：模型输出无效：语义 JSON 未通过字段校验。
+- 复测HTTP 200，解析成功；首次失败记录保留，不以复测覆盖。
+- 成功请求校验后frame：`{"intent":"search","target":{"category":"gas"},"scope":{"type":"area","area":"南京西路","relation":"nearby"},"constraints":[{"field":"distance","op":"lte","value":5,"unit":"km"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`。
+- 本次接口未返回模型原始JSON；线上提交高德的内部请求参数、高德原始响应未采集，无法定位失败调用的具体非法字段。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+| 顺序 | 地点 | 距离 | 是否在5公里内 |
+|---|---|---:|---|
+| 1 | 中国石化大田路加油站 | 594米 | 是 |
+| 2 | 中国石化延安中路加油站 | 757米 | 是 |
+| 3 | 中国石化成都路加油站 | 880米 | 是 |
+| 4 | 中国石化长乐加油站 | 986米 | 是 |
+| 5 | 中国石化第三加油站 | 1140米 | 是 |
+
+- 应用摘要：上海 · 南京西路(地铁站)周边 5 公里 · 高德综合排序。
+- 验收：成功样本类别、距离和摘要通过；首次解析失败、复测成功，稳定性未通过。范围以南京西路地铁站为中心，地标选择是否符合用户预期需注意。
+- 接口默认只展示前5家；2公里和5公里列表相同不能证明半径没生效，更远候选未展示。
+
+证据：tests/codex/results/eval-nanjing-west-gas-2026-11-17T09-30-22-205Z.json；tests/codex/results/eval-nanjing-west-gas-2026-11-17T09-31-18-495Z.json。
+
+
+## 第三轮测试｜连续对话补测｜2026-11-17｜5公里收窄到500米
+
+同一对话，第二步传入第一步实际frame和5家候选；城市上海。
+
+### R3-04｜先查5公里
+
+**① 用户要什么（验收标准）**
+
+- 原话：找南京西路附近5公里以内的加油站。
+- 首次输入，无历史，南京西路附近加油站≤5公里。
+
+**② 系统听懂了吗（中间结果）**
+
+- 首次HTTP 200，无重试。校验后frame：`{"intent":"search","target":{"category":"gas"},"scope":{"type":"area","area":"南京西路","relation":"nearby"},"constraints":[{"field":"distance","op":"lte","value":5,"unit":"km"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`。
+- 本次接口未返回模型原始JSON。正确识别gas、南京西路与5km硬上限。线上高德内部请求参数及原始响应未采集。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 返回5家：中国石化大田路加油站 594米；中国石化延安中路加油站 757米；中国石化成都路加油站 880米；中国石化长乐加油站 986米；中国石化第三加油站 1140米。
+- 摘要：上海 · 南京西路(地铁站)周边 5 公里 · 高德综合排序。
+- 验收：本次样本通过。返回距离均在5公里内。
+
+### R3-05｜再收窄500米
+
+**① 用户要什么（验收标准）**
+
+- 原话：只看500米以内的。
+- 承接上一轮5公里查询，只将距离上限替换为500米，保留南京西路和加油站类别；不保留5公里旧上限，不展示500米外候选。
+
+**② 系统听懂了吗（中间结果）**
+
+- 首次HTTP 200，无重试。校验后frame：`{"intent":"modify_search","target":{"category":"gas"},"scope":{"type":"area","area":"南京西路","relation":"nearby"},"constraints":[{"field":"distance","op":"lte","value":500,"unit":"m","raw":"500米以内"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`。
+- 本次接口未返回模型原始JSON。关系正确为continue_task，类别gas和地点南京西路保留，距离改为500m，旧5km条件已替换。线上高德内部请求参数及原始响应未采集。
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 返回0家：空列表。
+- 摘要：上海 · 南京西路(地铁站)周边 500 米 · 未找到匹配地点。
+- 验收：本次样本通过。之前5家最近594米，均超过500米，新结果未再展示这些候选。空列表表示本次查询未找到匹配地点，不证明现实中绝对没有加油站。
+
+完整证据：tests/codex/results/eval-gas-narrow-2026-11-17T09-33-16-417Z.json。
+
+### 2026-11-17｜B 组复测与原始输出采集状态
+
+- 证据：`tests/codex/results/eval-b-diagnosis-2026-11-17T09-59-03-051Z.json`。线上 B1–B4 连续对话均返回 frame；本地以同一 frame 和固定地图响应回放，复现过滤和排序缺失。业务代码及规则尚未修改。
+- B1：frame 正确记录人均≤80元，线上仍返回85、123、110、93元的超限候选。
+- B2：frame 保留80元上限，增加 `preferences:[{"field":"price","direction":"lower"}]`；结果仍超预算且未按价格升序。
+- B3：frame 替换为120元上限并保留低价偏好；123元候选仍被展示。
+- B4：frame 删除预算及价格偏好，增加 `preferences:[{"field":"distance","direction":"lower"}]`；结果未按距离升序。
+- 定位：当前证据指向 `src/home-search.mjs` 未执行价格过滤与偏好排序；本轮校验后语义符合预期，未发现必须修改 rules 的证据。不能据此保证模型所有输入均正确。
+- **模型原始 JSON：尚未采集。** 线上接口返回的是校验后 frame，不能冒充模型原始输出。评测脚本已新增 `--raw` 模式，通过 fetcher 在校验前保存每次模型返回的原文 `rawAnswer`、模型名、状态与 finish_reason，包含字段校验重试。需本机已有模型配置文件路径后运行；不在日志中保存密钥。
+
+
+### 2026-11-17｜B1–B4 原始模型 JSON 与 Render 真实检索复测
+
+模型：Qwen/Qwen3.5-35B-A3B。本地读取 rules 与 src/agent.mjs，连续调用真实模型；直接保存校验前 message.content，四轮均 HTTP 200、finish_reason=stop，无重试。随后将同一 frame 发给 Render /search，使用服务器高德配置，四轮均 HTTP 200。两阶段并非 Render /parse 的同一次调用。
+
+完整证据：`tests/codex/results/eval-b-render-search-2026-11-17T10-06-29-163Z.json`。包含原始模型文本、校验后 frame、本地固定地图响应回放、Render 搜索结果。Render 返回的是应用结果，未采集服务器到高德的原始请求和原始响应。
+
+#### B1 找静安寺附近的餐厅，人均不超过80元。
+
+模型原始 JSON（仅排版，内容未补写）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lte",
+      "value": 80,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  }
+}
+```
+
+校验后 frame：仅增加 `ready:true`，其余内容与原始 JSON 一致。
+
+Render 实际价格（元）：[85,123,110,93,65]；实际距离（米）：[78,206,148,212,245]。
+
+验收：语义通过；超预算 4 家。
+
+#### B2 最好便宜点。
+
+模型原始 JSON（仅排版，内容未补写）：
+
+```json
+{
+  "intent": "modify_search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lte",
+      "value": 80,
+      "unit": "CNY"
+    }
+  ],
+  "preferences": [
+    {
+      "field": "price",
+      "direction": "lower"
+    }
+  ],
+  "dialogue": {
+    "relation": "continue_task",
+    "rule_id": "T60"
+  }
+}
+```
+
+校验后 frame：仅增加 `ready:true`，其余内容与原始 JSON 一致。
+
+Render 实际价格（元）：[85,123,110,93,65]；实际距离（米）：[78,206,148,212,245]。
+
+验收：语义通过；超预算 4 家。价格未升序，低价偏好未执行。
+
+#### B3 预算放宽到120元。
+
+模型原始 JSON（仅排版，内容未补写）：
+
+```json
+{
+  "intent": "modify_search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lte",
+      "value": 120,
+      "unit": "CNY",
+      "raw": "120元"
+    }
+  ],
+  "preferences": [
+    {
+      "field": "price",
+      "direction": "lower"
+    }
+  ],
+  "dialogue": {
+    "relation": "continue_task",
+    "rule_id": "T60"
+  }
+}
+```
+
+校验后 frame：仅增加 `ready:true`，其余内容与原始 JSON 一致。
+
+Render 实际价格（元）：[85,123,110,93,65]；实际距离（米）：[78,206,148,212,245]。
+
+验收：语义通过；超预算 1 家。价格未升序，低价偏好未执行。
+
+#### B4 不用管价格了，找近一点的。
+
+模型原始 JSON（仅排版，内容未补写）：
+
+```json
+{
+  "intent": "modify_search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [],
+  "preferences": [
+    {
+      "field": "distance",
+      "direction": "lower"
+    }
+  ],
+  "dialogue": {
+    "relation": "continue_task",
+    "rule_id": "T60"
+  }
+}
+```
+
+校验后 frame：仅增加 `ready:true`，其余内容与原始 JSON 一致。
+
+Render 实际价格（元）：[85,123,110,93,65]；实际距离（米）：[78,206,148,212,245]。
+
+验收：语义通过；距离未升序，近优先未执行。
+
+**定位结论**：本轮 B1–B4 无需先改 rules。模型正确提取80元上限、保留低价偏好、替换120元上限、删除所有价格要求并改成距离偏好。`src/home-search.mjs` 仅执行距离上限过滤，其余条件只用于“尚未核验”文案；没有价格过滤、没有偏好排序，周边请求仍为 `sortrule:weight`。真实 Render 结果与本地固定响应回放均复现。当前仅完成定位与采集，未修复业务代码、未部署。
+
+
+### 2026-11-17｜B 组更换为三个独立首轮 case（当前验收集）
+
+用户指定以下三条替换当前 B 组验收。此前 B1–B4 连续追问仅保留为历史，不再作为本轮验收集。每条 previous=null、candidates=[]，不传递上一条 frame。模型 Qwen/Qwen3.5-35B-A3B；每条均单次返回 HTTP 200，finish_reason=stop。取得原始输出后将校验后 frame 发往 Render /search，三条均 HTTP 200。完整 JSON：`tests/codex/results/eval-b-independent-2026-11-17T10-18-10-492Z.json`。未修改业务代码或规则。
+
+#### B1 静安寺人均200元以上餐厅
+
+模型原始 JSON（message.content 原文）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "gte",
+      "value": 200,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  }
+}
+```
+
+校验后 frame：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "gte",
+      "value": 200,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "ready": true
+}
+```
+
+真实应用检索价格（元，按返回顺序）：[85,123,110,93,65]。
+
+验收：语义识别 gte 200 正确；五家均低于200元。src/home-search.mjs 未执行价格下限过滤，本地固定响应回放亦复现。
+
+#### B2 静安寺人均100元以下餐厅
+
+模型原始 JSON（message.content 原文）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lt",
+      "value": 100,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  }
+}
+```
+
+校验后 frame：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lt",
+      "value": 100,
+      "unit": "CNY"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "ready": true
+}
+```
+
+真实应用检索价格（元，按返回顺序）：[85,123,110,93,65]。
+
+验收：按“以下包含本数”期望 lte 100，模型实际输出 lt 100，校验原样保留。现行 rules 未明确统一“以上/以下”边界，应补规则及边界样例，不能归因于 src 将 lte 改成 lt。真实结果110、123元越界，src 价格上限过滤也未执行。线上候选没有恰好100元，不能用线上列表验证等值边界。
+
+#### B3 静安寺高档餐厅
+
+模型原始 JSON（message.content 原文）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant",
+    "raw": "高档餐厅"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "preferences": [
+    {
+      "field": "price_level",
+      "direction": "higher",
+      "raw": "高档"
+    }
+  ],
+  "ambiguity": {
+    "type": "ranking_basis",
+    "field": "ranking_basis",
+    "raw": "高档",
+    "alternatives": [
+      "价格",
+      "评分",
+      "人气"
+    ]
+  },
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "follow_up": "你更看重评分，还是人气？"
+}
+```
+
+校验后 frame：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant",
+    "raw": "高档餐厅"
+  },
+  "scope": {
+    "type": "area",
+    "area": "静安寺"
+  },
+  "preferences": [
+    {
+      "field": "price_level",
+      "direction": "higher",
+      "raw": "高档"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "ready": true
+}
+```
+
+真实应用检索价格（元，按返回顺序）：[85,123,110,93,65]。
+
+验收：模型保留“高档”，没有编造具体人均阈值；但原始 JSON 含 ranking_basis 歧义及无必要的“评分还是人气”反问。src/agent.mjs 的无排名触发词兜底删除 follow_up/ambiguity，最终 ready=true。原始语义并非完全通过。home-search 根据 category 生成“餐厅”关键词，未使用 target.raw=高档餐厅、未执行 price_level 偏好。真实候选与前两条相同，不能据此声称满足高档。应先定义高档语义及可执行策略，不能擅定200元等门槛。
+
+**当前定位**：B1 主要在 src 检索过滤；B2 同时有边界规则不明确/模型边界偏差及 src 过滤缺失；B3 同时有模型多余反问及 src 未执行高档语义。此前“B组均无需改rules”的判断仅对应旧连续追问样本，不适用于新三条独立 case。
+
+
+### 历史存档｜已被独立三条case替换的旧B组连续追问
+
+以下保留当时记录，不属于当前B组验收集。
+
+### B 组｜价格和距离
+
+检查预算上限、低价偏好，以及取消预算后能否改按距离排序。
+
+#### B1　找静安寺附近的餐厅，人均不超过80元。
+
+**① 用户要什么（验收标准）**
+
+- 指令原话　找静安寺附近的餐厅，人均不超过80元。
+- 首轮上下文　新对话，无历史或候选
+- 复测上下文　新对话，无历史或候选
+- 本轮验收　硬条件人均≤80元；静安寺附近。静安寺附近餐厅，人均不超过80元，含80元。
+
+**② 系统听懂了吗（中间结果）**
+
+- 理解判断　识别出人均上限 80 元，包含 80 元。
+- 模型原始 JSON　未采集。
+- 首轮校验后 frame　原样见下方测试证据。关键字段：`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}]}`
+- 首轮检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+- 复测校验后 frame　原样见下方测试证据。关键字段：`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}]}`
+- 复测检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 高德原始响应　未单独采集；以下数量为应用返回数量。
+- 首轮应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
+- 复测应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
+- 关键事实　五家分别为 **85、123、110、93、65 元**，只有最后一家符合。价格筛选未做到。
+- **逐项验收**　上限识别通过；价格筛选未通过
+- **定位与编号**　检索结果过滤 B4
+
+<details>
+<summary>查看本条测试证据（首轮及已有复测）</summary>
+
+80 元上限识别正确，5 条中 4 条超限（85、123、110、93 元）。
+
+- 首轮语义　`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`
+- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
+
+- 整组复测语义　`{"intent":"search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":80,"unit":"CNY","raw":"人均不超过80元"}],"dialogue":{"relation":"new_task","rule_id":"T40"},"ready":true}`
+- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
+
+</details>
+
+#### B2　最好便宜点。
+
+**① 用户要什么（验收标准）**
+
+- 指令原话　最好便宜点。
+- 首轮上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
+- 复测上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
+- 本轮验收　硬条件沿用80元；偏好低价。保留80元上限，同等条件下便宜的优先。
+
+**② 系统听懂了吗（中间结果）**
+
+- 理解判断　首轮连接中断，复测返回 502，两次均未取得解析结果。
+- 模型原始 JSON　未采集。
+- 首轮校验后 frame　未返回，无法判断模型原意。
+- 首轮检索请求　未进入检索
+- 复测校验后 frame　未返回，无法判断模型原意。
+- 复测检索请求　未进入检索
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 高德原始响应　不适用，本轮未执行检索。
+- 首轮应用返回　The SSL connection could not be established, see inner exception.
+- 复测应用返回　Response status code does not indicate success: 502 (Bad Gateway).
+- 关键事实　没有取得按价格排序的候选，无法验证。
+- **逐项验收**　解析未通过；低价排序证据不足
+- **定位与编号**　首轮传输中断，复测解析失败；待定位
+
+<details>
+<summary>查看本条测试证据（首轮及已有复测）</summary>
+
+首轮连接中断，未取得低价排序的首轮证据。复测返回 502，低价排序仍未验证。
+
+- 首轮语义　未返回
+- 请求错误　The SSL connection could not be established, see inner exception. Received an unexpected EOF or 0 bytes from the transport stream.
+
+- 整组复测语义　未返回
+- 请求错误　Response status code does not indicate success: 502 (Bad Gateway).  { "error": "The operation was aborted due to timeout" }
+
+</details>
+
+#### B3　预算放宽到120元。
+
+**① 用户要什么（验收标准）**
+
+- 指令原话　预算放宽到120元。
+- 首轮上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
+- 复测上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
+- 本轮验收　硬条件改为≤120元。把原价格上限改成120元。
+
+**② 系统听懂了吗（中间结果）**
+
+- 理解判断　首轮连接中断；复测把上限正确改为 120 元。
+- 模型原始 JSON　未采集。
+- 首轮校验后 frame　未返回，无法判断模型原意。
+- 首轮检索请求　未进入检索
+- 复测校验后 frame　原样见下方测试证据。关键字段：`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":120,"unit":"CNY","raw":"预算放宽到120元"}]}`
+- 复测检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 高德原始响应　未单独采集；以下数量为应用返回数量。
+- 首轮应用返回　The SSL connection could not be established, see inner exception.
+- 复测应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
+- 关键事实　复测仍返回一家 123 元的餐厅。新上限未落实。
+- **逐项验收**　复测上限替换通过；过滤未通过
+- **定位与编号**　检索结果过滤 B4
+
+<details>
+<summary>查看本条测试证据（首轮及已有复测）</summary>
+
+首轮连接中断，未取得放宽价格的首轮证据。复测正确改成 120 元，但返回了 123 元的店。
+
+- 首轮语义　未返回
+- 请求错误　The SSL connection could not be established, see inner exception. Received an unexpected EOF or 0 bytes from the transport stream.
+
+- 整组复测语义　`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[{"field":"price_per_person","op":"lte","value":120,"unit":"CNY","raw":"预算放宽到120元"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`
+- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
+
+</details>
+
+#### B4　不用管价格了，找近一点的。
+
+**① 用户要什么（验收标准）**
+
+- 指令原话　不用管价格了，找近一点的。
+- 首轮上下文　沿用 B1 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
+- 复测上下文　沿用 B3 的 frame，候选 5 家（按原顺序：龙记香港茶餐厅(久光百货店)、浩海火烧云傣家菜(静安芮欧店)、毛头老爹饭店(静安寺店)、COMMUNEMAISON幻师(芮欧百货店)、新白鹿餐厅(静安CP店)）
+- 本轮验收　取消价格硬条件；偏好距离近；本次验收按距离升序。继续找静安寺附近的餐厅，取消价格限制，按距离从近到远排列。
+
+**② 系统听懂了吗（中间结果）**
+
+- 理解判断　删除价格条件，改为距离近优先。
+- 模型原始 JSON　未采集。
+- 首轮校验后 frame　原样见下方测试证据。关键字段：`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}]}`
+- 首轮检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+- 复测校验后 frame　原样见下方测试证据。关键字段：`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}]}`
+- 复测检索请求　线上实参未采集。本地同一 frame 回放：text region=上海，keywords=静安寺 → around keywords=餐厅，radius=3000，sortrule=weight
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+- 高德原始响应　未单独采集；以下数量为应用返回数量。
+- 首轮应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
+- 复测应用返回　5 家；上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验
+- 关键事实　返回顺序为 78、206、148、212、245 米，近店没有优先。B2 中断，整段连续修改未完整验证。
+- **逐项验收**　取消预算通过；距离排序未通过
+- **定位与编号**　检索结果排序 B7
+
+<details>
+<summary>查看本条测试证据（首轮及已有复测）</summary>
+
+首轮清除价格并识别距离偏好；返回距离 78、206、148、212、245 米，没有按近到远排列。前两轮中断影响连续性。
+
+- 首轮语义　`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`
+- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
+
+- 整组复测语义　`{"intent":"modify_search","target":{"category":"restaurant"},"scope":{"area":"静安寺","type":"nearby"},"constraints":[],"preferences":[{"field":"distance","direction":"lower"}],"dialogue":{"relation":"continue_task","rule_id":"T60"},"ready":true}`
+- 检索　上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验；龙记香港茶餐厅(久光百货店)（4.3分，85.00元，78米，10:00-22:00）、浩海火烧云傣家菜(静安芮欧店)（4.8分，123.00元，206米，11:00-22:00）、毛头老爹饭店(静安寺店)（4.7分，110.00元，148米，11:00-15:00 17:00-22:00）、COMMUNEMAISON幻师(芮欧百货店)（4.6分，93.00元，212米，11:00-24:00）、新白鹿餐厅(静安CP店)（4.6分，65.00元，245米，10:30-14:00 16:30-21:00）
+
+</details>
+
+
+
+### 2026-11-17｜上传后南京西路 B 组三条独立首轮复测
+
+完整证据：`tests/codex/results/eval-b-nanjing-2026-11-17T10-39-19-731Z.json`。三条均previous=null、candidates=[]，城市上海、首页地标南京西路。线上调用Render /parse（含真实检索）；模型原始JSON由本地同文本独立调用另行采集，绝不等同于线上模型原文。本轮未修改业务代码或规则。
+
+#### B1　南京西路附近人均300元以上餐厅
+
+**① 用户要什么（验收标准）**
+
+南京西路附近餐厅，人均≥300元，包含300元。 独立首轮，无历史和候选。
+
+**② 系统听懂了吗（中间结果）**
+
+线上frame正确提取 price_per_person gte 300 CNY，new_task，ready=true。线上模型原始输出不由接口提供，未采集；本地单独调用的模型原文亦为gte 300，仅作为独立证据。
+
+线上接口返回（frame或失败响应）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "南京西路"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "gte",
+      "value": 300,
+      "unit": "CNY",
+      "raw": "300元以上"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "ready": true
+}
+```
+
+本地独立模型原始JSON（非线上模型原文）：
+
+```json
+{
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "南京西路"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "gte",
+      "value": 300,
+      "unit": "CNY"
+    }
+  ]
+}
+```
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+应用返回5家，人均110、47、122、126、99元，全部低于300元，0/5满足。语义正确，检索未执行价格下限过滤。不能据此认为南京西路没有300元以上餐厅。
+
+| 餐厅 | 人均（元） |
+|---|---:|
+| 五分之一·白领餐厅(南京西路店) | 110.00 |
+| 王家沙点心店(南京西路总店) | 47.00 |
+| 醉庐(南京西路) | 122.00 |
+| 山石榴·贵州菜(丰盛里店) | 126.00 |
+| 游牧Bistro小酒馆 by 耶里夏丽(静安丰盛里店) | 99.00 |
+
+#### B2　南京西路人均100元以下餐厅
+
+**① 用户要什么（验收标准）**
+
+南京西路餐厅，人均≤100元；按以下含本数验收。 独立首轮，无历史和候选。
+
+**② 系统听懂了吗（中间结果）**
+
+线上连续两次HTTP 502，均返回“模型输出无效：语义 JSON 未通过字段校验”，未取得frame，也没有模型原文，不能判断具体哪个字段不合法。本地独立模型返回lt 100，按本轮lte 100标准存在等值边界偏差；不得将其当作线上失败的原始JSON。
+
+线上接口返回（frame或失败响应）：
+
+```json
+[
+  {
+    "http_status": 502,
+    "result": {
+      "error": "模型输出无效：语义 JSON 未通过字段校验"
+    }
+  },
+  {
+    "http_status": 502,
+    "result": {
+      "error": "模型输出无效：语义 JSON 未通过字段校验"
+    }
+  }
+]
+```
+
+本地独立模型原始JSON（非线上模型原文）：
+
+```json
+{
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "南京西路"
+  },
+  "constraints": [
+    {
+      "field": "price_per_person",
+      "op": "lt",
+      "value": 100,
+      "unit": "CNY"
+    }
+  ]
+}
+```
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+解析失败，未进入本次真实检索，无价格列表；检索是否满足本条条件暂无法判断。不能把本地独立模型或其他case列表替代本次线上结果。
+
+#### B3　南京西路高档餐厅
+
+**① 用户要什么（验收标准）**
+
+南京西路餐厅，满足米其林餐厅 OR 人均≥200元，任意一项即可。 独立首轮，无历史和候选。
+
+**② 系统听懂了吗（中间结果）**
+
+线上frame为price_level gte 4，而不是新规则的michelin OR price_per_person gte 200；语义未通过。线上没有显示反问。本地独立调用的新规则模型则正确输出any_of条件组。存在本地与线上差异；线上规则未生效、进程未重启或模型未遵守均需进一步证据区分，当前不能断言原因。
+
+线上接口返回（frame或失败响应）：
+
+```json
+{
+  "intent": "search",
+  "target": {
+    "category": "restaurant",
+    "raw": "高档餐厅"
+  },
+  "scope": {
+    "type": "area",
+    "area": "南京西路"
+  },
+  "constraints": [
+    {
+      "field": "price_level",
+      "op": "gte",
+      "value": 4,
+      "raw": "高档"
+    }
+  ],
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "ready": true
+}
+```
+
+本地独立模型原始JSON（非线上模型原文）：
+
+```json
+{
+  "dialogue": {
+    "relation": "new_task",
+    "rule_id": "T40"
+  },
+  "intent": "search",
+  "target": {
+    "category": "restaurant"
+  },
+  "scope": {
+    "type": "area",
+    "area": "南京西路"
+  },
+  "constraints": [
+    {
+      "any_of": [
+        {
+          "field": "michelin",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "field": "price_per_person",
+          "op": "gte",
+          "value": 200,
+          "unit": "CNY"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**③ 实际返回了什么、做到了吗（事实与差距）**
+
+应用返回5家，人均110、47、122、126、99元，与B1相同，均未达到200元。响应不含米其林身份核验信息，因此不能断言0/5符合OR条件，也不能认定符合高档要求。可确认线上语义未符合新业务定义，结果摘要仍写“附加条件尚未核验”。
+
+| 餐厅 | 人均（元） |
+|---|---:|
+| 五分之一·白领餐厅(南京西路店) | 110.00 |
+| 王家沙点心店(南京西路总店) | 47.00 |
+| 醉庐(南京西路) | 122.00 |
+| 山石榴·贵州菜(丰盛里店) | 126.00 |
+| 游牧Bistro小酒馆 by 耶里夏丽(静安丰盛里店) | 99.00 |
+
+
+### 2026-11-17｜高档新规则未生效：确认上传路径不一致
+
+- GitHub仓库：weionly427-gif/poi-semantic-agent，默认分支main。
+- 新规则出现在根目录 `spec.md`（blob sha：e96a7301bbf413065184b2981b137f02c367cb3a）。
+- 实际规则路径 `rules/spec.md` 仍为旧内容，不包含高档/米其林定义（blob sha：30abe3bdd77b26ab14af230948deb47b262e8968）。
+- 入口 `web.mjs` 导入 `./src/agent.mjs`；远程 `src/agent.mjs` 第4行读取 `../rules/spec.md`。路径以src/agent.mjs为基准，指向仓库rules/spec.md，而不是根目录spec.md。
+- 结论：GitHub已确认规则上传位置与运行时读取位置不一致，足以解释新规则未被该加载链路读取；不是必须改src加载路径。应更新仓库 `rules/spec.md`，随后确认Render部署完成。服务只在启动时读取规则。
+- 本次仅定位，未修改远程仓库、未触发部署。未直接查看Render容器内文件。证据：tests/codex/results/diagnose-rule-upload-path-2026-11-17.json。

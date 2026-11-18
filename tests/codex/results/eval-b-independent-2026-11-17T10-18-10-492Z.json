@@ -1,0 +1,945 @@
+{
+  "tested_at": "2026-11-17T10:18:10.493Z",
+  "type": "三个独立首轮：本地真实模型原始输出 + Render /search + 本地固定响应定位；未修改规则或业务代码",
+  "results": [
+    {
+      "id": "B1",
+      "text": "静安寺人均200元以上餐厅",
+      "input": {
+        "previous": null,
+        "candidates": []
+      },
+      "model_attempts": [
+        {
+          "model": "Qwen/Qwen3.5-35B-A3B",
+          "http_status": 200,
+          "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"gte\",\n      \"value\": 200,\n      \"unit\": \"CNY\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+          "finish_reason": "stop"
+        }
+      ],
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "gte",
+            "value": 200,
+            "unit": "CNY"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "render_attempts": [
+        {
+          "tested_at": "2026-11-17T10:18:13.270Z",
+          "http_status": 200,
+          "result": {
+            "places": [
+              {
+                "candidate_id": "B00157H90O",
+                "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+                "ordinal": 1,
+                "name": "龙记香港茶餐厅(久光百货店)",
+                "address": "上海市静安区南京西路1618号久光百货B1楼(静安寺地铁站出入口旁)",
+                "category": "茶餐厅",
+                "rating": "4.3",
+                "hours": "10:00-22:00",
+                "cost": "85.00",
+                "phone": "021-62882757;4007171717",
+                "facilities": [],
+                "distance": 78
+              },
+              {
+                "candidate_id": "B0K3SCOHF3",
+                "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+                "ordinal": 2,
+                "name": "浩海火烧云傣家菜(静安芮欧店)",
+                "address": "上海市静安区南京西路1601号芮欧百货4层4A室",
+                "category": "餐饮相关",
+                "rating": "4.8",
+                "hours": "11:00-22:00",
+                "cost": "123.00",
+                "phone": "19121670472",
+                "facilities": [],
+                "distance": 206
+              },
+              {
+                "candidate_id": "B0I14RCCMD",
+                "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+                "ordinal": 3,
+                "name": "毛头老爹饭店(静安寺店)",
+                "address": "上海市静安区愚园路246弄6号(静安寺地铁站1号口步行200米)",
+                "category": "中餐厅",
+                "rating": "4.7",
+                "hours": "11:00-15:00 17:00-22:00",
+                "cost": "110.00",
+                "phone": "19301279382",
+                "facilities": [],
+                "distance": 148
+              },
+              {
+                "candidate_id": "B0KR55R4BG",
+                "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+                "ordinal": 4,
+                "name": "COMMUNEMAISON幻师(芮欧百货店)",
+                "address": "上海市静安区南京西路1601号芮欧百货1层1E",
+                "category": "餐饮相关",
+                "rating": "4.6",
+                "hours": "11:00-24:00",
+                "cost": "93.00",
+                "phone": "13764650221",
+                "facilities": [],
+                "distance": 212
+              },
+              {
+                "candidate_id": "B0K0GS1Y3R",
+                "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+                "ordinal": 5,
+                "name": "新白鹿餐厅(静安CP店)",
+                "address": "上海市静安区愚园路68号CP静安L5(静安寺地铁站10号口步行320米)",
+                "category": "中餐厅",
+                "rating": "4.6",
+                "hours": "10:30-14:00 16:30-21:00",
+                "cost": "65.00",
+                "phone": "021-62880198;18917622278",
+                "facilities": [],
+                "distance": 245
+              }
+            ],
+            "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+          }
+        }
+      ],
+      "render_search": {
+        "places": [
+          {
+            "candidate_id": "B00157H90O",
+            "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅(久光百货店)",
+            "address": "上海市静安区南京西路1618号久光百货B1楼(静安寺地铁站出入口旁)",
+            "category": "茶餐厅",
+            "rating": "4.3",
+            "hours": "10:00-22:00",
+            "cost": "85.00",
+            "phone": "021-62882757;4007171717",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "B0K3SCOHF3",
+            "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜(静安芮欧店)",
+            "address": "上海市静安区南京西路1601号芮欧百货4层4A室",
+            "category": "餐饮相关",
+            "rating": "4.8",
+            "hours": "11:00-22:00",
+            "cost": "123.00",
+            "phone": "19121670472",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "B0I14RCCMD",
+            "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+            "ordinal": 3,
+            "name": "毛头老爹饭店(静安寺店)",
+            "address": "上海市静安区愚园路246弄6号(静安寺地铁站1号口步行200米)",
+            "category": "中餐厅",
+            "rating": "4.7",
+            "hours": "11:00-15:00 17:00-22:00",
+            "cost": "110.00",
+            "phone": "19301279382",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "B0KR55R4BG",
+            "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师(芮欧百货店)",
+            "address": "上海市静安区南京西路1601号芮欧百货1层1E",
+            "category": "餐饮相关",
+            "rating": "4.6",
+            "hours": "11:00-24:00",
+            "cost": "93.00",
+            "phone": "13764650221",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "B0K0GS1Y3R",
+            "list_version": "319f4aef-9167-4359-9a05-c64627957fd1",
+            "ordinal": 5,
+            "name": "新白鹿餐厅(静安CP店)",
+            "address": "上海市静安区愚园路68号CP静安L5(静安寺地铁站10号口步行320米)",
+            "category": "中餐厅",
+            "rating": "4.6",
+            "hours": "10:30-14:00 16:30-21:00",
+            "cost": "65.00",
+            "phone": "021-62880198;18917622278",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "6f925adf-c374-4fdc-87c1-e422fd273c91",
+            "ordinal": 1,
+            "name": "测试餐厅0",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "6f925adf-c374-4fdc-87c1-e422fd273c91",
+            "ordinal": 2,
+            "name": "测试餐厅1",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "100",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "6f925adf-c374-4fdc-87c1-e422fd273c91",
+            "ordinal": 3,
+            "name": "测试餐厅2",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "6f925adf-c374-4fdc-87c1-e422fd273c91",
+            "ordinal": 4,
+            "name": "测试餐厅3",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "199",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "6f925adf-c374-4fdc-87c1-e422fd273c91",
+            "ordinal": 5,
+            "name": "测试餐厅4",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "200",
+            "facilities": [],
+            "distance": 100
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "expected": {
+        "field": "price_per_person",
+        "op": "gte",
+        "value": 200,
+        "unit": "CNY"
+      },
+      "checks": {
+        "semantic": true,
+        "render_violations": [
+          {
+            "name": "龙记香港茶餐厅(久光百货店)",
+            "cost": "85.00"
+          },
+          {
+            "name": "浩海火烧云傣家菜(静安芮欧店)",
+            "cost": "123.00"
+          },
+          {
+            "name": "毛头老爹饭店(静安寺店)",
+            "cost": "110.00"
+          },
+          {
+            "name": "COMMUNEMAISON幻师(芮欧百货店)",
+            "cost": "93.00"
+          },
+          {
+            "name": "新白鹿餐厅(静安CP店)",
+            "cost": "65.00"
+          }
+        ],
+        "fixture_violations": [
+          {
+            "name": "测试餐厅0",
+            "cost": "65"
+          },
+          {
+            "name": "测试餐厅1",
+            "cost": "100"
+          },
+          {
+            "name": "测试餐厅2",
+            "cost": "123"
+          },
+          {
+            "name": "测试餐厅3",
+            "cost": "199"
+          }
+        ]
+      }
+    },
+    {
+      "id": "B2",
+      "text": "静安寺人均100元以下餐厅",
+      "input": {
+        "previous": null,
+        "candidates": []
+      },
+      "model_attempts": [
+        {
+          "model": "Qwen/Qwen3.5-35B-A3B",
+          "http_status": 200,
+          "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"lt\",\n      \"value\": 100,\n      \"unit\": \"CNY\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+          "finish_reason": "stop"
+        }
+      ],
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lt",
+            "value": 100,
+            "unit": "CNY"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "render_attempts": [
+        {
+          "tested_at": "2026-11-17T10:18:17.784Z",
+          "http_status": 200,
+          "result": {
+            "places": [
+              {
+                "candidate_id": "B00157H90O",
+                "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+                "ordinal": 1,
+                "name": "龙记香港茶餐厅(久光百货店)",
+                "address": "上海市静安区南京西路1618号久光百货B1楼(静安寺地铁站出入口旁)",
+                "category": "茶餐厅",
+                "rating": "4.3",
+                "hours": "10:00-22:00",
+                "cost": "85.00",
+                "phone": "021-62882757;4007171717",
+                "facilities": [],
+                "distance": 78
+              },
+              {
+                "candidate_id": "B0K3SCOHF3",
+                "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+                "ordinal": 2,
+                "name": "浩海火烧云傣家菜(静安芮欧店)",
+                "address": "上海市静安区南京西路1601号芮欧百货4层4A室",
+                "category": "餐饮相关",
+                "rating": "4.8",
+                "hours": "11:00-22:00",
+                "cost": "123.00",
+                "phone": "19121670472",
+                "facilities": [],
+                "distance": 206
+              },
+              {
+                "candidate_id": "B0I14RCCMD",
+                "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+                "ordinal": 3,
+                "name": "毛头老爹饭店(静安寺店)",
+                "address": "上海市静安区愚园路246弄6号(静安寺地铁站1号口步行200米)",
+                "category": "中餐厅",
+                "rating": "4.7",
+                "hours": "11:00-15:00 17:00-22:00",
+                "cost": "110.00",
+                "phone": "19301279382",
+                "facilities": [],
+                "distance": 148
+              },
+              {
+                "candidate_id": "B0KR55R4BG",
+                "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+                "ordinal": 4,
+                "name": "COMMUNEMAISON幻师(芮欧百货店)",
+                "address": "上海市静安区南京西路1601号芮欧百货1层1E",
+                "category": "餐饮相关",
+                "rating": "4.6",
+                "hours": "11:00-24:00",
+                "cost": "93.00",
+                "phone": "13764650221",
+                "facilities": [],
+                "distance": 212
+              },
+              {
+                "candidate_id": "B0K0GS1Y3R",
+                "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+                "ordinal": 5,
+                "name": "新白鹿餐厅(静安CP店)",
+                "address": "上海市静安区愚园路68号CP静安L5(静安寺地铁站10号口步行320米)",
+                "category": "中餐厅",
+                "rating": "4.6",
+                "hours": "10:30-14:00 16:30-21:00",
+                "cost": "65.00",
+                "phone": "021-62880198;18917622278",
+                "facilities": [],
+                "distance": 245
+              }
+            ],
+            "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+          }
+        }
+      ],
+      "render_search": {
+        "places": [
+          {
+            "candidate_id": "B00157H90O",
+            "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅(久光百货店)",
+            "address": "上海市静安区南京西路1618号久光百货B1楼(静安寺地铁站出入口旁)",
+            "category": "茶餐厅",
+            "rating": "4.3",
+            "hours": "10:00-22:00",
+            "cost": "85.00",
+            "phone": "021-62882757;4007171717",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "B0K3SCOHF3",
+            "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜(静安芮欧店)",
+            "address": "上海市静安区南京西路1601号芮欧百货4层4A室",
+            "category": "餐饮相关",
+            "rating": "4.8",
+            "hours": "11:00-22:00",
+            "cost": "123.00",
+            "phone": "19121670472",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "B0I14RCCMD",
+            "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+            "ordinal": 3,
+            "name": "毛头老爹饭店(静安寺店)",
+            "address": "上海市静安区愚园路246弄6号(静安寺地铁站1号口步行200米)",
+            "category": "中餐厅",
+            "rating": "4.7",
+            "hours": "11:00-15:00 17:00-22:00",
+            "cost": "110.00",
+            "phone": "19301279382",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "B0KR55R4BG",
+            "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师(芮欧百货店)",
+            "address": "上海市静安区南京西路1601号芮欧百货1层1E",
+            "category": "餐饮相关",
+            "rating": "4.6",
+            "hours": "11:00-24:00",
+            "cost": "93.00",
+            "phone": "13764650221",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "B0K0GS1Y3R",
+            "list_version": "e2cee554-0628-46d6-8957-2207ddf252f8",
+            "ordinal": 5,
+            "name": "新白鹿餐厅(静安CP店)",
+            "address": "上海市静安区愚园路68号CP静安L5(静安寺地铁站10号口步行320米)",
+            "category": "中餐厅",
+            "rating": "4.6",
+            "hours": "10:30-14:00 16:30-21:00",
+            "cost": "65.00",
+            "phone": "021-62880198;18917622278",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "a4b6f7b0-518a-4ef3-8626-a11d50c4a103",
+            "ordinal": 1,
+            "name": "测试餐厅0",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "a4b6f7b0-518a-4ef3-8626-a11d50c4a103",
+            "ordinal": 2,
+            "name": "测试餐厅1",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "100",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "a4b6f7b0-518a-4ef3-8626-a11d50c4a103",
+            "ordinal": 3,
+            "name": "测试餐厅2",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "a4b6f7b0-518a-4ef3-8626-a11d50c4a103",
+            "ordinal": 4,
+            "name": "测试餐厅3",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "199",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "a4b6f7b0-518a-4ef3-8626-a11d50c4a103",
+            "ordinal": 5,
+            "name": "测试餐厅4",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "200",
+            "facilities": [],
+            "distance": 100
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "expected": {
+        "field": "price_per_person",
+        "op": "lte",
+        "value": 100,
+        "unit": "CNY"
+      },
+      "checks": {
+        "semantic": false,
+        "render_violations": [
+          {
+            "name": "浩海火烧云傣家菜(静安芮欧店)",
+            "cost": "123.00"
+          },
+          {
+            "name": "毛头老爹饭店(静安寺店)",
+            "cost": "110.00"
+          }
+        ],
+        "fixture_violations": [
+          {
+            "name": "测试餐厅2",
+            "cost": "123"
+          },
+          {
+            "name": "测试餐厅3",
+            "cost": "199"
+          },
+          {
+            "name": "测试餐厅4",
+            "cost": "200"
+          }
+        ],
+        "boundary_note": "本次按以下包含本数（lte）验收；当前规则未明确统一以上/以下边界，模型原文为lt，校验未改写。"
+      }
+    },
+    {
+      "id": "B3",
+      "text": "静安寺高档餐厅",
+      "input": {
+        "previous": null,
+        "candidates": []
+      },
+      "model_attempts": [
+        {
+          "model": "Qwen/Qwen3.5-35B-A3B",
+          "http_status": 200,
+          "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\",\n    \"raw\": \"高档餐厅\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"preferences\": [\n    {\n      \"field\": \"price_level\",\n      \"direction\": \"higher\",\n      \"raw\": \"高档\"\n    }\n  ],\n  \"ambiguity\": {\n    \"type\": \"ranking_basis\",\n    \"field\": \"ranking_basis\",\n    \"raw\": \"高档\",\n    \"alternatives\": [\n      \"价格\",\n      \"评分\",\n      \"人气\"\n    ]\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"follow_up\": \"你更看重评分，还是人气？\"\n}",
+          "finish_reason": "stop"
+        }
+      ],
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant",
+          "raw": "高档餐厅"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "preferences": [
+          {
+            "field": "price_level",
+            "direction": "higher",
+            "raw": "高档"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "render_attempts": [
+        {
+          "tested_at": "2026-11-17T10:18:24.729Z",
+          "http_status": 200,
+          "result": {
+            "places": [
+              {
+                "candidate_id": "B00157H90O",
+                "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+                "ordinal": 1,
+                "name": "龙记香港茶餐厅(久光百货店)",
+                "address": "上海市静安区南京西路1618号久光百货B1楼(静安寺地铁站出入口旁)",
+                "category": "茶餐厅",
+                "rating": "4.3",
+                "hours": "10:00-22:00",
+                "cost": "85.00",
+                "phone": "021-62882757;4007171717",
+                "facilities": [],
+                "distance": 78
+              },
+              {
+                "candidate_id": "B0K3SCOHF3",
+                "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+                "ordinal": 2,
+                "name": "浩海火烧云傣家菜(静安芮欧店)",
+                "address": "上海市静安区南京西路1601号芮欧百货4层4A室",
+                "category": "餐饮相关",
+                "rating": "4.8",
+                "hours": "11:00-22:00",
+                "cost": "123.00",
+                "phone": "19121670472",
+                "facilities": [],
+                "distance": 206
+              },
+              {
+                "candidate_id": "B0I14RCCMD",
+                "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+                "ordinal": 3,
+                "name": "毛头老爹饭店(静安寺店)",
+                "address": "上海市静安区愚园路246弄6号(静安寺地铁站1号口步行200米)",
+                "category": "中餐厅",
+                "rating": "4.7",
+                "hours": "11:00-15:00 17:00-22:00",
+                "cost": "110.00",
+                "phone": "19301279382",
+                "facilities": [],
+                "distance": 148
+              },
+              {
+                "candidate_id": "B0KR55R4BG",
+                "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+                "ordinal": 4,
+                "name": "COMMUNEMAISON幻师(芮欧百货店)",
+                "address": "上海市静安区南京西路1601号芮欧百货1层1E",
+                "category": "餐饮相关",
+                "rating": "4.6",
+                "hours": "11:00-24:00",
+                "cost": "93.00",
+                "phone": "13764650221",
+                "facilities": [],
+                "distance": 212
+              },
+              {
+                "candidate_id": "B0K0GS1Y3R",
+                "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+                "ordinal": 5,
+                "name": "新白鹿餐厅(静安CP店)",
+                "address": "上海市静安区愚园路68号CP静安L5(静安寺地铁站10号口步行320米)",
+                "category": "中餐厅",
+                "rating": "4.6",
+                "hours": "10:30-14:00 16:30-21:00",
+                "cost": "65.00",
+                "phone": "021-62880198;18917622278",
+                "facilities": [],
+                "distance": 245
+              }
+            ],
+            "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+          }
+        }
+      ],
+      "render_search": {
+        "places": [
+          {
+            "candidate_id": "B00157H90O",
+            "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅(久光百货店)",
+            "address": "上海市静安区南京西路1618号久光百货B1楼(静安寺地铁站出入口旁)",
+            "category": "茶餐厅",
+            "rating": "4.3",
+            "hours": "10:00-22:00",
+            "cost": "85.00",
+            "phone": "021-62882757;4007171717",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "B0K3SCOHF3",
+            "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜(静安芮欧店)",
+            "address": "上海市静安区南京西路1601号芮欧百货4层4A室",
+            "category": "餐饮相关",
+            "rating": "4.8",
+            "hours": "11:00-22:00",
+            "cost": "123.00",
+            "phone": "19121670472",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "B0I14RCCMD",
+            "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+            "ordinal": 3,
+            "name": "毛头老爹饭店(静安寺店)",
+            "address": "上海市静安区愚园路246弄6号(静安寺地铁站1号口步行200米)",
+            "category": "中餐厅",
+            "rating": "4.7",
+            "hours": "11:00-15:00 17:00-22:00",
+            "cost": "110.00",
+            "phone": "19301279382",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "B0KR55R4BG",
+            "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师(芮欧百货店)",
+            "address": "上海市静安区南京西路1601号芮欧百货1层1E",
+            "category": "餐饮相关",
+            "rating": "4.6",
+            "hours": "11:00-24:00",
+            "cost": "93.00",
+            "phone": "13764650221",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "B0K0GS1Y3R",
+            "list_version": "ffd356a3-c473-47ad-84ed-48e7a63decdb",
+            "ordinal": 5,
+            "name": "新白鹿餐厅(静安CP店)",
+            "address": "上海市静安区愚园路68号CP静安L5(静安寺地铁站10号口步行320米)",
+            "category": "中餐厅",
+            "rating": "4.6",
+            "hours": "10:30-14:00 16:30-21:00",
+            "cost": "65.00",
+            "phone": "021-62880198;18917622278",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "b7eff0a9-b72a-4916-99b2-c43e950bba3a",
+            "ordinal": 1,
+            "name": "测试餐厅0",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "b7eff0a9-b72a-4916-99b2-c43e950bba3a",
+            "ordinal": 2,
+            "name": "测试餐厅1",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "100",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "b7eff0a9-b72a-4916-99b2-c43e950bba3a",
+            "ordinal": 3,
+            "name": "测试餐厅2",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "b7eff0a9-b72a-4916-99b2-c43e950bba3a",
+            "ordinal": 4,
+            "name": "测试餐厅3",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "199",
+            "facilities": [],
+            "distance": 100
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "b7eff0a9-b72a-4916-99b2-c43e950bba3a",
+            "ordinal": 5,
+            "name": "测试餐厅4",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "200",
+            "facilities": [],
+            "distance": 100
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "expected": {
+        "meaning": "保留高档语义，不编造精确人均门槛；未给具体门槛不应自行定价"
+      },
+      "checks": {
+        "raw_unnecessary_follow_up": true,
+        "frame_removed_follow_up": true,
+        "retained_preference": "price_level higher",
+        "local_request_keywords": "餐厅",
+        "preference_executed": false
+      }
+    }
+  ]
+}

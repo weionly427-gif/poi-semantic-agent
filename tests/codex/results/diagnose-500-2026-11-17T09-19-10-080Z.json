@@ -1,0 +1,37 @@
+{
+  "tested_at": "2026-11-17T09:19:05.704Z",
+  "text": "找静安寺附近500米以内的咖啡厅。",
+  "attempts": [
+    {
+      "model": "Qwen/Qwen3.5-35B-A3B",
+      "status": 200,
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\",\n    \"area\": \"静安寺\",\n    \"relation\": \"within\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"distance\",\n      \"op\": \"lte\",\n      \"value\": 500,\n      \"unit\": \"m\",\n      \"raw\": \"500米以内\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "finish_reason": "stop"
+    }
+  ],
+  "frame": {
+    "intent": "search",
+    "target": {
+      "category": "coffee_shop"
+    },
+    "scope": {
+      "type": "nearby",
+      "area": "静安寺",
+      "relation": "within"
+    },
+    "constraints": [
+      {
+        "field": "distance",
+        "op": "lte",
+        "value": 500,
+        "unit": "m",
+        "raw": "500米以内"
+      }
+    ],
+    "dialogue": {
+      "relation": "new_task",
+      "rule_id": "T40"
+    },
+    "ready": true
+  }
+}

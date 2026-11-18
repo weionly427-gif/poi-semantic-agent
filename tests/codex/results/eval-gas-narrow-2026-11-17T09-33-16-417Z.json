@@ -1,0 +1,245 @@
+{
+  "type": "同一对话先5公里再500米",
+  "results": [
+    {
+      "text": "找南京西路附近5公里以内的加油站。",
+      "expected_radius_m": 5000,
+      "previous": null,
+      "candidates": [],
+      "attempts": [
+        {
+          "tested_at": "2026-11-17T09:33:16.418Z",
+          "status": 200,
+          "result": {
+            "frame": {
+              "intent": "search",
+              "target": {
+                "category": "gas"
+              },
+              "scope": {
+                "type": "area",
+                "area": "南京西路",
+                "relation": "nearby"
+              },
+              "constraints": [
+                {
+                  "field": "distance",
+                  "op": "lte",
+                  "value": 5,
+                  "unit": "km"
+                }
+              ],
+              "dialogue": {
+                "relation": "new_task",
+                "rule_id": "T40"
+              },
+              "ready": true
+            },
+            "search": {
+              "places": [
+                {
+                  "candidate_id": "B00155KJCJ",
+                  "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+                  "ordinal": 1,
+                  "name": "中国石化大田路加油站",
+                  "address": "上海市静安区大田路180号(自然博物馆地铁站1号口步行300米)",
+                  "category": "中国石化",
+                  "rating": "4.5",
+                  "hours": "24小时营业",
+                  "phone": "021-62176244",
+                  "facilities": [],
+                  "distance": 594
+                },
+                {
+                  "candidate_id": "B00156G7UT",
+                  "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+                  "ordinal": 2,
+                  "name": "中国石化延安中路加油站",
+                  "address": "上海市静安区延安中路990号",
+                  "category": "中国石化",
+                  "rating": "4.5",
+                  "hours": "06:30-22:30",
+                  "phone": "021-62722717",
+                  "facilities": [],
+                  "distance": 757
+                },
+                {
+                  "candidate_id": "B00155DBZM",
+                  "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+                  "ordinal": 3,
+                  "name": "中国石化成都路加油站",
+                  "address": "上海市黄浦区成都北路118号",
+                  "category": "中国石化",
+                  "rating": "4.3",
+                  "hours": "24小时营业",
+                  "phone": "021-63270651",
+                  "facilities": [],
+                  "distance": 880
+                },
+                {
+                  "candidate_id": "B00157FVVV",
+                  "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+                  "ordinal": 4,
+                  "name": "中国石化长乐加油站",
+                  "address": "上海市黄浦区长乐路398号(淮海中路地铁站3号口步行290米)",
+                  "category": "中国石化",
+                  "rating": "4.2",
+                  "hours": "06:00-22:00",
+                  "phone": "021-62555530",
+                  "facilities": [],
+                  "distance": 986
+                },
+                {
+                  "candidate_id": "B0FFFZMOUZ",
+                  "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+                  "ordinal": 5,
+                  "name": "中国石化第三加油站",
+                  "address": "上海市静安区康定路358号",
+                  "category": "中国石化",
+                  "rating": "4.6",
+                  "hours": "24小时营业",
+                  "phone": "021-62535976",
+                  "facilities": [],
+                  "distance": 1140
+                }
+              ],
+              "message": "上海 · 南京西路(地铁站)周边 5 公里 · 高德综合排序"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "text": "只看500米以内的。",
+      "expected_radius_m": 500,
+      "previous": {
+        "intent": "search",
+        "target": {
+          "category": "gas"
+        },
+        "scope": {
+          "type": "area",
+          "area": "南京西路",
+          "relation": "nearby"
+        },
+        "constraints": [
+          {
+            "field": "distance",
+            "op": "lte",
+            "value": 5,
+            "unit": "km"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "candidates": [
+        {
+          "candidate_id": "B00155KJCJ",
+          "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+          "ordinal": 1,
+          "name": "中国石化大田路加油站",
+          "address": "上海市静安区大田路180号(自然博物馆地铁站1号口步行300米)",
+          "category": "中国石化",
+          "rating": "4.5",
+          "hours": "24小时营业",
+          "phone": "021-62176244",
+          "facilities": [],
+          "distance": 594
+        },
+        {
+          "candidate_id": "B00156G7UT",
+          "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+          "ordinal": 2,
+          "name": "中国石化延安中路加油站",
+          "address": "上海市静安区延安中路990号",
+          "category": "中国石化",
+          "rating": "4.5",
+          "hours": "06:30-22:30",
+          "phone": "021-62722717",
+          "facilities": [],
+          "distance": 757
+        },
+        {
+          "candidate_id": "B00155DBZM",
+          "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+          "ordinal": 3,
+          "name": "中国石化成都路加油站",
+          "address": "上海市黄浦区成都北路118号",
+          "category": "中国石化",
+          "rating": "4.3",
+          "hours": "24小时营业",
+          "phone": "021-63270651",
+          "facilities": [],
+          "distance": 880
+        },
+        {
+          "candidate_id": "B00157FVVV",
+          "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+          "ordinal": 4,
+          "name": "中国石化长乐加油站",
+          "address": "上海市黄浦区长乐路398号(淮海中路地铁站3号口步行290米)",
+          "category": "中国石化",
+          "rating": "4.2",
+          "hours": "06:00-22:00",
+          "phone": "021-62555530",
+          "facilities": [],
+          "distance": 986
+        },
+        {
+          "candidate_id": "B0FFFZMOUZ",
+          "list_version": "a92d5997-21ef-4730-baa4-280921271d69",
+          "ordinal": 5,
+          "name": "中国石化第三加油站",
+          "address": "上海市静安区康定路358号",
+          "category": "中国石化",
+          "rating": "4.6",
+          "hours": "24小时营业",
+          "phone": "021-62535976",
+          "facilities": [],
+          "distance": 1140
+        }
+      ],
+      "attempts": [
+        {
+          "tested_at": "2026-11-17T09:33:22.597Z",
+          "status": 200,
+          "result": {
+            "frame": {
+              "intent": "modify_search",
+              "target": {
+                "category": "gas"
+              },
+              "scope": {
+                "type": "area",
+                "area": "南京西路",
+                "relation": "nearby"
+              },
+              "constraints": [
+                {
+                  "field": "distance",
+                  "op": "lte",
+                  "value": 500,
+                  "unit": "m",
+                  "raw": "500米以内"
+                }
+              ],
+              "dialogue": {
+                "relation": "continue_task",
+                "rule_id": "T60"
+              },
+              "ready": true
+            },
+            "search": {
+              "places": [],
+              "message": "上海 · 南京西路(地铁站)周边 500 米 · 未找到匹配地点"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

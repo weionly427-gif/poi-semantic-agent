@@ -1,0 +1,845 @@
+{
+  "tested_at": "2026-11-17T10:04:39.291Z",
+  "type": "本地规则调用真实模型，采集每次原始输出及校验后 frame，再执行检索与固定响应定位",
+  "endpoint": "https://api.siliconflow.cn/v1/chat/completions",
+  "results": [
+    {
+      "id": "B1",
+      "text": "找静安寺附近的餐厅，人均不超过80元。",
+      "input_previous": null,
+      "attempts": [
+        {
+          "started_at": "2026-11-17T10:04:39.291Z",
+          "model_attempts": [
+            {
+              "model": "Qwen/Qwen3.5-35B-A3B",
+              "http_status": 200,
+              "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"lte\",\n      \"value\": 80,\n      \"unit\": \"CNY\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+              "finish_reason": "stop"
+            }
+          ],
+          "result": {
+            "frame": {
+              "intent": "search",
+              "target": {
+                "category": "restaurant"
+              },
+              "scope": {
+                "type": "area",
+                "area": "静安寺"
+              },
+              "constraints": [
+                {
+                  "field": "price_per_person",
+                  "op": "lte",
+                  "value": 80,
+                  "unit": "CNY"
+                }
+              ],
+              "dialogue": {
+                "relation": "new_task",
+                "rule_id": "T40"
+              },
+              "ready": true
+            },
+            "search": {
+              "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+              "places": []
+            }
+          }
+        }
+      ],
+      "frame": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 80,
+            "unit": "CNY"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "online_search": {
+        "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+        "places": []
+      },
+      "local_fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "local_fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "90cce356-5419-4b89-a533-7f57a1ac36c7",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "85",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "90cce356-5419-4b89-a533-7f57a1ac36c7",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "90cce356-5419-4b89-a533-7f57a1ac36c7",
+            "ordinal": 3,
+            "name": "毛头老爹饭店",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "110",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "90cce356-5419-4b89-a533-7f57a1ac36c7",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "93",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "90cce356-5419-4b89-a533-7f57a1ac36c7",
+            "ordinal": 5,
+            "name": "新白鹿餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "checks": {
+        "semantic": true,
+        "online": {
+          "evaluated": false,
+          "reason": "本机没有高德密钥"
+        },
+        "local_fixture": {
+          "over_budget": [
+            {
+              "name": "龙记香港茶餐厅",
+              "cost": "85"
+            },
+            {
+              "name": "浩海火烧云傣家菜",
+              "cost": "123"
+            },
+            {
+              "name": "毛头老爹饭店",
+              "cost": "110"
+            },
+            {
+              "name": "COMMUNEMAISON幻师",
+              "cost": "93"
+            }
+          ],
+          "ascending_price": false,
+          "ascending_distance": false
+        }
+      },
+      "search_source": "本机未配置高德密钥，未执行真实地图查询"
+    },
+    {
+      "id": "B2",
+      "text": "最好便宜点。",
+      "input_previous": {
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 80,
+            "unit": "CNY"
+          }
+        ],
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "ready": true
+      },
+      "attempts": [
+        {
+          "started_at": "2026-11-17T10:04:46.363Z",
+          "model_attempts": [
+            {
+              "model": "Qwen/Qwen3.5-35B-A3B",
+              "http_status": 200,
+              "rawAnswer": "{\n  \"intent\": \"modify_search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"lte\",\n      \"value\": 80,\n      \"unit\": \"CNY\"\n    }\n  ],\n  \"preferences\": [\n    {\n      \"field\": \"price\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  }\n}",
+              "finish_reason": "stop"
+            }
+          ],
+          "result": {
+            "frame": {
+              "intent": "modify_search",
+              "target": {
+                "category": "restaurant"
+              },
+              "scope": {
+                "type": "area",
+                "area": "静安寺"
+              },
+              "constraints": [
+                {
+                  "field": "price_per_person",
+                  "op": "lte",
+                  "value": 80,
+                  "unit": "CNY"
+                }
+              ],
+              "preferences": [
+                {
+                  "field": "price",
+                  "direction": "lower"
+                }
+              ],
+              "dialogue": {
+                "relation": "continue_task",
+                "rule_id": "T60"
+              },
+              "ready": true
+            },
+            "search": {
+              "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+              "places": []
+            }
+          }
+        }
+      ],
+      "frame": {
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 80,
+            "unit": "CNY"
+          }
+        ],
+        "preferences": [
+          {
+            "field": "price",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "online_search": {
+        "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+        "places": []
+      },
+      "local_fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "local_fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "c1b4ce53-7c56-41a9-97ce-67c18ab2880e",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "85",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "c1b4ce53-7c56-41a9-97ce-67c18ab2880e",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "c1b4ce53-7c56-41a9-97ce-67c18ab2880e",
+            "ordinal": 3,
+            "name": "毛头老爹饭店",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "110",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "c1b4ce53-7c56-41a9-97ce-67c18ab2880e",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "93",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "c1b4ce53-7c56-41a9-97ce-67c18ab2880e",
+            "ordinal": 5,
+            "name": "新白鹿餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "checks": {
+        "semantic": true,
+        "online": {
+          "evaluated": false,
+          "reason": "本机没有高德密钥"
+        },
+        "local_fixture": {
+          "over_budget": [
+            {
+              "name": "龙记香港茶餐厅",
+              "cost": "85"
+            },
+            {
+              "name": "浩海火烧云傣家菜",
+              "cost": "123"
+            },
+            {
+              "name": "毛头老爹饭店",
+              "cost": "110"
+            },
+            {
+              "name": "COMMUNEMAISON幻师",
+              "cost": "93"
+            }
+          ],
+          "ascending_price": false,
+          "ascending_distance": false
+        }
+      },
+      "search_source": "本机未配置高德密钥，未执行真实地图查询"
+    },
+    {
+      "id": "B3",
+      "text": "预算放宽到120元。",
+      "input_previous": {
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 80,
+            "unit": "CNY"
+          }
+        ],
+        "preferences": [
+          {
+            "field": "price",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "attempts": [
+        {
+          "started_at": "2026-11-17T10:04:54.077Z",
+          "model_attempts": [
+            {
+              "model": "Qwen/Qwen3.5-35B-A3B",
+              "http_status": 200,
+              "rawAnswer": "{\n  \"intent\": \"modify_search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"lte\",\n      \"value\": 120,\n      \"unit\": \"CNY\",\n      \"raw\": \"120元\"\n    }\n  ],\n  \"preferences\": [\n    {\n      \"field\": \"price\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  }\n}",
+              "finish_reason": "stop"
+            }
+          ],
+          "result": {
+            "frame": {
+              "intent": "modify_search",
+              "target": {
+                "category": "restaurant"
+              },
+              "scope": {
+                "type": "area",
+                "area": "静安寺"
+              },
+              "constraints": [
+                {
+                  "field": "price_per_person",
+                  "op": "lte",
+                  "value": 120,
+                  "unit": "CNY",
+                  "raw": "120元"
+                }
+              ],
+              "preferences": [
+                {
+                  "field": "price",
+                  "direction": "lower"
+                }
+              ],
+              "dialogue": {
+                "relation": "continue_task",
+                "rule_id": "T60"
+              },
+              "ready": true
+            },
+            "search": {
+              "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+              "places": []
+            }
+          }
+        }
+      ],
+      "frame": {
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 120,
+            "unit": "CNY",
+            "raw": "120元"
+          }
+        ],
+        "preferences": [
+          {
+            "field": "price",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "online_search": {
+        "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+        "places": []
+      },
+      "local_fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "local_fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "b08bd4dd-4971-4770-9e31-5883e92a2bf6",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "85",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "b08bd4dd-4971-4770-9e31-5883e92a2bf6",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "b08bd4dd-4971-4770-9e31-5883e92a2bf6",
+            "ordinal": 3,
+            "name": "毛头老爹饭店",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "110",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "b08bd4dd-4971-4770-9e31-5883e92a2bf6",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "93",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "b08bd4dd-4971-4770-9e31-5883e92a2bf6",
+            "ordinal": 5,
+            "name": "新白鹿餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "checks": {
+        "semantic": true,
+        "online": {
+          "evaluated": false,
+          "reason": "本机没有高德密钥"
+        },
+        "local_fixture": {
+          "over_budget": [
+            {
+              "name": "浩海火烧云傣家菜",
+              "cost": "123"
+            }
+          ],
+          "ascending_price": false,
+          "ascending_distance": false
+        }
+      },
+      "search_source": "本机未配置高德密钥，未执行真实地图查询"
+    },
+    {
+      "id": "B4",
+      "text": "不用管价格了，找近一点的。",
+      "input_previous": {
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lte",
+            "value": 120,
+            "unit": "CNY",
+            "raw": "120元"
+          }
+        ],
+        "preferences": [
+          {
+            "field": "price",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "attempts": [
+        {
+          "started_at": "2026-11-17T10:05:03.594Z",
+          "model_attempts": [
+            {
+              "model": "Qwen/Qwen3.5-35B-A3B",
+              "http_status": 200,
+              "rawAnswer": "{\n  \"intent\": \"modify_search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"静安寺\"\n  },\n  \"constraints\": [],\n  \"preferences\": [\n    {\n      \"field\": \"distance\",\n      \"direction\": \"lower\"\n    }\n  ],\n  \"dialogue\": {\n    \"relation\": \"continue_task\",\n    \"rule_id\": \"T60\"\n  }\n}",
+              "finish_reason": "stop"
+            }
+          ],
+          "result": {
+            "frame": {
+              "intent": "modify_search",
+              "target": {
+                "category": "restaurant"
+              },
+              "scope": {
+                "type": "area",
+                "area": "静安寺"
+              },
+              "constraints": [],
+              "preferences": [
+                {
+                  "field": "distance",
+                  "direction": "lower"
+                }
+              ],
+              "dialogue": {
+                "relation": "continue_task",
+                "rule_id": "T60"
+              },
+              "ready": true
+            },
+            "search": {
+              "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+              "places": []
+            }
+          }
+        }
+      ],
+      "frame": {
+        "intent": "modify_search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "静安寺"
+        },
+        "constraints": [],
+        "preferences": [
+          {
+            "field": "distance",
+            "direction": "lower"
+          }
+        ],
+        "dialogue": {
+          "relation": "continue_task",
+          "rule_id": "T60"
+        },
+        "ready": true
+      },
+      "online_search": {
+        "message": "尚未配置高德 Web 服务密钥 AMAP_WEB_KEY。",
+        "places": []
+      },
+      "local_fixture_requests": [
+        {
+          "path": "/v5/place/text",
+          "params": {
+            "region": "上海",
+            "city_limit": "true",
+            "keywords": "静安寺",
+            "page_size": "1"
+          }
+        },
+        {
+          "path": "/v5/place/around",
+          "params": {
+            "keywords": "餐厅",
+            "show_fields": "business,children",
+            "page_size": "5",
+            "location": "121.445,31.223",
+            "radius": "3000",
+            "sortrule": "weight"
+          }
+        }
+      ],
+      "local_fixture_search": {
+        "places": [
+          {
+            "candidate_id": "fixture-0",
+            "list_version": "bc793489-b424-4d01-836d-f8cd0329d3bb",
+            "ordinal": 1,
+            "name": "龙记香港茶餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "85",
+            "facilities": [],
+            "distance": 78
+          },
+          {
+            "candidate_id": "fixture-1",
+            "list_version": "bc793489-b424-4d01-836d-f8cd0329d3bb",
+            "ordinal": 2,
+            "name": "浩海火烧云傣家菜",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "123",
+            "facilities": [],
+            "distance": 206
+          },
+          {
+            "candidate_id": "fixture-2",
+            "list_version": "bc793489-b424-4d01-836d-f8cd0329d3bb",
+            "ordinal": 3,
+            "name": "毛头老爹饭店",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "110",
+            "facilities": [],
+            "distance": 148
+          },
+          {
+            "candidate_id": "fixture-3",
+            "list_version": "bc793489-b424-4d01-836d-f8cd0329d3bb",
+            "ordinal": 4,
+            "name": "COMMUNEMAISON幻师",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "93",
+            "facilities": [],
+            "distance": 212
+          },
+          {
+            "candidate_id": "fixture-4",
+            "list_version": "bc793489-b424-4d01-836d-f8cd0329d3bb",
+            "ordinal": 5,
+            "name": "新白鹿餐厅",
+            "address": "",
+            "category": "",
+            "rating": "",
+            "cost": "65",
+            "facilities": [],
+            "distance": 245
+          }
+        ],
+        "message": "上海 · 静安寺周边 3 公里 · 高德综合排序；附加条件尚未核验"
+      },
+      "checks": {
+        "semantic": true,
+        "online": {
+          "evaluated": false,
+          "reason": "本机没有高德密钥"
+        },
+        "local_fixture": {
+          "over_budget": [],
+          "ascending_price": false,
+          "ascending_distance": false
+        }
+      },
+      "search_source": "本机未配置高德密钥，未执行真实地图查询"
+    }
+  ]
+}

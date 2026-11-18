@@ -1,0 +1,23 @@
+{
+  "tested_at": "2026-11-17T09:58:45.103Z",
+  "type": "线上连续对话复测 + 本地固定地图响应定位；未修改业务代码或规则",
+  "endpoint": "https://poi-semantic-agent.onrender.com/parse",
+  "results": [
+    {
+      "id": "B1",
+      "text": "找静安寺附近的餐厅，人均不超过80元。",
+      "input_previous": null,
+      "attempts": [
+        {
+          "started_at": "2026-11-17T09:58:45.103Z",
+          "error": "fetch failed"
+        },
+        {
+          "started_at": "2026-11-17T09:58:45.146Z",
+          "error": "fetch failed"
+        }
+      ],
+      "blocked": "未取得本轮语义，停止连续对话，避免伪造上下文"
+    }
+  ]
+}

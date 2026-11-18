@@ -1,0 +1,560 @@
+{
+  "tested_at": "2026-11-17T10:39:19.732Z",
+  "type": "三个独立首轮，线上 /parse 验证部署；本地同规则调用模型单独采集原始输出，不能当作线上模型原文",
+  "results": [
+    {
+      "id": "B1",
+      "text": "南京西路附近人均300元以上餐厅",
+      "input": {
+        "previous": null,
+        "candidates": []
+      },
+      "online_attempts": [
+        {
+          "started_at": "2026-11-17T10:39:19.732Z",
+          "http_status": 200,
+          "result": {
+            "frame": {
+              "intent": "search",
+              "target": {
+                "category": "restaurant"
+              },
+              "scope": {
+                "type": "area",
+                "area": "南京西路"
+              },
+              "constraints": [
+                {
+                  "field": "price_per_person",
+                  "op": "gte",
+                  "value": 300,
+                  "unit": "CNY",
+                  "raw": "300元以上"
+                }
+              ],
+              "dialogue": {
+                "relation": "new_task",
+                "rule_id": "T40"
+              },
+              "ready": true
+            },
+            "search": {
+              "places": [
+                {
+                  "candidate_id": "B0M69SABP1",
+                  "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+                  "ordinal": 1,
+                  "name": "五分之一·白领餐厅(南京西路店)",
+                  "address": "上海市静安区石门二路街道南京西路920号南泰大厦底层A3室",
+                  "category": "中餐厅",
+                  "rating": "4.4",
+                  "hours": "10:00-14:30 16:30-20:00",
+                  "cost": "110.00",
+                  "facilities": [],
+                  "distance": 77
+                },
+                {
+                  "candidate_id": "B00155HNAR",
+                  "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+                  "ordinal": 2,
+                  "name": "王家沙点心店(南京西路总店)",
+                  "address": "上海市静安区南京西路805号(南京西路地铁站11号口步行90米)",
+                  "category": "中餐厅",
+                  "rating": "4.7",
+                  "hours": "07:00-20:00",
+                  "cost": "47.00",
+                  "phone": "021-62530404",
+                  "facilities": [],
+                  "distance": 142
+                },
+                {
+                  "candidate_id": "B0KUOKPS6L",
+                  "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+                  "ordinal": 3,
+                  "name": "醉庐(南京西路)",
+                  "address": "上海市静安区吴江路269号湟普汇3楼301-302",
+                  "category": "中餐厅",
+                  "rating": "4.6",
+                  "hours": "10:30-14:30 16:00-21:00",
+                  "cost": "122.00",
+                  "phone": "15001807799",
+                  "facilities": [],
+                  "distance": 144
+                },
+                {
+                  "candidate_id": "B0FFJQW7HS",
+                  "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+                  "ordinal": 4,
+                  "name": "山石榴·贵州菜(丰盛里店)",
+                  "address": "上海市静安区茂名北路281弄16号304单元(南京西路地铁站14号口旁)3楼",
+                  "category": "餐饮相关",
+                  "rating": "4.7",
+                  "hours": "11:00-21:00",
+                  "cost": "126.00",
+                  "phone": "13918306271",
+                  "facilities": [],
+                  "distance": 167
+                },
+                {
+                  "candidate_id": "B0L3KDBKNY",
+                  "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+                  "ordinal": 5,
+                  "name": "游牧Bistro小酒馆 by 耶里夏丽(静安丰盛里店)",
+                  "address": "上海市静安区茂名北路229弄丰盛里8号一楼(裕莲茶楼隔壁石库门巷内)",
+                  "category": "特色/地方风味餐厅",
+                  "rating": "4.6",
+                  "hours": "10:30-24:00",
+                  "cost": "99.00",
+                  "phone": "18116409448",
+                  "facilities": [],
+                  "distance": 273
+                }
+              ],
+              "message": "上海 · 南京西路(地铁站)周边 3 公里 · 高德综合排序；附加条件尚未核验"
+            }
+          }
+        }
+      ],
+      "local_model_attempts": [
+        {
+          "model": "Qwen/Qwen3.5-35B-A3B",
+          "http_status": 200,
+          "rawAnswer": "{\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"南京西路\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"gte\",\n      \"value\": 300,\n      \"unit\": \"CNY\"\n    }\n  ]\n}",
+          "finish_reason": "stop"
+        }
+      ],
+      "online": {
+        "frame": {
+          "intent": "search",
+          "target": {
+            "category": "restaurant"
+          },
+          "scope": {
+            "type": "area",
+            "area": "南京西路"
+          },
+          "constraints": [
+            {
+              "field": "price_per_person",
+              "op": "gte",
+              "value": 300,
+              "unit": "CNY",
+              "raw": "300元以上"
+            }
+          ],
+          "dialogue": {
+            "relation": "new_task",
+            "rule_id": "T40"
+          },
+          "ready": true
+        },
+        "search": {
+          "places": [
+            {
+              "candidate_id": "B0M69SABP1",
+              "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+              "ordinal": 1,
+              "name": "五分之一·白领餐厅(南京西路店)",
+              "address": "上海市静安区石门二路街道南京西路920号南泰大厦底层A3室",
+              "category": "中餐厅",
+              "rating": "4.4",
+              "hours": "10:00-14:30 16:30-20:00",
+              "cost": "110.00",
+              "facilities": [],
+              "distance": 77
+            },
+            {
+              "candidate_id": "B00155HNAR",
+              "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+              "ordinal": 2,
+              "name": "王家沙点心店(南京西路总店)",
+              "address": "上海市静安区南京西路805号(南京西路地铁站11号口步行90米)",
+              "category": "中餐厅",
+              "rating": "4.7",
+              "hours": "07:00-20:00",
+              "cost": "47.00",
+              "phone": "021-62530404",
+              "facilities": [],
+              "distance": 142
+            },
+            {
+              "candidate_id": "B0KUOKPS6L",
+              "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+              "ordinal": 3,
+              "name": "醉庐(南京西路)",
+              "address": "上海市静安区吴江路269号湟普汇3楼301-302",
+              "category": "中餐厅",
+              "rating": "4.6",
+              "hours": "10:30-14:30 16:00-21:00",
+              "cost": "122.00",
+              "phone": "15001807799",
+              "facilities": [],
+              "distance": 144
+            },
+            {
+              "candidate_id": "B0FFJQW7HS",
+              "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+              "ordinal": 4,
+              "name": "山石榴·贵州菜(丰盛里店)",
+              "address": "上海市静安区茂名北路281弄16号304单元(南京西路地铁站14号口旁)3楼",
+              "category": "餐饮相关",
+              "rating": "4.7",
+              "hours": "11:00-21:00",
+              "cost": "126.00",
+              "phone": "13918306271",
+              "facilities": [],
+              "distance": 167
+            },
+            {
+              "candidate_id": "B0L3KDBKNY",
+              "list_version": "a75e4892-9194-4fb6-9bd0-96f4c615043e",
+              "ordinal": 5,
+              "name": "游牧Bistro小酒馆 by 耶里夏丽(静安丰盛里店)",
+              "address": "上海市静安区茂名北路229弄丰盛里8号一楼(裕莲茶楼隔壁石库门巷内)",
+              "category": "特色/地方风味餐厅",
+              "rating": "4.6",
+              "hours": "10:30-24:00",
+              "cost": "99.00",
+              "phone": "18116409448",
+              "facilities": [],
+              "distance": 273
+            }
+          ],
+          "message": "上海 · 南京西路(地铁站)周边 3 公里 · 高德综合排序；附加条件尚未核验"
+        }
+      },
+      "local_frame": {
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "南京西路"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "gte",
+            "value": 300,
+            "unit": "CNY"
+          }
+        ],
+        "ready": true
+      }
+    },
+    {
+      "id": "B2",
+      "text": "南京西路人均100元以下餐厅",
+      "input": {
+        "previous": null,
+        "candidates": []
+      },
+      "online_attempts": [
+        {
+          "started_at": "2026-11-17T10:39:31.152Z",
+          "http_status": 502,
+          "result": {
+            "error": "模型输出无效：语义 JSON 未通过字段校验"
+          }
+        },
+        {
+          "started_at": "2026-11-17T10:39:39.416Z",
+          "http_status": 502,
+          "result": {
+            "error": "模型输出无效：语义 JSON 未通过字段校验"
+          }
+        }
+      ],
+      "local_model_attempts": [
+        {
+          "model": "Qwen/Qwen3.5-35B-A3B",
+          "http_status": 200,
+          "rawAnswer": "{\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"南京西路\"\n  },\n  \"constraints\": [\n    {\n      \"field\": \"price_per_person\",\n      \"op\": \"lt\",\n      \"value\": 100,\n      \"unit\": \"CNY\"\n    }\n  ]\n}",
+          "finish_reason": "stop"
+        }
+      ],
+      "local_frame": {
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "南京西路"
+        },
+        "constraints": [
+          {
+            "field": "price_per_person",
+            "op": "lt",
+            "value": 100,
+            "unit": "CNY"
+          }
+        ],
+        "ready": true
+      }
+    },
+    {
+      "id": "B3",
+      "text": "南京西路高档餐厅",
+      "input": {
+        "previous": null,
+        "candidates": []
+      },
+      "online_attempts": [
+        {
+          "started_at": "2026-11-17T10:39:53.192Z",
+          "http_status": 200,
+          "result": {
+            "frame": {
+              "intent": "search",
+              "target": {
+                "category": "restaurant",
+                "raw": "高档餐厅"
+              },
+              "scope": {
+                "type": "area",
+                "area": "南京西路"
+              },
+              "constraints": [
+                {
+                  "field": "price_level",
+                  "op": "gte",
+                  "value": 4,
+                  "raw": "高档"
+                }
+              ],
+              "dialogue": {
+                "relation": "new_task",
+                "rule_id": "T40"
+              },
+              "ready": true
+            },
+            "search": {
+              "places": [
+                {
+                  "candidate_id": "B0M69SABP1",
+                  "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+                  "ordinal": 1,
+                  "name": "五分之一·白领餐厅(南京西路店)",
+                  "address": "上海市静安区石门二路街道南京西路920号南泰大厦底层A3室",
+                  "category": "中餐厅",
+                  "rating": "4.4",
+                  "hours": "10:00-14:30 16:30-20:00",
+                  "cost": "110.00",
+                  "facilities": [],
+                  "distance": 77
+                },
+                {
+                  "candidate_id": "B00155HNAR",
+                  "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+                  "ordinal": 2,
+                  "name": "王家沙点心店(南京西路总店)",
+                  "address": "上海市静安区南京西路805号(南京西路地铁站11号口步行90米)",
+                  "category": "中餐厅",
+                  "rating": "4.7",
+                  "hours": "07:00-20:00",
+                  "cost": "47.00",
+                  "phone": "021-62530404",
+                  "facilities": [],
+                  "distance": 142
+                },
+                {
+                  "candidate_id": "B0KUOKPS6L",
+                  "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+                  "ordinal": 3,
+                  "name": "醉庐(南京西路)",
+                  "address": "上海市静安区吴江路269号湟普汇3楼301-302",
+                  "category": "中餐厅",
+                  "rating": "4.6",
+                  "hours": "10:30-14:30 16:00-21:00",
+                  "cost": "122.00",
+                  "phone": "15001807799",
+                  "facilities": [],
+                  "distance": 144
+                },
+                {
+                  "candidate_id": "B0FFJQW7HS",
+                  "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+                  "ordinal": 4,
+                  "name": "山石榴·贵州菜(丰盛里店)",
+                  "address": "上海市静安区茂名北路281弄16号304单元(南京西路地铁站14号口旁)3楼",
+                  "category": "餐饮相关",
+                  "rating": "4.7",
+                  "hours": "11:00-21:00",
+                  "cost": "126.00",
+                  "phone": "13918306271",
+                  "facilities": [],
+                  "distance": 167
+                },
+                {
+                  "candidate_id": "B0L3KDBKNY",
+                  "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+                  "ordinal": 5,
+                  "name": "游牧Bistro小酒馆 by 耶里夏丽(静安丰盛里店)",
+                  "address": "上海市静安区茂名北路229弄丰盛里8号一楼(裕莲茶楼隔壁石库门巷内)",
+                  "category": "特色/地方风味餐厅",
+                  "rating": "4.6",
+                  "hours": "10:30-24:00",
+                  "cost": "99.00",
+                  "phone": "18116409448",
+                  "facilities": [],
+                  "distance": 273
+                }
+              ],
+              "message": "上海 · 南京西路(地铁站)周边 3 公里 · 高德综合排序；附加条件尚未核验"
+            }
+          }
+        }
+      ],
+      "local_model_attempts": [
+        {
+          "model": "Qwen/Qwen3.5-35B-A3B",
+          "http_status": 200,
+          "rawAnswer": "{\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  },\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"restaurant\"\n  },\n  \"scope\": {\n    \"type\": \"area\",\n    \"area\": \"南京西路\"\n  },\n  \"constraints\": [\n    {\n      \"any_of\": [\n        {\n          \"field\": \"michelin\",\n          \"op\": \"eq\",\n          \"value\": true\n        },\n        {\n          \"field\": \"price_per_person\",\n          \"op\": \"gte\",\n          \"value\": 200,\n          \"unit\": \"CNY\"\n        }\n      ]\n    }\n  ]\n}",
+          "finish_reason": "stop"
+        }
+      ],
+      "online": {
+        "frame": {
+          "intent": "search",
+          "target": {
+            "category": "restaurant",
+            "raw": "高档餐厅"
+          },
+          "scope": {
+            "type": "area",
+            "area": "南京西路"
+          },
+          "constraints": [
+            {
+              "field": "price_level",
+              "op": "gte",
+              "value": 4,
+              "raw": "高档"
+            }
+          ],
+          "dialogue": {
+            "relation": "new_task",
+            "rule_id": "T40"
+          },
+          "ready": true
+        },
+        "search": {
+          "places": [
+            {
+              "candidate_id": "B0M69SABP1",
+              "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+              "ordinal": 1,
+              "name": "五分之一·白领餐厅(南京西路店)",
+              "address": "上海市静安区石门二路街道南京西路920号南泰大厦底层A3室",
+              "category": "中餐厅",
+              "rating": "4.4",
+              "hours": "10:00-14:30 16:30-20:00",
+              "cost": "110.00",
+              "facilities": [],
+              "distance": 77
+            },
+            {
+              "candidate_id": "B00155HNAR",
+              "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+              "ordinal": 2,
+              "name": "王家沙点心店(南京西路总店)",
+              "address": "上海市静安区南京西路805号(南京西路地铁站11号口步行90米)",
+              "category": "中餐厅",
+              "rating": "4.7",
+              "hours": "07:00-20:00",
+              "cost": "47.00",
+              "phone": "021-62530404",
+              "facilities": [],
+              "distance": 142
+            },
+            {
+              "candidate_id": "B0KUOKPS6L",
+              "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+              "ordinal": 3,
+              "name": "醉庐(南京西路)",
+              "address": "上海市静安区吴江路269号湟普汇3楼301-302",
+              "category": "中餐厅",
+              "rating": "4.6",
+              "hours": "10:30-14:30 16:00-21:00",
+              "cost": "122.00",
+              "phone": "15001807799",
+              "facilities": [],
+              "distance": 144
+            },
+            {
+              "candidate_id": "B0FFJQW7HS",
+              "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+              "ordinal": 4,
+              "name": "山石榴·贵州菜(丰盛里店)",
+              "address": "上海市静安区茂名北路281弄16号304单元(南京西路地铁站14号口旁)3楼",
+              "category": "餐饮相关",
+              "rating": "4.7",
+              "hours": "11:00-21:00",
+              "cost": "126.00",
+              "phone": "13918306271",
+              "facilities": [],
+              "distance": 167
+            },
+            {
+              "candidate_id": "B0L3KDBKNY",
+              "list_version": "356a1d67-010b-43fa-87d9-3513f17d7b27",
+              "ordinal": 5,
+              "name": "游牧Bistro小酒馆 by 耶里夏丽(静安丰盛里店)",
+              "address": "上海市静安区茂名北路229弄丰盛里8号一楼(裕莲茶楼隔壁石库门巷内)",
+              "category": "特色/地方风味餐厅",
+              "rating": "4.6",
+              "hours": "10:30-24:00",
+              "cost": "99.00",
+              "phone": "18116409448",
+              "facilities": [],
+              "distance": 273
+            }
+          ],
+          "message": "上海 · 南京西路(地铁站)周边 3 公里 · 高德综合排序；附加条件尚未核验"
+        }
+      },
+      "local_frame": {
+        "dialogue": {
+          "relation": "new_task",
+          "rule_id": "T40"
+        },
+        "intent": "search",
+        "target": {
+          "category": "restaurant"
+        },
+        "scope": {
+          "type": "area",
+          "area": "南京西路"
+        },
+        "constraints": [
+          {
+            "any_of": [
+              {
+                "field": "michelin",
+                "op": "eq",
+                "value": true
+              },
+              {
+                "field": "price_per_person",
+                "op": "gte",
+                "value": 200,
+                "unit": "CNY"
+              }
+            ]
+          }
+        ],
+        "ready": true
+      }
+    }
+  ]
+}

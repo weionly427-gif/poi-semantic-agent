@@ -1,0 +1,19 @@
+{
+  "tested_at": "2026-11-17T09:18:54.745Z",
+  "text": "找静安寺附近500米以内的咖啡厅。",
+  "attempts": [
+    {
+      "model": "Qwen/Qwen3.5-35B-A3B",
+      "status": 200,
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\",\n    \"area\": \"静安寺\",\n    \"distance\": 500,\n    \"unit\": \"m\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "finish_reason": "stop"
+    },
+    {
+      "model": "Qwen/Qwen3.5-35B-A3B",
+      "status": 200,
+      "rawAnswer": "{\n  \"intent\": \"search\",\n  \"target\": {\n    \"category\": \"coffee_shop\"\n  },\n  \"scope\": {\n    \"type\": \"nearby\",\n    \"area\": \"静安寺\",\n    \"distance\": 500,\n    \"unit\": \"m\"\n  },\n  \"dialogue\": {\n    \"relation\": \"new_task\",\n    \"rule_id\": \"T40\"\n  }\n}",
+      "finish_reason": "stop"
+    }
+  ],
+  "error": "模型输出无效：语义 JSON 未通过字段校验"
+}
